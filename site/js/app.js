@@ -17,7 +17,6 @@ export class Screen {
     this.mid = document.createElement('canvas'); this.mctx = this.mid.getContext('2d');
     this.vga = new VGA(); this.waiters = []; this.keys = [];
     this.img = null; this.acc = 0; this.last = 0;
-    this.mode = (() => { try { return localStorage.getItem('mdp-scale') || 'sharp'; } catch { return 'sharp'; } })();
     addEventListener('keydown', e => {
       if (e.ctrlKey || e.altKey || e.metaKey) return;
       if (e.key === 'Backspace') { e.preventDefault(); this.back(); return; }
@@ -34,13 +33,11 @@ export class Screen {
     addEventListener('resize', () => this.layout()); this.layout();
     requestAnimationFrame(t => this.tick(t));
   }
-  setMode(m) { this.mode = m; try { localStorage.setItem('mdp-scale', m); } catch {} this.layout(); }
-  // 4:3 box in device pixels. integer: whole multiples of 640x480 only. sharp: any size, but the image is first
-  // enlarged by a whole factor with nearest-neighbour and then scaled down smoothly, so edges stay crisp.
+  // 4:3 box in device pixels, any size. The image is first enlarged by a whole factor with nearest-neighbour and then
+  // scaled down smoothly, so edges stay crisp.
   layout() {
     const dpr = devicePixelRatio || 1, [aw, ah] = this.avail();
-    let w = aw * dpr, h = ah * dpr, s = Math.min(w / 640, h / 480);
-    if (this.mode === 'integer') s = Math.max(1, Math.floor(s + 1e-6));
+    const s = Math.min(aw * dpr / 640, ah * dpr / 480);
     const W = Math.round(640 * s), H = Math.round(480 * s);
     this.canvas.width = W; this.canvas.height = H;
     this.canvas.style.width = W / dpr + 'px'; this.canvas.style.height = H / dpr + 'px';
@@ -64,7 +61,7 @@ export class Screen {
     this.sctx.fillStyle = '#000'; this.sctx.fillRect(0, 0, 640, 480);
     this.sctx.putImageData(this.img, (640 - W) >> 1, 0);
     const c = this.ctx;
-    if (this.mode === 'integer' || this.k === 1 && this.canvas.width === 640) {
+    if (this.k === 1 && this.canvas.width === 640) {
       c.imageSmoothingEnabled = false; c.drawImage(this.src, 0, 0, this.canvas.width, this.canvas.height);
     } else {
       this.mctx.drawImage(this.src, 0, 0, this.mid.width, this.mid.height);
@@ -148,7 +145,6 @@ async function playScreen(scr, player, L, data, v11, ui) {
       else L.tracker.row(q.pattern, q.row);
       last = key; lastPat = q.pattern; lastRow = q.row;
     }
-    p.pitchShift = scr.mode === 'sharp' ? 36 : 0;         // Modern: re-centre the markers; Old-school: original placement
     p.markers(key, L.tracker.ch);
     p.numbers(v11 ? [q.order, q.pattern, q.row, player.volume] : [q.order, q.pattern, q.row], v11);
     p.bar(Math.min(127, Math.trunc((q.order * 64 + q.row) / (Math.max(1, mod.nOrders) * 64) * 128)));

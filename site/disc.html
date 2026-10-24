@@ -20,7 +20,7 @@
   <button id="pp" title="Pause / resume (Space)">Pause</button>
   <input id="seek" type="range" min="0" max="1" step="0.1" value="0" aria-label="Seek" disabled>
   <span id="time">0:00 / 0:00</span>
-  <select id="style" aria-label="Rendering and sound style" title="Modern: sharp scaling + hi-fi sound. Old-school: exact pixels + 22 kHz 8-bit sound."><option value="modern">Modern</option><option value="oldschool">Old-school</option></select>
+  <select id="sound" aria-label="Sound mode" title="Hi-fi: sinc interpolation at the native rate. Old-school: 22 kHz, 8-bit, no interpolation."><option value="hifi">Hi-fi</option><option value="oldschool">Old-school</option></select>
 </div>
 <script type="module">
   import { runDisc } from './js/app.js';
@@ -32,8 +32,8 @@
   $('seek').oninput = e => { dragging = true; player?.seek(+e.target.value); };
   $('seek').onchange = () => { dragging = false; };
   const ui = {
-    attach(p) { player = p; p.setMode(style.value === 'modern' ? 'hifi' : 'oldschool'); },
-    screen(s) { scr = s; scr.setMode(style.value === 'modern' ? 'sharp' : 'integer'); },
+    attach(p) { player = p; p.setMode(sound.value); },
+    screen(s) { scr = s; },
     avail: () => [innerWidth, innerHeight - $('bar').offsetHeight],
     title(t) { document.title = t + ' - MDP'; },
     update(pos, p) {
@@ -43,9 +43,8 @@
       $('pp').textContent = p.paused ? 'Play' : 'Pause';
     },
   };
-  const style = $('style');
-  const apply = v => { scr?.setMode(v === 'modern' ? 'sharp' : 'integer'); player?.setMode(v === 'modern' ? 'hifi' : 'oldschool'); };
-  try { style.value = localStorage.getItem('mdp-style') || 'modern'; } catch {}
-  style.onchange = e => { try { localStorage.setItem('mdp-style', e.target.value); } catch {} apply(e.target.value); style.blur(); };
+  const sound = $('sound');
+  try { sound.value = localStorage.getItem('mdp-sound') || 'hifi'; } catch {}
+  sound.onchange = e => { try { localStorage.setItem('mdp-sound', e.target.value); } catch {} player?.setMode(e.target.value); sound.blur(); };
   runDisc($('c'), d, ui).then(() => { location.href = './'; });
 </script>

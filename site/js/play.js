@@ -7,6 +7,7 @@ const PAL = [0,0,0, 63,0,0, 63,20,0, 63,31,0, 63,41,0, 63,52,0, 63,59,18, 63,63,
   13,13,13, 5,7,10, 8,11,15, 15,23,30, 25,36,47, 11,16,49, 56,56,63, 11,16,21];
 const COLS = [1, 2, 3, 4, 5, 6, 7, 6, 5, 4, 3, 2];            // f4e:09be, plane mask per column
 const NCOL = 38;
+const PITCH_SHIFT = 36;
 // thresholds of the note quantiser (f4e:0c24..0c7e); the 0x3d60 entry is in the original code
 const THR = [0x3a58, 0x3dc0, 0x4160, 0x4540, 0x4960, 0x4dc0, 0x5260, 0x5760, 0x3d60, 0x6220, 0x6800];
 const s16 = v => (v << 16) >> 16;
@@ -16,7 +17,7 @@ export class PlayScreen extends TextEngine {
     super(data, vga);
     this.mPrev = new Int16Array(NCOL); this.mY = new Int16Array(NCOL);
     this.mSize = new Int16Array(NCOL).fill(-999); this.mHold = new Int16Array(NCOL);
-    this.pitchShift = 0; this.lastRow = 0xffff; this.tmpY = 0; this.tmpSize = 0;
+    this.lastRow = 0xffff; this.tmpY = 0; this.tmpSize = 0;
   }
   // --- VRAM helpers: write to the planes selected by the sequencer map mask
   w16(mask, a, v) { for (let p = 0; p < 4; p++) if (mask >> p & 1) { const pl = this.vga.planes[p]; pl[a & 0xffff] = v & 255; pl[(a + 1) & 0xffff] = v >> 8 & 255; } }
@@ -76,13 +77,13 @@ export class PlayScreen extends TextEngine {
       col--; while (col >= NCOL) col -= NCOL;
       let ax = c.period & 0xffff, cl = 0, ch = 0;
       if (ax) {
-        // pitchShift != 0 (modern look): notes below C-4 keep going down instead of piling up on the bottom row,
-        // and the whole range moves up so typical music sits around the middle of the grid.
-        if (this.pitchShift) while (ax >= 0x7140) { ax /= 2; cl--; }
-        while (ax < 0x38a0) { ax = this.pitchShift ? ax * 2 : (ax * 2) & 0xffff; cl++; }
+        // Not the original mapping: notes below C-4 keep going down instead of piling up on the bottom row, and the
+        // whole range moves up (PITCH_SHIFT semitones) so typical music sits around the middle of the grid.
+        while (ax >= 0x7140) { ax /= 2; cl--; }
+        while (ax < 0x38a0) { ax *= 2; cl++; }
         ch = 11; for (const t of THR) if (ax >= t) ch--;
       }
-      const y = 0x186 - ((12 * cl + ch + this.pitchShift) << 2);
+      const y = 0x186 - ((12 * cl + ch + PITCH_SHIFT) << 2);
       const size = (c.vol >> 3) + 3;
       if (this.mSize[col] > size) continue;
       this.mY[col] = y; this.mSize[col] = size;

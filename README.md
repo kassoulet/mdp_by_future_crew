@@ -24,7 +24,7 @@ Mouse: wheel scrolls the menu (volume on the playing screen, with Shift: order),
 
 Keys: arrows / PgUp / PgDn and Enter in the menu; Esc switches between menu and playing screen, F10 leaves;
 Left/Right change order; `+`/`-` volume and `S` stereo on Chaotic Mind; Space pauses. Under the canvas: pause,
-seek bar and one Modern / Old-school switch (sharp scaling + hi-fi sound, or exact pixels + 22 kHz 8-bit sound).
+seek bar and a Hi-fi / Old-school sound switch.
 
 ## How faithful is it
 
@@ -33,7 +33,7 @@ seek bar and one Modern / Old-school switch (sharp scaling + hi-fi sound, or exa
   (`tools/oracle.py`, `tools/tests/menu_vs_oracle.mjs`). The v1.1 menu and the playing screen's static parts match
   DOSBox-X captures with 0 differing pixels.
 - **Audio:** libopenmpt (WebAssembly). Hi-fi: sinc interpolation. Old-school: 22.05 kHz, no interpolation, 8-bit.
-- **Not exact:** in Modern mode the markers are shifted up (3 octaves, no pile-up on the bottom row); Old-school keeps the original placement. The coloured note markers are rebuilt from pattern data (the original read STMIK's channel state), so
+- **Not exact:** the markers are shifted up 3 octaves (no pile-up on the bottom row). The coloured note markers are rebuilt from pattern data (the original read STMIK's channel state), so
   slides and vibrato do not move them. The progress bar and positions come from libopenmpt.
 
 ## Layout
