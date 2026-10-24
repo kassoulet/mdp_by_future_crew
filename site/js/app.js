@@ -20,8 +20,17 @@ export class Screen {
     this.mode = (() => { try { return localStorage.getItem('mdp-scale') || 'sharp'; } catch { return 'sharp'; } })();
     addEventListener('keydown', e => {
       if (e.ctrlKey || e.altKey || e.metaKey) return;
+      if (e.key === 'Backspace') { e.preventDefault(); this.back(); return; }
       const k = KEYMAP[e.key]; if (k) { this.keys.push(k); e.preventDefault(); this.onGesture?.(); }
     });
+    this.clicks = []; this.wheel = 0;
+    const pt = e => { const r = canvas.getBoundingClientRect(); return [(e.clientX - r.left) / r.width * 640, (e.clientY - r.top) / r.height * 480]; };
+    canvas.addEventListener('pointerdown', e => { if (e.button !== 0) return; const [x, y] = pt(e); this.clicks.push({ x, y }); this.onGesture?.(); });
+    canvas.addEventListener('wheel', e => {
+      e.preventDefault();
+      this.wheel += e.deltaY * (e.deltaMode === 1 ? 40 : e.deltaMode === 2 ? 400 : 1);   // pixels; 40 px = one step
+      this.wheelShift = e.shiftKey; this.wheel = Math.max(-200, Math.min(200, this.wheel));
+    }, { passive: false });
     addEventListener('resize', () => this.layout()); this.layout();
     requestAnimationFrame(t => this.tick(t));
   }
@@ -65,6 +74,11 @@ export class Screen {
   }
   vsync() { return new Promise(r => this.waiters.push(r)); }
   key() { return this.keys.shift() || 0; }
+  // Back button: playing screen -> menu, menu -> launcher
+  back() { this.keys.push(this.state === 'play' ? 0x011b : 0x4400); }
+  click() { return this.clicks.shift() || null; }
+  // Wheel steps since the last call (+ = down / away from the user), 40 px each.
+  wheelStep() { const n = Math.trunc(this.wheel / 40); this.wheel -= n * 40; return n; }
 }
 
 const HELP10 = ['ESC for menu', 'F10 for dos', 'F7 for shell', 'Arrows to change pattern'];
@@ -81,6 +95,7 @@ export async function runDisc(canvas, disc, ui = {}) {
   ui.attach?.(player);
   let loaded = null, cur = 0;
   for (;;) {
+    scr.clicks.length = 0; scr.wheel = 0; scr.state = 'menu';
     const m = new Menu(new Uint8Array(data), new Uint8Array(mdi), scr);
     m.cur = cur;
     const r = await m.run(); cur = m.cur;
@@ -102,6 +117,7 @@ async function playScreen(scr, player, L, data, v11, ui) {
   const p = new PlayScreen(new Uint8Array(data), scr.vga), mod = L.mod;
   p.init({ title: mod.title, help: v11 ? HELP11 : HELP10, labels: v11 ? ['Ord', 'Pat', 'Row', 'Vol'] : ['Ord', 'Pat', 'Row'] });
   let last = -1, lastPat = -1, lastRow = -1;
+  scr.clicks.length = 0; scr.wheel = 0; scr.state = 'play';
   for (;;) {
     await scr.vsync();
     for (let k; (k = scr.key());) {
@@ -115,6 +131,16 @@ async function playScreen(scr, player, L, data, v11, ui) {
       if (k === 0x4a2d) player.setVolume(player.volume - 1);
       if (k === 0x1f73 && v11) { L.mono = !L.mono; player.setStereo(!L.mono); }
       if (k === 0x3920) player.pause();
+    }
+    for (let c; (c = scr.click());) {
+      if (c.x >= 8 && c.x < 136 && c.y >= 56 && c.y < 67 && player.duration) player.seek((c.x - 8) / 128 * player.duration);
+      else if (c.x >= 330 && c.x < 505 && c.y >= 4 && c.y < 20) return 'menu';
+      else if (c.x >= 330 && c.x < 505 && c.y >= 20 && c.y < 36) return 'exit';
+    }
+    const ws = scr.wheelStep();
+    if (ws) {
+      if (scr.wheelShift) { player.orderRow(Math.max(0, Math.min(mod.nOrders - 1, player.pos.order + Math.sign(ws))), 0); L.tracker.reset(); }
+      else player.setVolume(player.volume - 2 * ws);
     }
     const q = player.pos, key = q.pattern * 256 + q.row;
     if (key !== last) {

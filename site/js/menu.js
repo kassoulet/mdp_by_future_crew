@@ -13,7 +13,7 @@ export class Menu extends TextEngine {
     this.buf = new Uint8Array(0x2800 + 4);
     this.ent = new Array(50).fill(0);
     this.cur = 0; this.count = 0;
-    this.shadow = 1; this.stride = 0x40;
+    this.shadow = 1; this.stride = 0x40; this.rects = [];
     this.rect0 = 0; this.rect1 = 0;
     this.scroll = 0; this.clipLo = 0; this.clipHi = 0; this.clipLo2 = 0; this.clipHi2 = 0;
     this.pgUp = 0; this.pgDn = 0; this.lastWords = 0; this.tgt = 0; this.mid = 0; this.just = 0; this.spaces = 0;
@@ -93,6 +93,7 @@ export class Menu extends TextEngine {
       if (this.pgUp === -1 && this.y > s16(this.clipLo2)) this.pgUp = i - 1;
       if (this.pgDn === -1 && this.y > s16(this.clipHi2)) this.pgDn = i - 1;
       const [a, b] = this.entry(this.ent[i]);
+      this.rects[i] = [a, b];
       if (i === this.cur) this.fillRows(this.rect0 = a, this.rect1 = b, 0xff);
     }
     if (this.pgUp === -1) this.pgUp = 0;
@@ -178,7 +179,18 @@ export class Menu extends TextEngine {
     await this.fade(0, 4);
     for (;;) {
       await this.env.vsync();
-      const k = this.env.key(); if (!k) continue;
+      let k = this.env.key();
+      if (!k && this.env.click) {                                   // mouse: wheel scrolls, click selects, click again plays
+        const n = this.env.wheelStep();
+        if (n) k = n > 0 ? 0x5000 : 0x4800;
+        const c = this.env.click();
+        if (c && c.x >= 64 && c.x < 576) {
+          const vy = this.scroll + Math.floor(c.y), i = this.rects.findIndex(r => r && vy >= r[0] && vy <= r[1]);
+          if (i === this.cur) k = 0x1c0d;
+          else if (i >= 0) { await this.scrollBy(i - this.cur); continue; }
+        }
+      }
+      if (!k) continue;
       const al = k & 255, ah = k >> 8; if (globalThis.DBG) console.log("key", k.toString(16), "cur", this.cur, "count", this.count);
       let res = null;
       if (al === 0x1b) res = { kind: 'esc' };

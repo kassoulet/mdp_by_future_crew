@@ -20,6 +20,8 @@ tools/build.sh dist && python3 -m http.server -d dist 8000
 
 Open <http://localhost:8000/>. Pushes to `main` deploy to GitHub Pages (`.github/workflows/pages.yml`).
 
+Mouse: wheel scrolls the menu (volume on the playing screen, with Shift: order), click selects then plays, click the progress bar to seek, click "ESC for menu" / "F10 for dos". Back button or Backspace: playing screen to menu, menu to launcher.
+
 Keys: arrows / PgUp / PgDn and Enter in the menu; Esc switches between menu and playing screen, F10 leaves;
 Left/Right change order; `+`/`-` volume and `S` stereo on Chaotic Mind; Space pauses. Under the canvas: pause,
 seek bar and one Modern / Old-school switch (sharp scaling + hi-fi sound, or exact pixels + 22 kHz 8-bit sound).

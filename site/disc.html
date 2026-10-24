@@ -16,6 +16,7 @@
 </style>
 <canvas id="c" width="640" height="480"></canvas>
 <div id="bar">
+  <button id="back" title="Back (Backspace): playing screen to menu, menu to launcher">&larr; Back</button>
   <button id="pp" title="Pause / resume (Space)">Pause</button>
   <input id="seek" type="range" min="0" max="1" step="0.1" value="0" aria-label="Seek" disabled>
   <span id="time">0:00 / 0:00</span>
@@ -26,6 +27,7 @@
   const d = new URLSearchParams(location.search).get('d') || 'journey1';
   const $ = id => document.getElementById(id), fmt = s => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
   let player, scr, dragging = false;
+  $('back').onclick = () => { scr?.back(); $('back').blur(); };
   $('pp').onclick = () => { player?.pause(); $('pp').blur(); };
   $('seek').oninput = e => { dragging = true; player?.seek(+e.target.value); };
   $('seek').onchange = () => { dragging = false; };
