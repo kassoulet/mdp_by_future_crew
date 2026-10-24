@@ -22,7 +22,7 @@ Open <http://localhost:8000/>. Pushes to `main` deploy to GitHub Pages (`.github
 
 Keys: arrows / PgUp / PgDn and Enter in the menu; Esc switches between menu and playing screen, F10 leaves;
 Left/Right change order; `+`/`-` volume and `S` stereo on Chaotic Mind; Space pauses. Under the canvas: pause,
-seek bar and a Hi-fi / Old-school sound switch.
+seek bar, a Sharp / Pixel scaling switch and a Hi-fi / Old-school sound switch.
 
 ## How faithful is it
 

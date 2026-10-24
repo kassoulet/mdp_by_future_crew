@@ -10,15 +10,34 @@ const KEYMAP = { ArrowUp: 0x4800, ArrowDown: 0x5000, PageUp: 0x4900, PageDown: 0
 const FRAME_MS = 1000 / 59.94;                 // VGA 640x480 vertical rate
 
 export class Screen {
-  constructor(canvas) {
-    this.canvas = canvas; this.ctx = canvas.getContext('2d');
+  // canvas: display canvas, sized in device pixels by layout(). avail(): [cssWidth, cssHeight] of the room for it.
+  constructor(canvas, avail = () => [innerWidth, innerHeight]) {
+    this.canvas = canvas; this.ctx = canvas.getContext('2d'); this.avail = avail;
+    this.src = Object.assign(document.createElement('canvas'), { width: 640, height: 480 }); this.sctx = this.src.getContext('2d');
+    this.mid = document.createElement('canvas'); this.mctx = this.mid.getContext('2d');
     this.vga = new VGA(); this.waiters = []; this.keys = [];
     this.img = null; this.acc = 0; this.last = 0;
+    this.mode = (() => { try { return localStorage.getItem('mdp-scale') || 'sharp'; } catch { return 'sharp'; } })();
     addEventListener('keydown', e => {
       if (e.ctrlKey || e.altKey || e.metaKey) return;
       const k = KEYMAP[e.key]; if (k) { this.keys.push(k); e.preventDefault(); this.onGesture?.(); }
     });
+    addEventListener('resize', () => this.layout()); this.layout();
     requestAnimationFrame(t => this.tick(t));
+  }
+  setMode(m) { this.mode = m; try { localStorage.setItem('mdp-scale', m); } catch {} this.layout(); }
+  // 4:3 box in device pixels. integer: whole multiples of 640x480 only. sharp: any size, but the image is first
+  // enlarged by a whole factor with nearest-neighbour and then scaled down smoothly, so edges stay crisp.
+  layout() {
+    const dpr = devicePixelRatio || 1, [aw, ah] = this.avail();
+    let w = aw * dpr, h = ah * dpr, s = Math.min(w / 640, h / 480);
+    if (this.mode === 'integer') s = Math.max(1, Math.floor(s + 1e-6));
+    const W = Math.round(640 * s), H = Math.round(480 * s);
+    this.canvas.width = W; this.canvas.height = H;
+    this.canvas.style.width = W / dpr + 'px'; this.canvas.style.height = H / dpr + 'px';
+    this.k = Math.max(1, Math.ceil(s));
+    this.mid.width = 640 * this.k; this.mid.height = 480 * this.k;
+    this.mctx.imageSmoothingEnabled = false;
   }
   tick(t) {
     this.acc += Math.min(t - (this.last || t), 250); this.last = t;
@@ -33,8 +52,16 @@ export class Screen {
     const v = this.vga, W = v.width;
     if (!this.img || this.img.width !== W) this.img = new ImageData(W, 480);
     v.scanout(this.img.data);
-    this.ctx.fillStyle = '#000'; this.ctx.fillRect(0, 0, 640, 480);
-    this.ctx.putImageData(this.img, (640 - W) >> 1, 0);
+    this.sctx.fillStyle = '#000'; this.sctx.fillRect(0, 0, 640, 480);
+    this.sctx.putImageData(this.img, (640 - W) >> 1, 0);
+    const c = this.ctx;
+    if (this.mode === 'integer' || this.k === 1 && this.canvas.width === 640) {
+      c.imageSmoothingEnabled = false; c.drawImage(this.src, 0, 0, this.canvas.width, this.canvas.height);
+    } else {
+      this.mctx.drawImage(this.src, 0, 0, this.mid.width, this.mid.height);
+      c.imageSmoothingEnabled = true; c.imageSmoothingQuality = 'high';
+      c.drawImage(this.mid, 0, 0, this.canvas.width, this.canvas.height);
+    }
   }
   vsync() { return new Promise(r => this.waiters.push(r)); }
   key() { return this.keys.shift() || 0; }
@@ -48,7 +75,8 @@ export async function runDisc(canvas, disc, ui = {}) {
   const [data, mdi] = await Promise.all([
     fetch('assets/menu_data.bin').then(r => r.arrayBuffer()),
     fetch(base + 'MDP.MDI').then(r => r.arrayBuffer())]);
-  const scr = new Screen(canvas), player = new Player();
+  const scr = new Screen(canvas, ui.avail), player = new Player();
+  ui.screen?.(scr);
   scr.onGesture = () => player.ensure();
   ui.attach?.(player);
   let loaded = null, cur = 0;
