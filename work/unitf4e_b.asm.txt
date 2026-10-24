@@ -1,0 +1,241 @@
+f4e:0b0e       mov word ptr es:[di + 0x4b0], ax
+f4e:0b13       mov word ptr es:[di + 0x500], ax
+f4e:0b18       mov word ptr es:[di + 0x550], ax
+f4e:0b1d       mov word ptr es:[di + 0x5a0], ax
+f4e:0b22       mov word ptr es:[di + 0x5f0], ax
+f4e:0b27               pop di
+f4e:0b28               push di
+f4e:0b29         mov bx, word ptr [0x88a]
+f4e:0b2d             or bx, bx
+f4e:0b2f             jge 0xb35
+f4e:0b31               nop 
+f4e:0b32               nop 
+f4e:0b33             xor bx, bx
+f4e:0b35           mov ax, word ptr [0x888]
+f4e:0b38           cmp ax, 0x186
+f4e:0b3b             jle 0xb42
+f4e:0b3d               nop 
+f4e:0b3e               nop 
+f4e:0b3f           mov ax, 0x186
+f4e:0b42           cmp ax, 6
+f4e:0b45             jge 0xb4c
+f4e:0b47               nop 
+f4e:0b48               nop 
+f4e:0b49           mov ax, 6
+f4e:0b4c           add ax, 0x50
+f4e:0b4f             sub ax, bx
+f4e:0b51           mov dx, 0x50
+f4e:0b54             mul dx
+f4e:0b56             add di, ax
+f4e:0b58           mov dx, 0x3c4
+f4e:0b5b             mov al, 2
+f4e:0b5d             mov bl, cl
+f4e:0b5f             dec bl
+f4e:0b61             xor bh, bh
+f4e:0b63         mov ah, byte ptr [bx + 0x9be]
+f4e:0b67               out dx, ax
+f4e:0b68         mov cx, word ptr [0x88a]
+f4e:0b6c           cmp cx, -0x80
+f4e:0b6f             jg 0xb7c
+f4e:0b71               nop 
+f4e:0b72               nop 
+f4e:0b73     mov word ptr [0x88a], 0xff80
+f4e:0b79             jmp 0xb97
+f4e:0b7b               nop 
+f4e:0b7c           mov ax, 0xf8ff
+f4e:0b7f           cmp cx, 0
+f4e:0b82             jg 0xb89
+f4e:0b84               nop 
+f4e:0b85               nop 
+f4e:0b86           mov cx, 1
+f4e:0b89           mov word ptr es:[di], ax
+f4e:0b8c           add di, 0x50
+f4e:0b8f           mov word ptr es:[di], ax
+f4e:0b92           add di, 0x50
+f4e:0b95             loop 0xb89
+f4e:0b97               pop di
+f4e:0b98           mov ax, word ptr [0x888]
+f4e:0b9b       mov word ptr ds:[bp + 0x88c], ax
+f4e:0ba0               pop cx
+f4e:0ba1           add di, 2
+f4e:0ba4           add bp, 2
+f4e:0ba7               dec cx
+f4e:0ba8             je 0xbaf
+f4e:0baa               nop 
+f4e:0bab               nop 
+f4e:0bac           jmp 0xa7e
+f4e:0baf         les bx, ptr [4]
+f4e:0bb3           mov ax, word ptr es:[bx]
+f4e:0bb6         cmp ax, word ptr [0x9bc]
+f4e:0bba             jne 0xbc1
+f4e:0bbc               nop 
+f4e:0bbd               nop 
+f4e:0bbe           jmp 0xcdd
+f4e:0bc1           mov word ptr [0x9bc], ax
+f4e:0bc4         les si, ptr [0]
+f4e:0bc8           mov cx, 0x10
+f4e:0bcb               push cx
+f4e:0bcc               push bx
+f4e:0bcd         mov al, byte ptr es:[si + 0x1a]
+f4e:0bd1             or al, al
+f4e:0bd3         je 0xcd0
+f4e:0bd7         mov ax, word ptr es:[si + 0x4c]
+f4e:0bdb           cmp ax, 0xffff
+f4e:0bde             jne 0xbec
+f4e:0be0               nop 
+f4e:0be1               nop 
+f4e:0be2         mov al, byte ptr es:[si + 0x32]
+f4e:0be6             cmp al, 0xfa
+f4e:0be8         ja 0xcd0
+f4e:0bec         mov bp, word ptr es:[si + 0x37]
+f4e:0bf0         and bp, 0xff
+f4e:0bf4             or bp, bp
+f4e:0bf6         je 0xcd0
+f4e:0bfa               dec bp
+f4e:0bfb           cmp bp, 0x26
+f4e:0bfe             jb 0xc07
+f4e:0c00               nop 
+f4e:0c01               nop 
+f4e:0c02           sub bp, 0x26
+f4e:0c05             jmp 0xbfb
+f4e:0c07             add bp, bp
+f4e:0c09         mov ax, word ptr es:[si + 0x12]
+f4e:0c0d             xor cx, cx
+f4e:0c0f             or ax, ax
+f4e:0c11             je 0xc87
+f4e:0c13               nop 
+f4e:0c14               nop 
+f4e:0c15           cmp ax, 0x38a0
+f4e:0c18             jae 0xc22
+f4e:0c1a               nop 
+f4e:0c1b               nop 
+f4e:0c1c             add ax, ax
+f4e:0c1e             inc cl
+f4e:0c20             jmp 0xc15
+f4e:0c22             mov ch, 0xb
+f4e:0c24           cmp ax, 0x3a58
+f4e:0c27             jb 0xc2d
+f4e:0c29               nop 
+f4e:0c2a               nop 
+f4e:0c2b             dec ch
+f4e:0c2d           cmp ax, 0x3dc0
+f4e:0c30             jb 0xc36
+f4e:0c32               nop 
+f4e:0c33               nop 
+f4e:0c34             dec ch
+f4e:0c36           cmp ax, 0x4160
+f4e:0c39             jb 0xc3f
+f4e:0c3b               nop 
+f4e:0c3c               nop 
+f4e:0c3d             dec ch
+f4e:0c3f           cmp ax, 0x4540
+f4e:0c42             jb 0xc48
+f4e:0c44               nop 
+f4e:0c45               nop 
+f4e:0c46             dec ch
+f4e:0c48           cmp ax, 0x4960
+f4e:0c4b             jb 0xc51
+f4e:0c4d               nop 
+f4e:0c4e               nop 
+f4e:0c4f             dec ch
+f4e:0c51           cmp ax, 0x4dc0
+f4e:0c54             jb 0xc5a
+f4e:0c56               nop 
+f4e:0c57               nop 
+f4e:0c58             dec ch
+f4e:0c5a           cmp ax, 0x5260
+f4e:0c5d             jb 0xc63
+f4e:0c5f               nop 
+f4e:0c60               nop 
+f4e:0c61             dec ch
+f4e:0c63           cmp ax, 0x5760
+f4e:0c66             jb 0xc6c
+f4e:0c68               nop 
+f4e:0c69               nop 
+f4e:0c6a             dec ch
+f4e:0c6c           cmp ax, 0x3d60
+f4e:0c6f             jb 0xc75
+f4e:0c71               nop 
+f4e:0c72               nop 
+f4e:0c73             dec ch
+f4e:0c75           cmp ax, 0x6220
+f4e:0c78             jb 0xc7e
+f4e:0c7a               nop 
+f4e:0c7b               nop 
+f4e:0c7c             dec ch
+f4e:0c7e           cmp ax, 0x6800
+f4e:0c81             jb 0xc87
+f4e:0c83               nop 
+f4e:0c84               nop 
+f4e:0c85             dec ch
+f4e:0c87             mov al, 0xc
+f4e:0c89             mul cl
+f4e:0c8b             add al, ch
+f4e:0c8d             xor ah, ah
+f4e:0c8f           shl ax, 2
+f4e:0c92             neg ax
+f4e:0c94           add ax, 0x186
+f4e:0c97             mov dx, ax
+f4e:0c99         mov al, byte ptr es:[si + 0x1a]
+f4e:0c9d           shr al, 3
+f4e:0ca0             add al, 3
+f4e:0ca2             xor ah, ah
+f4e:0ca4       cmp word ptr ds:[bp + 0x924], ax
+f4e:0ca9             jg 0xcd0
+f4e:0cab               nop 
+f4e:0cac               nop 
+f4e:0cad       mov word ptr ds:[bp + 0x8d8], dx
+f4e:0cb2       mov word ptr ds:[bp + 0x924], ax
+f4e:0cb7         mov ax, word ptr es:[si + 0x4c]
+f4e:0cbb   mov word ptr ds:[bp + 0x970], 0
+f4e:0cc2           cmp ax, 0xffff
+f4e:0cc5             je 0xcd0
+f4e:0cc7               nop 
+f4e:0cc8               nop 
+f4e:0cc9   mov word ptr ds:[bp + 0x970], 0xa
+f4e:0cd0               pop bx
+f4e:0cd1               pop cx
+f4e:0cd2           add si, 0x60
+f4e:0cd5               dec cx
+f4e:0cd6             je 0xcdd
+f4e:0cd8               nop 
+f4e:0cd9               nop 
+f4e:0cda           jmp 0xbcb
+f4e:0cdd           mov cx, 0x26
+f4e:0ce0             xor bp, bp
+f4e:0ce2               push cx
+f4e:0ce3       mov ax, word ptr ds:[bp + 0x970]
+f4e:0ce8               dec ax
+f4e:0ce9             or ax, ax
+f4e:0ceb             jge 0xcf6
+f4e:0ced               nop 
+f4e:0cee               nop 
+f4e:0cef             xor ax, ax
+f4e:0cf1       dec word ptr ds:[bp + 0x924]
+f4e:0cf6       mov word ptr ds:[bp + 0x970], ax
+f4e:0cfb               pop cx
+f4e:0cfc           add bp, 2
+f4e:0cff             loop 0xce2
+f4e:0d01               ret 
+f4e:0d02             mov ax, ss
+f4e:0d04             mov dx, sp
+f4e:0d06           add dx, 0x1f
+f4e:0d09             mov cl, 4
+f4e:0d0b             shr dx, cl
+f4e:0d0d             add ax, dx
+f4e:0d0f             mov dx, ax
+f4e:0d11           mov word ptr [0x98c], ax
+f4e:0d14           mov word ptr [0x994], ax
+f4e:0d17           mov word ptr [0x990], ax
+f4e:0d1a           mov word ptr [0x998], ax
+f4e:0d1d       cmp word ptr [0x95e], 0
+f4e:0d22             je 0xd63
+f4e:0d24           mov bx, 0xffff
+f4e:0d27             mov ah, 0x48
+f4e:0d29             int 0x21
+f4e:0d2b         cmp bx, word ptr [0x95c]
+f4e:0d2f             jae 0xd3a
+f4e:0d31           mov ax, 0x10e
+f4e:0d34               push ax
+f4e:0d35       lcall 0x101e, 0xb2e
+f4e:0d3a         cmp bx, word ptr [0x95e]

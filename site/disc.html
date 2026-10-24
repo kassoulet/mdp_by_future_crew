@@ -1,0 +1,15 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MDP</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #000; }
+  body { display: grid; place-items: center; }
+  canvas { image-rendering: pixelated; }
+</style>
+<canvas id="c" width="640" height="480"></canvas>
+<script type="module">
+  import { runDisc } from './js/app.js';
+  const d = new URLSearchParams(location.search).get('d') || 'journey1';
+  runDisc(document.getElementById('c'), d).then(r => { location.href = './'; });
+</script>

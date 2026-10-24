@@ -1,8 +1,24 @@
 <!doctype html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>MDP</title>
-<body style="background:#000;color:#9ff;font:16px monospace;padding:2em">
-<h1>MDP, MusicDiscPlayer</h1>
-<p>JavaScript port in progress. See the <a href="https://github.com/kassoulet" style="color:#fff">repo</a>.</p>
-</body>
+<title>MDP, MusicDiscPlayer</title>
+<style>
+  :root { --bg: #2c4155; --fg: #fff; --hi: #9fffff; --card: #55799e; }
+  html, body { margin: 0; min-height: 100%; background: #000; color: var(--fg); font: 16px/1.4 monospace; }
+  main { max-width: 640px; margin: 0 auto; padding: 24px 16px 48px; }
+  h1 { color: var(--hi); font-size: 1.4em; margin: 0 0 4px; }
+  p { margin: 0 0 16px; }
+  a.disc { display: block; background: var(--bg); color: var(--fg); text-decoration: none; padding: 12px 16px; margin: 0 0 12px; border: 2px solid transparent; }
+  a.disc:hover, a.disc:focus { background: var(--card); border-color: var(--hi); outline: none; }
+  a.disc b { display: block; font-size: 1.15em; }
+  a.disc span { color: var(--hi); }
+  small { color: #8aa; }
+</style>
+<main>
+  <h1>MDP, MusicDiscPlayer</h1>
+  <p>Future Crew's S3M/MOD player and music disk engine (1993), recreated for the browser at its native 640x480.</p>
+  <a class="disc" href="disc.html?d=journey1"><b>Journey I</b><span>Purple Motion, 7 tunes, MDP v1.0</span></a>
+  <a class="disc" href="disc.html?d=journey2"><b>Journey II</b><span>Purple Motion, 8 tunes, MDP v1.0</span></a>
+  <a class="disc" href="disc.html?d=chmind"><b>Chaotic Mind</b><span>Skaven, 8 tunes, MDP v1.1</span></a>
+  <p><small>Keys: arrows, PgUp/PgDn, Enter to play, Esc to go back. All music and software belong to their authors.</small></p>
+</main>

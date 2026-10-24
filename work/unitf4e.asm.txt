@@ -1,0 +1,824 @@
+f4e:0000             add byte ptr [bx + si], al
+f4e:0002             add byte ptr [bx + si], al
+f4e:0004             add byte ptr [bx + si], al
+f4e:0006             add byte ptr [bx + si], al
+f4e:0008               push bp
+f4e:0009             mov bp, sp
+f4e:000b               push si
+f4e:000c               push di
+f4e:000d               push ds
+f4e:000e             mov ax, cs
+f4e:0010             mov ds, ax
+f4e:0012           mov ax, word ptr [bp + 6]
+f4e:0015         mov word ptr cs:[0], ax
+f4e:0019           mov ax, word ptr [bp + 8]
+f4e:001c         mov word ptr cs:[2], ax
+f4e:0020           mov ax, word ptr [bp + 0xa]
+f4e:0023         mov word ptr cs:[4], ax
+f4e:0027           mov ax, word ptr [bp + 0xc]
+f4e:002a         mov word ptr cs:[6], ax
+f4e:002e           call 0x78
+f4e:0031               pop ds
+f4e:0032               pop di
+f4e:0033               pop si
+f4e:0034               pop bp
+f4e:0035               retf 
+f4e:0036               push bp
+f4e:0037             mov bp, sp
+f4e:0039               push si
+f4e:003a               push di
+f4e:003b               push ds
+f4e:003c             mov ax, cs
+f4e:003e             mov ds, ax
+f4e:0040           call 0xa6a
+f4e:0043               pop ds
+f4e:0044               pop di
+f4e:0045               pop si
+f4e:0046               pop bp
+f4e:0047               retf 
+f4e:0048             add byte ptr [bx + si], al
+f4e:004a             add byte ptr [bx], bh
+f4e:004c             add byte ptr [bx + si], al
+f4e:004e               aas 
+f4e:004f             adc al, 0
+f4e:0051               aas 
+f4e:0052               pop ds
+f4e:0053             add byte ptr [bx], bh
+f4e:0055             sub word ptr [bx + si], ax
+f4e:0057               aas 
+f4e:0058             xor al, 0
+f4e:005a               aas 
+f4e:005b             cmp dx, word ptr [bp + si]
+f4e:005d               aas 
+f4e:005e               aas 
+f4e:005f           and ax, 0xd0d
+f4e:0062           or ax, 0x705
+f4e:0065             or cl, byte ptr [bx + si]
+f4e:0067             or cx, word ptr [bx]
+f4e:0069       movhps qword ptr [0x2419], xmm3
+f4e:006e               das 
+f4e:006f             or dx, word ptr [bx + si]
+f4e:0071             xor word ptr [bx + si], di
+f4e:0073             cmp byte ptr [bx], bh
+f4e:0075             or dx, word ptr [bx + si]
+f4e:0077           adc ax, 0x12b8
+f4e:007a             add ch, cl
+f4e:007c         adc byte ptr [bx + si - 0x6000], bh
+f4e:0080             mov es, ax
+f4e:0082           mov di, 0
+f4e:0085           mov ax, 0
+f4e:0088           mov cx, 0x7d00
+f4e:008b             rep stosw word ptr es:[di], ax
+f4e:008d           mov dx, 0x3da
+f4e:0090               in al, dx
+f4e:0091           mov dx, 0x3c0
+f4e:0094             xor al, al
+f4e:0096           mov cx, 0x10
+f4e:0099               out dx, al
+f4e:009a               out dx, al
+f4e:009b             inc al
+f4e:009d             loop 0x99
+f4e:009f             mov al, 0x20
+f4e:00a1               out dx, al
+f4e:00a2             mov ax, cs
+f4e:00a4             mov ds, ax
+f4e:00a6           mov si, 0x48
+f4e:00a9             mov al, 0x40
+f4e:00ab           call 0x85e
+f4e:00ae           mov ax, 0xa000
+f4e:00b1             mov es, ax
+f4e:00b3           mov cx, 0x27
+f4e:00b6             xor bp, bp
+f4e:00b8           mov di, 0x92e0
+f4e:00bb               push cx
+f4e:00bc               push di
+f4e:00bd           mov dx, 0x3c4
+f4e:00c0           mov ax, 0x802
+f4e:00c3               out dx, ax
+f4e:00c4           mov ax, 0x200
+f4e:00c7           mov dx, 0x700
+f4e:00ca         mov word ptr es:[di + 0x50], dx
+f4e:00ce           mov word ptr es:[di], dx
+f4e:00d1         mov word ptr es:[di - 0x50], ax
+f4e:00d5       mov word ptr es:[di - 0xa0], ax
+f4e:00da       mov word ptr es:[di - 0xf0], ax
+f4e:00df       mov word ptr es:[di - 0x140], ax
+f4e:00e4       mov word ptr es:[di - 0x190], ax
+f4e:00e9       mov word ptr es:[di - 0x1e0], ax
+f4e:00ee       mov word ptr es:[di - 0x230], ax
+f4e:00f3       mov word ptr es:[di - 0x280], ax
+f4e:00f8       mov word ptr es:[di - 0x2d0], ax
+f4e:00fd       mov word ptr es:[di - 0x320], ax
+f4e:0102       mov word ptr es:[di - 0x370], ax
+f4e:0107       mov word ptr es:[di - 0x3c0], ax
+f4e:010c       mov word ptr es:[di - 0x410], ax
+f4e:0111       mov word ptr es:[di - 0x460], ax
+f4e:0116       mov word ptr es:[di - 0x4b0], ax
+f4e:011b       mov word ptr es:[di - 0x500], ax
+f4e:0120       mov word ptr es:[di - 0x550], ax
+f4e:0125       mov word ptr es:[di - 0x5a0], ax
+f4e:012a       mov word ptr es:[di - 0x5f0], ax
+f4e:012f       mov word ptr es:[di - 0x640], ax
+f4e:0134       mov word ptr es:[di - 0x690], ax
+f4e:0139       mov word ptr es:[di - 0x6e0], ax
+f4e:013e       mov word ptr es:[di - 0x730], ax
+f4e:0143       mov word ptr es:[di - 0x780], dx
+f4e:0148       mov word ptr es:[di - 0x7d0], ax
+f4e:014d       mov word ptr es:[di - 0x820], ax
+f4e:0152       mov word ptr es:[di - 0x870], ax
+f4e:0157       mov word ptr es:[di - 0x8c0], ax
+f4e:015c       mov word ptr es:[di - 0x910], ax
+f4e:0161       mov word ptr es:[di - 0x960], ax
+f4e:0166       mov word ptr es:[di - 0x9b0], ax
+f4e:016b       mov word ptr es:[di - 0xa00], ax
+f4e:0170       mov word ptr es:[di - 0xa50], ax
+f4e:0175       mov word ptr es:[di - 0xaa0], ax
+f4e:017a       mov word ptr es:[di - 0xaf0], ax
+f4e:017f       mov word ptr es:[di - 0xb40], ax
+f4e:0184       mov word ptr es:[di - 0xb90], ax
+f4e:0189       mov word ptr es:[di - 0xbe0], ax
+f4e:018e       mov word ptr es:[di - 0xc30], ax
+f4e:0193       mov word ptr es:[di - 0xc80], ax
+f4e:0198       mov word ptr es:[di - 0xcd0], ax
+f4e:019d       mov word ptr es:[di - 0xd20], ax
+f4e:01a2       mov word ptr es:[di - 0xd70], ax
+f4e:01a7       mov word ptr es:[di - 0xdc0], ax
+f4e:01ac       mov word ptr es:[di - 0xe10], ax
+f4e:01b1       mov word ptr es:[di - 0xe60], ax
+f4e:01b6       mov word ptr es:[di - 0xeb0], dx
+f4e:01bb       mov word ptr es:[di - 0xf00], dx
+f4e:01c0       mov word ptr es:[di - 0xf50], ax
+f4e:01c5       mov word ptr es:[di - 0xfa0], ax
+f4e:01ca       mov word ptr es:[di - 0xff0], ax
+f4e:01cf       mov word ptr es:[di - 0x1040], ax
+f4e:01d4       mov word ptr es:[di - 0x1090], ax
+f4e:01d9       mov word ptr es:[di - 0x10e0], ax
+f4e:01de       mov word ptr es:[di - 0x1130], ax
+f4e:01e3       mov word ptr es:[di - 0x1180], ax
+f4e:01e8       mov word ptr es:[di - 0x11d0], ax
+f4e:01ed       mov word ptr es:[di - 0x1220], ax
+f4e:01f2       mov word ptr es:[di - 0x1270], ax
+f4e:01f7       mov word ptr es:[di - 0x12c0], ax
+f4e:01fc       mov word ptr es:[di - 0x1310], ax
+f4e:0201       mov word ptr es:[di - 0x1360], ax
+f4e:0206       mov word ptr es:[di - 0x13b0], ax
+f4e:020b       mov word ptr es:[di - 0x1400], ax
+f4e:0210       mov word ptr es:[di - 0x1450], ax
+f4e:0215       mov word ptr es:[di - 0x14a0], ax
+f4e:021a       mov word ptr es:[di - 0x14f0], ax
+f4e:021f       mov word ptr es:[di - 0x1540], ax
+f4e:0224       mov word ptr es:[di - 0x1590], ax
+f4e:0229       mov word ptr es:[di - 0x15e0], ax
+f4e:022e       mov word ptr es:[di - 0x1630], ax
+f4e:0233       mov word ptr es:[di - 0x1680], dx
+f4e:0238       mov word ptr es:[di - 0x16d0], ax
+f4e:023d       mov word ptr es:[di - 0x1720], ax
+f4e:0242       mov word ptr es:[di - 0x1770], ax
+f4e:0247       mov word ptr es:[di - 0x17c0], ax
+f4e:024c       mov word ptr es:[di - 0x1810], ax
+f4e:0251       mov word ptr es:[di - 0x1860], ax
+f4e:0256       mov word ptr es:[di - 0x18b0], ax
+f4e:025b       mov word ptr es:[di - 0x1900], ax
+f4e:0260       mov word ptr es:[di - 0x1950], ax
+f4e:0265       mov word ptr es:[di - 0x19a0], ax
+f4e:026a       mov word ptr es:[di - 0x19f0], ax
+f4e:026f       mov word ptr es:[di - 0x1a40], ax
+f4e:0274       mov word ptr es:[di - 0x1a90], ax
+f4e:0279       mov word ptr es:[di - 0x1ae0], ax
+f4e:027e       mov word ptr es:[di - 0x1b30], ax
+f4e:0283       mov word ptr es:[di - 0x1b80], ax
+f4e:0288       mov word ptr es:[di - 0x1bd0], ax
+f4e:028d       mov word ptr es:[di - 0x1c20], ax
+f4e:0292       mov word ptr es:[di - 0x1c70], ax
+f4e:0297       mov word ptr es:[di - 0x1cc0], ax
+f4e:029c       mov word ptr es:[di - 0x1d10], ax
+f4e:02a1       mov word ptr es:[di - 0x1d60], ax
+f4e:02a6       mov word ptr es:[di - 0x1db0], dx
+f4e:02ab       mov word ptr es:[di - 0x1e00], dx
+f4e:02b0       mov word ptr es:[di - 0x1e50], ax
+f4e:02b5       mov word ptr es:[di - 0x1ea0], ax
+f4e:02ba       mov word ptr es:[di - 0x1ef0], ax
+f4e:02bf       mov word ptr es:[di - 0x1f40], ax
+f4e:02c4       mov word ptr es:[di - 0x1f90], ax
+f4e:02c9       mov word ptr es:[di - 0x1fe0], ax
+f4e:02ce       mov word ptr es:[di - 0x2030], ax
+f4e:02d3       mov word ptr es:[di - 0x2080], ax
+f4e:02d8       mov word ptr es:[di - 0x20d0], ax
+f4e:02dd       mov word ptr es:[di - 0x2120], ax
+f4e:02e2       mov word ptr es:[di - 0x2170], ax
+f4e:02e7       mov word ptr es:[di - 0x21c0], ax
+f4e:02ec       mov word ptr es:[di - 0x2210], ax
+f4e:02f1       mov word ptr es:[di - 0x2260], ax
+f4e:02f6       mov word ptr es:[di - 0x22b0], ax
+f4e:02fb       mov word ptr es:[di - 0x2300], ax
+f4e:0300       mov word ptr es:[di - 0x2350], ax
+f4e:0305       mov word ptr es:[di - 0x23a0], ax
+f4e:030a       mov word ptr es:[di - 0x23f0], ax
+f4e:030f       mov word ptr es:[di - 0x2440], ax
+f4e:0314       mov word ptr es:[di - 0x2490], ax
+f4e:0319       mov word ptr es:[di - 0x24e0], ax
+f4e:031e       mov word ptr es:[di - 0x2530], ax
+f4e:0323       mov word ptr es:[di - 0x2580], dx
+f4e:0328       mov word ptr es:[di - 0x25d0], ax
+f4e:032d       mov word ptr es:[di - 0x2620], ax
+f4e:0332       mov word ptr es:[di - 0x2670], ax
+f4e:0337       mov word ptr es:[di - 0x26c0], ax
+f4e:033c       mov word ptr es:[di - 0x2710], ax
+f4e:0341       mov word ptr es:[di - 0x2760], ax
+f4e:0346       mov word ptr es:[di - 0x27b0], ax
+f4e:034b       mov word ptr es:[di - 0x2800], ax
+f4e:0350       mov word ptr es:[di - 0x2850], ax
+f4e:0355       mov word ptr es:[di - 0x28a0], ax
+f4e:035a       mov word ptr es:[di - 0x28f0], ax
+f4e:035f       mov word ptr es:[di - 0x2940], ax
+f4e:0364       mov word ptr es:[di - 0x2990], ax
+f4e:0369       mov word ptr es:[di - 0x29e0], ax
+f4e:036e       mov word ptr es:[di - 0x2a30], ax
+f4e:0373       mov word ptr es:[di - 0x2a80], ax
+f4e:0378       mov word ptr es:[di - 0x2ad0], ax
+f4e:037d       mov word ptr es:[di - 0x2b20], ax
+f4e:0382       mov word ptr es:[di - 0x2b70], ax
+f4e:0387       mov word ptr es:[di - 0x2bc0], ax
+f4e:038c       mov word ptr es:[di - 0x2c10], ax
+f4e:0391       mov word ptr es:[di - 0x2c60], ax
+f4e:0396       mov word ptr es:[di - 0x2cb0], dx
+f4e:039b       mov word ptr es:[di - 0x2d00], dx
+f4e:03a0       mov word ptr es:[di - 0x2d50], ax
+f4e:03a5       mov word ptr es:[di - 0x2da0], ax
+f4e:03aa       mov word ptr es:[di - 0x2df0], ax
+f4e:03af       mov word ptr es:[di - 0x2e40], ax
+f4e:03b4       mov word ptr es:[di - 0x2e90], ax
+f4e:03b9       mov word ptr es:[di - 0x2ee0], ax
+f4e:03be       mov word ptr es:[di - 0x2f30], ax
+f4e:03c3       mov word ptr es:[di - 0x2f80], ax
+f4e:03c8       mov word ptr es:[di - 0x2fd0], ax
+f4e:03cd       mov word ptr es:[di - 0x3020], ax
+f4e:03d2       mov word ptr es:[di - 0x3070], ax
+f4e:03d7       mov word ptr es:[di - 0x30c0], ax
+f4e:03dc       mov word ptr es:[di - 0x3110], ax
+f4e:03e1       mov word ptr es:[di - 0x3160], ax
+f4e:03e6       mov word ptr es:[di - 0x31b0], ax
+f4e:03eb       mov word ptr es:[di - 0x3200], ax
+f4e:03f0       mov word ptr es:[di - 0x3250], ax
+f4e:03f5       mov word ptr es:[di - 0x32a0], ax
+f4e:03fa       mov word ptr es:[di - 0x32f0], ax
+f4e:03ff       mov word ptr es:[di - 0x3340], ax
+f4e:0404       mov word ptr es:[di - 0x3390], ax
+f4e:0409       mov word ptr es:[di - 0x33e0], ax
+f4e:040e       mov word ptr es:[di - 0x3430], ax
+f4e:0413       mov word ptr es:[di - 0x3480], dx
+f4e:0418       mov word ptr es:[di - 0x34d0], ax
+f4e:041d       mov word ptr es:[di - 0x3520], ax
+f4e:0422       mov word ptr es:[di - 0x3570], ax
+f4e:0427       mov word ptr es:[di - 0x35c0], ax
+f4e:042c       mov word ptr es:[di - 0x3610], ax
+f4e:0431       mov word ptr es:[di - 0x3660], ax
+f4e:0436       mov word ptr es:[di - 0x36b0], ax
+f4e:043b       mov word ptr es:[di - 0x3700], ax
+f4e:0440       mov word ptr es:[di - 0x3750], ax
+f4e:0445       mov word ptr es:[di - 0x37a0], ax
+f4e:044a       mov word ptr es:[di - 0x37f0], ax
+f4e:044f       mov word ptr es:[di - 0x3840], ax
+f4e:0454       mov word ptr es:[di - 0x3890], ax
+f4e:0459       mov word ptr es:[di - 0x38e0], ax
+f4e:045e       mov word ptr es:[di - 0x3930], ax
+f4e:0463       mov word ptr es:[di - 0x3980], ax
+f4e:0468       mov word ptr es:[di - 0x39d0], ax
+f4e:046d       mov word ptr es:[di - 0x3a20], ax
+f4e:0472       mov word ptr es:[di - 0x3a70], ax
+f4e:0477       mov word ptr es:[di - 0x3ac0], ax
+f4e:047c       mov word ptr es:[di - 0x3b10], ax
+f4e:0481       mov word ptr es:[di - 0x3b60], ax
+f4e:0486       mov word ptr es:[di - 0x3bb0], dx
+f4e:048b       mov word ptr es:[di - 0x3c00], dx
+f4e:0490       mov word ptr es:[di - 0x3c50], ax
+f4e:0495       mov word ptr es:[di - 0x3ca0], ax
+f4e:049a       mov word ptr es:[di - 0x3cf0], ax
+f4e:049f       mov word ptr es:[di - 0x3d40], ax
+f4e:04a4       mov word ptr es:[di - 0x3d90], ax
+f4e:04a9       mov word ptr es:[di - 0x3de0], ax
+f4e:04ae       mov word ptr es:[di - 0x3e30], ax
+f4e:04b3       mov word ptr es:[di - 0x3e80], ax
+f4e:04b8       mov word ptr es:[di - 0x3ed0], ax
+f4e:04bd       mov word ptr es:[di - 0x3f20], ax
+f4e:04c2       mov word ptr es:[di - 0x3f70], ax
+f4e:04c7       mov word ptr es:[di - 0x3fc0], ax
+f4e:04cc       mov word ptr es:[di - 0x4010], ax
+f4e:04d1       mov word ptr es:[di - 0x4060], ax
+f4e:04d6       mov word ptr es:[di - 0x40b0], ax
+f4e:04db       mov word ptr es:[di - 0x4100], ax
+f4e:04e0       mov word ptr es:[di - 0x4150], ax
+f4e:04e5       mov word ptr es:[di - 0x41a0], ax
+f4e:04ea       mov word ptr es:[di - 0x41f0], ax
+f4e:04ef       mov word ptr es:[di - 0x4240], ax
+f4e:04f4       mov word ptr es:[di - 0x4290], ax
+f4e:04f9       mov word ptr es:[di - 0x42e0], ax
+f4e:04fe       mov word ptr es:[di - 0x4330], ax
+f4e:0503       mov word ptr es:[di - 0x4380], dx
+f4e:0508       mov word ptr es:[di - 0x43d0], ax
+f4e:050d       mov word ptr es:[di - 0x4420], ax
+f4e:0512       mov word ptr es:[di - 0x4470], ax
+f4e:0517       mov word ptr es:[di - 0x44c0], ax
+f4e:051c       mov word ptr es:[di - 0x4510], ax
+f4e:0521       mov word ptr es:[di - 0x4560], ax
+f4e:0526       mov word ptr es:[di - 0x45b0], ax
+f4e:052b       mov word ptr es:[di - 0x4600], ax
+f4e:0530       mov word ptr es:[di - 0x4650], ax
+f4e:0535       mov word ptr es:[di - 0x46a0], ax
+f4e:053a       mov word ptr es:[di - 0x46f0], ax
+f4e:053f       mov word ptr es:[di - 0x4740], ax
+f4e:0544       mov word ptr es:[di - 0x4790], ax
+f4e:0549       mov word ptr es:[di - 0x47e0], ax
+f4e:054e       mov word ptr es:[di - 0x4830], ax
+f4e:0553       mov word ptr es:[di - 0x4880], ax
+f4e:0558       mov word ptr es:[di - 0x48d0], ax
+f4e:055d       mov word ptr es:[di - 0x4920], ax
+f4e:0562       mov word ptr es:[di - 0x4970], ax
+f4e:0567       mov word ptr es:[di - 0x49c0], ax
+f4e:056c       mov word ptr es:[di - 0x4a10], ax
+f4e:0571       mov word ptr es:[di - 0x4a60], ax
+f4e:0576       mov word ptr es:[di - 0x4ab0], dx
+f4e:057b       mov word ptr es:[di - 0x4b00], dx
+f4e:0580       mov word ptr es:[di - 0x4b50], ax
+f4e:0585       mov word ptr es:[di - 0x4ba0], ax
+f4e:058a       mov word ptr es:[di - 0x4bf0], ax
+f4e:058f       mov word ptr es:[di - 0x4c40], ax
+f4e:0594       mov word ptr es:[di - 0x4c90], ax
+f4e:0599       mov word ptr es:[di - 0x4ce0], ax
+f4e:059e       mov word ptr es:[di - 0x4d30], ax
+f4e:05a3       mov word ptr es:[di - 0x4d80], ax
+f4e:05a8       mov word ptr es:[di - 0x4dd0], ax
+f4e:05ad       mov word ptr es:[di - 0x4e20], ax
+f4e:05b2       mov word ptr es:[di - 0x4e70], ax
+f4e:05b7       mov word ptr es:[di - 0x4ec0], ax
+f4e:05bc       mov word ptr es:[di - 0x4f10], ax
+f4e:05c1       mov word ptr es:[di - 0x4f60], ax
+f4e:05c6       mov word ptr es:[di - 0x4fb0], ax
+f4e:05cb       mov word ptr es:[di - 0x5000], ax
+f4e:05d0       mov word ptr es:[di - 0x5050], ax
+f4e:05d5       mov word ptr es:[di - 0x50a0], ax
+f4e:05da       mov word ptr es:[di - 0x50f0], ax
+f4e:05df       mov word ptr es:[di - 0x5140], ax
+f4e:05e4       mov word ptr es:[di - 0x5190], ax
+f4e:05e9       mov word ptr es:[di - 0x51e0], ax
+f4e:05ee       mov word ptr es:[di - 0x5230], ax
+f4e:05f3       mov word ptr es:[di - 0x5280], dx
+f4e:05f8       mov word ptr es:[di - 0x52d0], ax
+f4e:05fd       mov word ptr es:[di - 0x5320], ax
+f4e:0602       mov word ptr es:[di - 0x5370], ax
+f4e:0607       mov word ptr es:[di - 0x53c0], ax
+f4e:060c       mov word ptr es:[di - 0x5410], ax
+f4e:0611       mov word ptr es:[di - 0x5460], ax
+f4e:0616       mov word ptr es:[di - 0x54b0], ax
+f4e:061b       mov word ptr es:[di - 0x5500], ax
+f4e:0620       mov word ptr es:[di - 0x5550], ax
+f4e:0625       mov word ptr es:[di - 0x55a0], ax
+f4e:062a       mov word ptr es:[di - 0x55f0], ax
+f4e:062f       mov word ptr es:[di - 0x5640], ax
+f4e:0634       mov word ptr es:[di - 0x5690], ax
+f4e:0639       mov word ptr es:[di - 0x56e0], ax
+f4e:063e       mov word ptr es:[di - 0x5730], ax
+f4e:0643       mov word ptr es:[di - 0x5780], ax
+f4e:0648       mov word ptr es:[di - 0x57d0], ax
+f4e:064d       mov word ptr es:[di - 0x5820], ax
+f4e:0652       mov word ptr es:[di - 0x5870], ax
+f4e:0657       mov word ptr es:[di - 0x58c0], ax
+f4e:065c       mov word ptr es:[di - 0x5910], ax
+f4e:0661       mov word ptr es:[di - 0x5960], ax
+f4e:0666       mov word ptr es:[di - 0x59b0], dx
+f4e:066b       mov word ptr es:[di - 0x5a00], dx
+f4e:0670       mov word ptr es:[di - 0x5a50], ax
+f4e:0675       mov word ptr es:[di - 0x5aa0], ax
+f4e:067a       mov word ptr es:[di - 0x5af0], ax
+f4e:067f       mov word ptr es:[di - 0x5b40], ax
+f4e:0684       mov word ptr es:[di - 0x5b90], ax
+f4e:0689       mov word ptr es:[di - 0x5be0], ax
+f4e:068e       mov word ptr es:[di - 0x5c30], ax
+f4e:0693       mov word ptr es:[di - 0x5c80], ax
+f4e:0698       mov word ptr es:[di - 0x5cd0], ax
+f4e:069d       mov word ptr es:[di - 0x5d20], ax
+f4e:06a2       mov word ptr es:[di - 0x5d70], ax
+f4e:06a7       mov word ptr es:[di - 0x5dc0], ax
+f4e:06ac       mov word ptr es:[di - 0x5e10], ax
+f4e:06b1       mov word ptr es:[di - 0x5e60], ax
+f4e:06b6       mov word ptr es:[di - 0x5eb0], ax
+f4e:06bb       mov word ptr es:[di - 0x5f00], ax
+f4e:06c0       mov word ptr es:[di - 0x5f50], ax
+f4e:06c5       mov word ptr es:[di - 0x5fa0], ax
+f4e:06ca       mov word ptr es:[di - 0x5ff0], ax
+f4e:06cf       mov word ptr es:[di - 0x6040], ax
+f4e:06d4       mov word ptr es:[di - 0x6090], ax
+f4e:06d9       mov word ptr es:[di - 0x60e0], ax
+f4e:06de       mov word ptr es:[di - 0x6130], ax
+f4e:06e3       mov word ptr es:[di - 0x6180], dx
+f4e:06e8       mov word ptr es:[di - 0x61d0], ax
+f4e:06ed       mov word ptr es:[di - 0x6220], ax
+f4e:06f2       mov word ptr es:[di - 0x6270], ax
+f4e:06f7       mov word ptr es:[di - 0x62c0], ax
+f4e:06fc       mov word ptr es:[di - 0x6310], ax
+f4e:0701       mov word ptr es:[di - 0x6360], ax
+f4e:0706       mov word ptr es:[di - 0x63b0], ax
+f4e:070b       mov word ptr es:[di - 0x6400], ax
+f4e:0710       mov word ptr es:[di - 0x6450], ax
+f4e:0715       mov word ptr es:[di - 0x64a0], ax
+f4e:071a       mov word ptr es:[di - 0x64f0], ax
+f4e:071f       mov word ptr es:[di - 0x6540], ax
+f4e:0724       mov word ptr es:[di - 0x6590], ax
+f4e:0729       mov word ptr es:[di - 0x65e0], ax
+f4e:072e       mov word ptr es:[di - 0x6630], ax
+f4e:0733       mov word ptr es:[di - 0x6680], ax
+f4e:0738       mov word ptr es:[di - 0x66d0], ax
+f4e:073d       mov word ptr es:[di - 0x6720], ax
+f4e:0742       mov word ptr es:[di - 0x6770], ax
+f4e:0747       mov word ptr es:[di - 0x67c0], ax
+f4e:074c       mov word ptr es:[di - 0x6810], ax
+f4e:0751       mov word ptr es:[di - 0x6860], ax
+f4e:0756       mov word ptr es:[di - 0x68b0], dx
+f4e:075b       mov word ptr es:[di - 0x6900], dx
+f4e:0760       mov word ptr es:[di - 0x6950], ax
+f4e:0765       mov word ptr es:[di - 0x69a0], ax
+f4e:076a       mov word ptr es:[di - 0x69f0], ax
+f4e:076f       mov word ptr es:[di - 0x6a40], ax
+f4e:0774       mov word ptr es:[di - 0x6a90], ax
+f4e:0779       mov word ptr es:[di - 0x6ae0], ax
+f4e:077e       mov word ptr es:[di - 0x6b30], ax
+f4e:0783       mov word ptr es:[di - 0x6b80], ax
+f4e:0788       mov word ptr es:[di - 0x6bd0], ax
+f4e:078d       mov word ptr es:[di - 0x6c20], ax
+f4e:0792       mov word ptr es:[di - 0x6c70], ax
+f4e:0797       mov word ptr es:[di - 0x6cc0], ax
+f4e:079c       mov word ptr es:[di - 0x6d10], ax
+f4e:07a1       mov word ptr es:[di - 0x6d60], ax
+f4e:07a6       mov word ptr es:[di - 0x6db0], ax
+f4e:07ab       mov word ptr es:[di - 0x6e00], ax
+f4e:07b0       mov word ptr es:[di - 0x6e50], ax
+f4e:07b5       mov word ptr es:[di - 0x6ea0], ax
+f4e:07ba       mov word ptr es:[di - 0x6ef0], ax
+f4e:07bf       mov word ptr es:[di - 0x6f40], ax
+f4e:07c4       mov word ptr es:[di - 0x6f90], ax
+f4e:07c9       mov word ptr es:[di - 0x6fe0], ax
+f4e:07ce       mov word ptr es:[di - 0x7030], ax
+f4e:07d3       mov word ptr es:[di - 0x7080], dx
+f4e:07d8       mov word ptr es:[di - 0x70d0], ax
+f4e:07dd       mov word ptr es:[di - 0x7120], ax
+f4e:07e2       mov word ptr es:[di - 0x7170], ax
+f4e:07e7       mov word ptr es:[di - 0x71c0], ax
+f4e:07ec       mov word ptr es:[di - 0x7210], ax
+f4e:07f1       mov word ptr es:[di - 0x7260], ax
+f4e:07f6       mov word ptr es:[di - 0x72b0], ax
+f4e:07fb       mov word ptr es:[di - 0x7300], ax
+f4e:0800       mov word ptr es:[di - 0x7350], ax
+f4e:0805       mov word ptr es:[di - 0x73a0], ax
+f4e:080a       mov word ptr es:[di - 0x73f0], ax
+f4e:080f       mov word ptr es:[di - 0x7440], ax
+f4e:0814       mov word ptr es:[di - 0x7490], ax
+f4e:0819       mov word ptr es:[di - 0x74e0], ax
+f4e:081e       mov word ptr es:[di - 0x7530], ax
+f4e:0823       mov word ptr es:[di - 0x7580], ax
+f4e:0828       mov word ptr es:[di - 0x75d0], ax
+f4e:082d       mov word ptr es:[di - 0x7620], ax
+f4e:0832       mov word ptr es:[di - 0x7670], ax
+f4e:0837       mov word ptr es:[di - 0x76c0], ax
+f4e:083c       mov word ptr es:[di - 0x7710], ax
+f4e:0841       mov word ptr es:[di - 0x7760], ax
+f4e:0846       mov word ptr es:[di - 0x77b0], dx
+f4e:084b       mov word ptr es:[di - 0x7800], dx
+f4e:0850               pop di
+f4e:0851               pop cx
+f4e:0852           add di, 2
+f4e:0855               dec cx
+f4e:0856             je 0x85d
+f4e:0858               nop 
+f4e:0859               nop 
+f4e:085a           jmp 0xbb
+f4e:085d               ret 
+f4e:085e               push ax
+f4e:085f           call 0xa4c
+f4e:0862               pop ax
+f4e:0863               push si
+f4e:0864               push cx
+f4e:0865               push bx
+f4e:0866             mov bl, al
+f4e:0868           mov dx, 0x3c8
+f4e:086b             xor al, al
+f4e:086d               out dx, al
+f4e:086e               inc dx
+f4e:086f           mov cx, 0x30
+f4e:0872               lodsb al, byte ptr [si]
+f4e:0873             mul bl
+f4e:0875           shr ax, 6
+f4e:0878               out dx, al
+f4e:0879             loop 0x872
+f4e:087b             xor al, al
+f4e:087d               out dx, al
+f4e:087e               out dx, al
+f4e:087f               out dx, al
+f4e:0880               pop bx
+f4e:0881               pop cx
+f4e:0882               pop si
+f4e:0883               ret 
+f4e:0884               push sp
+f4e:0885             add word ptr [bx + si], ax
+f4e:0887             add byte ptr [bx + si], al
+f4e:0889             add byte ptr [bx + si], al
+f4e:088b             add byte ptr [bx + si], al
+f4e:088d             add byte ptr [bx + si], al
+f4e:088f             add byte ptr [bx + si], al
+f4e:0891             add byte ptr [bx + si], al
+f4e:0893             add byte ptr [bx + si], al
+f4e:0895             add byte ptr [bx + si], al
+f4e:0897             add byte ptr [bx + si], al
+f4e:0899             add byte ptr [bx + si], al
+f4e:089b             add byte ptr [bx + si], al
+f4e:089d             add byte ptr [bx + si], al
+f4e:089f             add byte ptr [bx + si], al
+f4e:08a1             add byte ptr [bx + si], al
+f4e:08a3             add byte ptr [bx + si], al
+f4e:08a5             add byte ptr [bx + si], al
+f4e:08a7             add byte ptr [bx + si], al
+f4e:08a9             add byte ptr [bx + si], al
+f4e:08ab             add byte ptr [bx + si], al
+f4e:08ad             add byte ptr [bx + si], al
+f4e:08af             add byte ptr [bx + si], al
+f4e:08b1             add byte ptr [bx + si], al
+f4e:08b3             add byte ptr [bx + si], al
+f4e:08b5             add byte ptr [bx + si], al
+f4e:08b7             add byte ptr [bx + si], al
+f4e:08b9             add byte ptr [bx + si], al
+f4e:08bb             add byte ptr [bx + si], al
+f4e:08bd             add byte ptr [bx + si], al
+f4e:08bf             add byte ptr [bx + si], al
+f4e:08c1             add byte ptr [bx + si], al
+f4e:08c3             add byte ptr [bx + si], al
+f4e:08c5             add byte ptr [bx + si], al
+f4e:08c7             add byte ptr [bx + si], al
+f4e:08c9             add byte ptr [bx + si], al
+f4e:08cb             add byte ptr [bx + si], al
+f4e:08cd             add byte ptr [bx + si], al
+f4e:08cf             add byte ptr [bx + si], al
+f4e:08d1             add byte ptr [bx + si], al
+f4e:08d3             add byte ptr [bx + si], al
+f4e:08d5             add byte ptr [bx + si], al
+f4e:08d7             add byte ptr [bx + si], al
+f4e:08d9             add byte ptr [bx + si], al
+f4e:08db             add byte ptr [bx + si], al
+f4e:08dd             add byte ptr [bx + si], al
+f4e:08df             add byte ptr [bx + si], al
+f4e:08e1             add byte ptr [bx + si], al
+f4e:08e3             add byte ptr [bx + si], al
+f4e:08e5             add byte ptr [bx + si], al
+f4e:08e7             add byte ptr [bx + si], al
+f4e:08e9             add byte ptr [bx + si], al
+f4e:08eb             add byte ptr [bx + si], al
+f4e:08ed             add byte ptr [bx + si], al
+f4e:08ef             add byte ptr [bx + si], al
+f4e:08f1             add byte ptr [bx + si], al
+f4e:08f3             add byte ptr [bx + si], al
+f4e:08f5             add byte ptr [bx + si], al
+f4e:08f7             add byte ptr [bx + si], al
+f4e:08f9             add byte ptr [bx + si], al
+f4e:08fb             add byte ptr [bx + si], al
+f4e:08fd             add byte ptr [bx + si], al
+f4e:08ff             add byte ptr [bx + si], al
+f4e:0901             add byte ptr [bx + si], al
+f4e:0903             add byte ptr [bx + si], al
+f4e:0905             add byte ptr [bx + si], al
+f4e:0907             add byte ptr [bx + si], al
+f4e:0909             add byte ptr [bx + si], al
+f4e:090b             add byte ptr [bx + si], al
+f4e:090d             add byte ptr [bx + si], al
+f4e:090f             add byte ptr [bx + si], al
+f4e:0911             add byte ptr [bx + si], al
+f4e:0913             add byte ptr [bx + si], al
+f4e:0915             add byte ptr [bx + si], al
+f4e:0917             add byte ptr [bx + si], al
+f4e:0919             add byte ptr [bx + si], al
+f4e:091b             add byte ptr [bx + si], al
+f4e:091d             add byte ptr [bx + si], al
+f4e:091f             add byte ptr [bx + si], al
+f4e:0921             add byte ptr [bx + si], al
+f4e:0923             add byte ptr [bx + di], bl
+f4e:0925               cld 
+f4e:0926             sbb sp, di
+f4e:0928             sbb sp, di
+f4e:092a             sbb sp, di
+f4e:092c             sbb sp, di
+f4e:092e             sbb sp, di
+f4e:0930             sbb sp, di
+f4e:0932             sbb sp, di
+f4e:0934             sbb sp, di
+f4e:0936             sbb sp, di
+f4e:0938             sbb sp, di
+f4e:093a             sbb sp, di
+f4e:093c             sbb sp, di
+f4e:093e             sbb sp, di
+f4e:0940             sbb sp, di
+f4e:0942             sbb sp, di
+f4e:0944             sbb sp, di
+f4e:0946             sbb sp, di
+f4e:0948             sbb sp, di
+f4e:094a             sbb sp, di
+f4e:094c             sbb sp, di
+f4e:094e             sbb sp, di
+f4e:0950             sbb sp, di
+f4e:0952             sbb sp, di
+f4e:0954             sbb sp, di
+f4e:0956             sbb sp, di
+f4e:0958             sbb sp, di
+f4e:095a             sbb sp, di
+f4e:095c             sbb sp, di
+f4e:095e             sbb sp, di
+f4e:0960             sbb sp, di
+f4e:0962             sbb sp, di
+f4e:0964             sbb sp, di
+f4e:0966             sbb sp, di
+f4e:0968             sbb sp, di
+f4e:096a             sbb sp, di
+f4e:096c             sbb sp, di
+f4e:096e             sbb sp, di
+f4e:0970             add byte ptr [bx + si], al
+f4e:0972             add byte ptr [bx + si], al
+f4e:0974             add byte ptr [bx + si], al
+f4e:0976             add byte ptr [bx + si], al
+f4e:0978             add byte ptr [bx + si], al
+f4e:097a             add byte ptr [bx + si], al
+f4e:097c             add byte ptr [bx + si], al
+f4e:097e             add byte ptr [bx + si], al
+f4e:0980             add byte ptr [bx + si], al
+f4e:0982             add byte ptr [bx + si], al
+f4e:0984             add byte ptr [bx + si], al
+f4e:0986             add byte ptr [bx + si], al
+f4e:0988             add byte ptr [bx + si], al
+f4e:098a             add byte ptr [bx + si], al
+f4e:098c             add byte ptr [bx + si], al
+f4e:098e             add byte ptr [bx + si], al
+f4e:0990             add byte ptr [bx + si], al
+f4e:0992             add byte ptr [bx + si], al
+f4e:0994             add byte ptr [bx + si], al
+f4e:0996             add byte ptr [bx + si], al
+f4e:0998             add byte ptr [bx + si], al
+f4e:099a             add byte ptr [bx + si], al
+f4e:099c             add byte ptr [bx + si], al
+f4e:099e             add byte ptr [bx + si], al
+f4e:09a0             add byte ptr [bx + si], al
+f4e:09a2             add byte ptr [bx + si], al
+f4e:09a4             add byte ptr [bx + si], al
+f4e:09a6             add byte ptr [bx + si], al
+f4e:09a8             add byte ptr [bx + si], al
+f4e:09aa             add byte ptr [bx + si], al
+f4e:09ac             add byte ptr [bx + si], al
+f4e:09ae             add byte ptr [bx + si], al
+f4e:09b0             add byte ptr [bx + si], al
+f4e:09b2             add byte ptr [bx + si], al
+f4e:09b4             add byte ptr [bx + si], al
+f4e:09b6             add byte ptr [bx + si], al
+f4e:09b8             add byte ptr [bx + si], al
+f4e:09ba             add byte ptr [bx + si], al
+f4e:09bc               db
+f4e:09bd             inc word ptr [bx + di]
+f4e:09bf             add al, byte ptr [bp + di]
+f4e:09c1             add al, 5
+f4e:09c3               push es
+f4e:09c4               pop es
+f4e:09c5               push es
+f4e:09c6           add ax, 0x304
+f4e:09c9             add al, byte ptr [bx + di]
+f4e:09cb             add al, byte ptr [bp + di]
+f4e:09cd             add al, 5
+f4e:09cf               push es
+f4e:09d0               pop es
+f4e:09d1               push es
+f4e:09d2           add ax, 0x304
+f4e:09d5             add al, byte ptr [bx + di]
+f4e:09d7             add al, byte ptr [bp + di]
+f4e:09d9             add al, 5
+f4e:09db               push es
+f4e:09dc               pop es
+f4e:09dd               push es
+f4e:09de           add ax, 0x304
+f4e:09e1             add al, byte ptr [bx + di]
+f4e:09e3             add al, byte ptr [bp + di]
+f4e:09e5             add al, 5
+f4e:09e7               push es
+f4e:09e8               pop es
+f4e:09e9               push es
+f4e:09ea           add ax, 0x304
+f4e:09ed         add dh, byte ptr [bx + si - 0x1950]
+f4e:09f1               inc bx
+f4e:09f2           mov cx, 2
+f4e:09f5             jmp 0x9f8
+f4e:09f7               nop 
+f4e:09f8             loop 0x9f5
+f4e:09fa           mov ax, 0xffff
+f4e:09fd             out 0x42, al
+f4e:09ff           mov cx, 2
+f4e:0a02             jmp 0xa05
+f4e:0a04               nop 
+f4e:0a05             loop 0xa02
+f4e:0a07             mov al, ah
+f4e:0a09             out 0x42, al
+f4e:0a0b           mov cx, 2
+f4e:0a0e             jmp 0xa11
+f4e:0a10               nop 
+f4e:0a11             loop 0xa0e
+f4e:0a13               ret 
+f4e:0a14             mov al, 0x80
+f4e:0a16             out 0x43, al
+f4e:0a18           mov cx, 2
+f4e:0a1b             jmp 0xa1e
+f4e:0a1d               nop 
+f4e:0a1e             loop 0xa1b
+f4e:0a20             in al, 0x42
+f4e:0a22             mov dl, al
+f4e:0a24           mov cx, 2
+f4e:0a27             jmp 0xa2a
+f4e:0a29               nop 
+f4e:0a2a             loop 0xa27
+f4e:0a2c             in al, 0x42
+f4e:0a2e             mov dh, al
+f4e:0a30           mov cx, 2
+f4e:0a33             jmp 0xa36
+f4e:0a35               nop 
+f4e:0a36             loop 0xa33
+f4e:0a38             mov ax, dx
+f4e:0a3a               ret 
+f4e:0a3b           mov dx, 0x3da
+f4e:0a3e               in al, dx
+f4e:0a3f           mov dx, 0x3c0
+f4e:0a42             mov al, 0x11
+f4e:0a44               out dx, al
+f4e:0a45             mov al, ah
+f4e:0a47               out dx, al
+f4e:0a48             mov al, 0x20
+f4e:0a4a               out dx, al
+f4e:0a4b               ret 
+f4e:0a4c           mov dx, 0x3da
+f4e:0a4f               in al, dx
+f4e:0a50             test al, 8
+f4e:0a52             jne 0xa4f
+f4e:0a54           call 0x9ee
+f4e:0a57           call 0xa14
+f4e:0a5a           cmp ax, 0x9c40
+f4e:0a5d             jb 0xa69
+f4e:0a5f               nop 
+f4e:0a60               nop 
+f4e:0a61           mov dx, 0x3da
+f4e:0a64               in al, dx
+f4e:0a65             test al, 8
+f4e:0a67             je 0xa57
+f4e:0a69               ret 
+f4e:0a6a             mov ax, cs
+f4e:0a6c             mov ds, ax
+f4e:0a6e           call 0xa4c
+f4e:0a71           mov ax, 0xa000
+f4e:0a74             mov es, ax
+f4e:0a76           mov cx, 0x26
+f4e:0a79             xor bp, bp
+f4e:0a7b           mov di, 2
+f4e:0a7e               push cx
+f4e:0a7f       mov ax, word ptr ds:[bp + 0x8d8]
+f4e:0a84           mov word ptr [0x888], ax
+f4e:0a87       mov ax, word ptr ds:[bp + 0x924]
+f4e:0a8c           cmp ax, 8
+f4e:0a8f             jle 0xa96
+f4e:0a91               nop 
+f4e:0a92               nop 
+f4e:0a93           mov ax, 8
+f4e:0a96           mov word ptr [0x88a], ax
+f4e:0a99               push di
+f4e:0a9a       mov ax, word ptr ds:[bp + 0x88c]
+f4e:0a9f           cmp ax, 0x186
+f4e:0aa2             jle 0xaa9
+f4e:0aa4               nop 
+f4e:0aa5               nop 
+f4e:0aa6           mov ax, 0x186
+f4e:0aa9           cmp ax, 6
+f4e:0aac             jge 0xab3
+f4e:0aae               nop 
+f4e:0aaf               nop 
+f4e:0ab0           mov ax, 6
+f4e:0ab3           add ax, 0x46
+f4e:0ab6           mov dx, 0x50
+f4e:0ab9             mul dx
+f4e:0abb             add di, ax
+f4e:0abd           mov dx, 0x3c4
+f4e:0ac0           mov ax, 0x702
+f4e:0ac3               out dx, ax
+f4e:0ac4             xor ax, ax
+f4e:0ac6           mov word ptr es:[di], ax
+f4e:0ac9         mov word ptr es:[di + 0x50], ax
+f4e:0acd       mov word ptr es:[di + 0xa0], ax
+f4e:0ad2       mov word ptr es:[di + 0xf0], ax
+f4e:0ad7       mov word ptr es:[di + 0x140], ax
+f4e:0adc       mov word ptr es:[di + 0x190], ax
+f4e:0ae1       mov word ptr es:[di + 0x1e0], ax
+f4e:0ae6       mov word ptr es:[di + 0x230], ax
+f4e:0aeb       mov word ptr es:[di + 0x280], ax
+f4e:0af0       mov word ptr es:[di + 0x2d0], ax
+f4e:0af5       mov word ptr es:[di + 0x320], ax
+f4e:0afa       mov word ptr es:[di + 0x370], ax
+f4e:0aff       mov word ptr es:[di + 0x3c0], ax
+f4e:0b04       mov word ptr es:[di + 0x410], ax
+f4e:0b09       mov word ptr es:[di + 0x460], ax
+f4e:0b0e               db
+f4e:0b0f               db
