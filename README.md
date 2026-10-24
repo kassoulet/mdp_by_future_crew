@@ -33,7 +33,7 @@ seek bar and one Modern / Old-school switch (sharp scaling + hi-fi sound, or exa
   (`tools/oracle.py`, `tools/tests/menu_vs_oracle.mjs`). The v1.1 menu and the playing screen's static parts match
   DOSBox-X captures with 0 differing pixels.
 - **Audio:** libopenmpt (WebAssembly). Hi-fi: sinc interpolation. Old-school: 22.05 kHz, no interpolation, 8-bit.
-- **Not exact:** the coloured note markers are rebuilt from pattern data (the original read STMIK's channel state), so
+- **Not exact:** in Modern mode the markers are shifted up (3 octaves, no pile-up on the bottom row); Old-school keeps the original placement. The coloured note markers are rebuilt from pattern data (the original read STMIK's channel state), so
   slides and vibrato do not move them. The progress bar and positions come from libopenmpt.
 
 ## Layout

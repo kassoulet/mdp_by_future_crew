@@ -148,6 +148,7 @@ async function playScreen(scr, player, L, data, v11, ui) {
       else L.tracker.row(q.pattern, q.row);
       last = key; lastPat = q.pattern; lastRow = q.row;
     }
+    p.pitchShift = scr.mode === 'sharp' ? 36 : 0;         // Modern: re-centre the markers; Old-school: original placement
     p.markers(key, L.tracker.ch);
     p.numbers(v11 ? [q.order, q.pattern, q.row, player.volume] : [q.order, q.pattern, q.row], v11);
     p.bar(Math.min(127, Math.trunc((q.order * 64 + q.row) / (Math.max(1, mod.nOrders) * 64) * 128)));
