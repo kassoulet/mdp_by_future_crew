@@ -25,7 +25,7 @@ export class Screen {
     this.clicks = []; this.wheel = 0;
     const pt = e => { const r = canvas.getBoundingClientRect(); return [(e.clientX - r.left) / r.width * 640, (e.clientY - r.top) / r.height * 480]; };
     canvas.addEventListener('pointerdown', e => { if (e.button !== 0) return; const [x, y] = pt(e); this.clicks.push({ x, y }); this.onGesture?.(); });
-    canvas.addEventListener('wheel', e => {
+    addEventListener('wheel', e => {                         // anywhere on the page, not only over the canvas
       e.preventDefault();
       this.wheel += e.deltaY * (e.deltaMode === 1 ? 40 : e.deltaMode === 2 ? 400 : 1);   // pixels; 40 px = one step
       this.wheelShift = e.shiftKey; this.wheel = Math.max(-200, Math.min(200, this.wheel));
