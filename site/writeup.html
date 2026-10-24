@@ -1,0 +1,66 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MDP write-up</title>
+<link rel="icon" href="data:,">
+<style>
+  :root { --bg: #2c4155; --fg: #e2e2ff; --hi: #9fffff; }
+  html, body { margin: 0; background: #000; color: var(--fg); font: 16px/1.5 monospace; }
+  main { max-width: 760px; margin: 0 auto; padding: 24px 16px 64px; }
+  h1, h2 { color: var(--hi); } h1 { font-size: 1.5em; } h2 { font-size: 1.15em; margin-top: 2em; }
+  pre { background: var(--bg); padding: 12px; overflow-x: auto; }
+  a { color: var(--hi); }
+</style>
+<main>
+<p><a href="./">&larr; back</a></p>
+<h1>How MDP was reversed and ported</h1>
+
+<h2>The program</h2>
+<p>MDP.EXE (Future Crew, 1993) is a Turbo Pascal program linked with STMIK, a Sound Blaster / Gravis driver
+library, plus two hand-written assembly units: one draws the menu, one draws the playing screen. v1.0 is
+LZEXE-packed, v1.1 adds volume and mono/stereo keys. The three discs share two executables.</p>
+
+<h2>Method</h2>
+<ol>
+<li>Unpack with unlzexe, disassemble with Capstone, find the units from the far-call targets.</li>
+<li>Build an <em>oracle</em>: the original machine code run in Unicorn with a planar VGA model, keyboard and DOS
+file stubs. Its frames are pixel-identical to DOSBox-X.</li>
+<li>Port a routine to JS, then compare planes, CRTC registers and DAC against the oracle on every vsync.
+The menu matches on all 455 frames of a scripted run. The playing screen's static parts match a DOSBox capture.</li>
+</ol>
+
+<h2>Tricks worth a look</h2>
+<h3>Colours are bit planes</h3>
+<p>Mode 12h has four bit planes. MDP never writes "a colour": it ORs (menu) or AND-clears (playing screen) glyph
+bits into <em>one</em> plane, and a palette made for that turns plane combinations into the look it wants. The
+header is colour 15 (all planes set); text is "plane c cleared", so a glyph costs one read-modify-write per row.
+Drop shadows are the same glyph OR-ed into plane 3, shifted two pixels and two rows.</p>
+<h3>Sub-byte glyph placement with SHRD</h3>
+<pre>mov  ax, [si]        ; 16-bit glyph row
+xor  dh, dh
+shrd dx, ax, cl      ; bits pushed off the right edge land in DH
+...                  ; shr ax,cl ; xchg ah,al ; or [es:di],ax ; or [es:di+2],dh</pre>
+<p>One <code>shrd</code> produces the spill byte of a glyph at any x offset, so a row is a word store plus a byte store.</p>
+<h3>Smooth menu scrolling with the CRTC</h3>
+<p>The menu lives in a 512x1024 virtual screen (CRTC offset 32, start address = y*64). Scrolling changes the start
+address; when the window would run past the end of video memory, the line compare register (0x18 plus bit 8 in
+register 7 and bit 9 in register 9) restarts the display at address 0, so the page wraps for free. The scroll speed
+ramps up in the first half of the move and down in the second.</p>
+<h3>Unrolled row fills</h3>
+<p>A highlight row is 32 word stores in a row, no loop: 64 bytes at 512 pixels. The marker grid is a 386-store unrolled
+column drawn 39 times.</p>
+<h3>A bug kept on purpose</h3>
+<p>The note quantiser has <code>cmp ax,0x3d60</code> where the table logically wants 0x5d60. It only matters for notes
+that fall between two semitone boundaries, so the port keeps it.</p>
+
+<h2>Audio</h2>
+<p>The original mixes with STMIK. The port renders with libopenmpt (WebAssembly, in an AudioWorklet). Hi-fi mode uses
+windowed-sinc interpolation at the browser rate. Old-school mode renders without interpolation at 22.05 kHz, quantises
+to 8 bits and holds samples, close to a Sound Blaster Pro.</p>
+<p>The coloured markers on the playing screen come from STMIK's internal channel state, which libopenmpt does not
+expose. The port rebuilds instrument, volume and pitch from the pattern data row by row, so portamento and vibrato do
+not move the markers.</p>
+
+<h2>Credits</h2>
+<p>MDP and the music: Future Crew (Purple Motion, Skaven). STMIK: Sami Tammilehto. libopenmpt: OpenMPT project.</p>
+</main>

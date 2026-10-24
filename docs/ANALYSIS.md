@@ -28,3 +28,10 @@
 2. Port menu (MDI parser, scroll) and play screen (header, progress bar, channel grid).
 3. Audio: libopenmpt worklet (hi-fi) + "old-school" mode; pause + seek.
 4. Site: launcher menu (Journey I / II / Chaotic Mind), write-up, GitHub Pages deploy.
+
+## Update: what the screens turned out to be
+- Menu: unit 0x314, entry 4e1c. 512x1024 virtual screen, CRTC scroll + line compare, text via the shared glyph engine.
+- Playing screen: header and bar in the main program (0:2246, 0:20ba); markers in unit 0xf4e (init 0x78, per frame 0xa6a).
+  38 columns indexed by (instrument-1) mod 38, y from the channel period, size from volume, decay one step per frame.
+- Pitch input of the marker quantiser is 16 x the ST3 period (C-4 at 8363 Hz = 27392).
+- Ports verified: menu vs oracle (every frame), static play screen vs DOSBox-X (header/grid exact).
