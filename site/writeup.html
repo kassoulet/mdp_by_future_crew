@@ -50,8 +50,8 @@ ramps up in the first half of the move and down in the second.</p>
 <p>A highlight row is 32 word stores in a row, no loop: 64 bytes at 512 pixels. The marker grid is a 386-store unrolled
 column drawn 39 times.</p>
 <h3>A bug kept on purpose</h3>
-<p>The note quantiser has <code>cmp ax,0x3d60</code> where the table logically wants 0x5d60. It only matters for notes
-that fall between two semitone boundaries, so the port keeps it.</p>
+<p>The note quantiser has <code>cmp ax,0x3d60</code> where the table logically wants 0x5d60. With it, the note whose scaled period falls in 0x5760..0x5d60 is drawn one
+semitone off in every octave. The port keeps it.</p>
 
 <h2>Audio</h2>
 <p>The original mixes with STMIK. The port renders with libopenmpt (WebAssembly, in an AudioWorklet). Hi-fi mode uses
