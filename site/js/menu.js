@@ -1,58 +1,22 @@
 // Port of the MDP menu routine (unit seg 0x314, entry 4e1c). Variable names follow the asm
 // variables at cs:28xx; comments give the original addresses.
-const FONT_A = 0x28ac, FONT_B = 0x369c, PAL = 0x4334, BASE = 0x28ac;
-const u8 = (d, o) => d[o - BASE], u16 = (d, o) => d[o - BASE] | d[o - BASE + 1] << 8;
+import { TextEngine, FONT_A, FONT_B, u8, u16 } from './text.js';
+const PAL = 0x4334;
 const s16 = v => (v << 16) >> 16;
 
-export class Menu {
+export class Menu extends TextEngine {
   // data: Uint8Array of assets/menu_data.bin, mdi: Uint8Array of MDP.MDI,
   // env: { vsync(): Promise, key(): scancode|0 (non-blocking, int16 style), vga }
   constructor(data, mdi, env) {
-    this.d = data; this.mdi = mdi; this.env = env; this.vga = env.vga;
+    super(data, env.vga);
+    this.mdi = mdi; this.env = env;
     this.buf = new Uint8Array(0x2800 + 4);
     this.ent = new Array(50).fill(0);
     this.cur = 0; this.count = 0;
-    this.x = 0; this.y = 0; this.font = 0; this.col = 0; this.shadow = 1; this.stride = 0x40;
-    this.rowTab = new Uint16Array(0x400);
+    this.shadow = 1; this.stride = 0x40;
     this.rect0 = 0; this.rect1 = 0;
     this.scroll = 0; this.clipLo = 0; this.clipHi = 0; this.clipLo2 = 0; this.clipHi2 = 0;
     this.pgUp = 0; this.pgDn = 0; this.lastWords = 0; this.tgt = 0; this.mid = 0; this.just = 0; this.spaces = 0;
-  }
-  setFont(f) { this.font = f; }                                   // 4414
-  setColor(c) { this.col = c; }                                   // 4418 (plane mask = 1<<c)
-  adv(ch) {                                                       // 4425
-    if (ch === 0x40) return 0;
-    const si = this.font, d = this.d; if (!si) return 0;
-    const b = ch - u16(d, si + 2);
-    if (b < 0 || ch > u16(d, si + 4)) return u16(d, si + 6);
-    return u16(d, si + b * 4 + 0xa) || u16(d, si + 6);
-  }
-  drawChar(ch) {                                                  // 445b
-    if (ch === 0x40) { this.setColor(this.col ^ 1); return; }
-    const si = this.font, d = this.d; if (!si) return;
-    const b = ch - u16(d, si + 2);
-    if (b < 0 || ch > u16(d, si + 4)) { this.x += u16(d, si + 6); return; }
-    const h = u8(d, si), adv = u16(d, si + b * 4 + 0xa);
-    if (!adv) { this.x += u16(d, si + 6); return; }
-    const g = (si + u16(d, si + b * 4 + 8)) & 0xffff;
-    let di = this.rowTab[this.y & 0x3ff];
-    const x = this.x & 0xffff; this.x = (x + adv) & 0xffff;
-    di = (di + (x >> 3)) & 0xffff; const cl = x & 7;
-    this.blit(this.vga.planes[this.col], g, h, di, cl, false);
-    if (this.shadow) {
-      let c2 = cl + 2, d2 = di; if (c2 & 8) d2++;
-      this.blit(this.vga.planes[3], g, h, (d2 + 2 * this.stride) & 0xffff, c2 & 7, false);
-    }
-  }
-  blit(pl, g, h, di, cl, erase) {
-    const d = this.d, st = this.stride;
-    for (let r = 0; r < h; r++, di = (di + st) & 0xffff) {
-      const v = (u16(d, g + 2 * r) << 8) >> cl;
-      const b0 = v >> 16 & 255, b1 = v >> 8 & 255, b2 = v & 255;
-      const i1 = (di + 1) & 0xffff, i2 = (di + 2) & 0xffff;
-      if (erase) { pl[di] &= ~b0; pl[i1] &= ~b1; pl[i2] &= ~b2; }
-      else { pl[di] |= b0; pl[i1] |= b1; pl[i2] |= b2; }
-    }
   }
   // 4557: width of the run of chars >= 0x20 at bx, and number of spaces
   measure(bx) {

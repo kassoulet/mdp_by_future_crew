@@ -2,14 +2,48 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>MDP</title>
+<link rel="icon" href="data:,">
 <style>
-  html, body { margin: 0; height: 100%; background: #000; }
-  body { display: grid; place-items: center; }
+  :root { --bg: #2c4155; --fg: #e2e2ff; --dim: #7a9ab8; --hi: #9fffff; }
+  html, body { margin: 0; height: 100%; background: #000; color: var(--fg); font: 14px monospace; }
+  body { display: grid; grid-template-rows: 1fr auto; justify-items: center; align-items: center; }
   canvas { image-rendering: pixelated; }
+  #bar { display: flex; gap: 12px; align-items: center; padding: 8px 16px; width: min(640px, 100%); box-sizing: border-box; background: var(--bg); }
+  #bar button, #bar select { font: inherit; background: #000; color: var(--fg); border: 1px solid var(--dim); padding: 2px 8px; }
+  #bar button:focus-visible, #bar select:focus-visible, #seek:focus-visible { outline: 2px solid var(--hi); }
+  #seek { flex: 1; min-width: 0; accent-color: var(--hi); }
+  #time { min-width: 6.5em; text-align: right; color: var(--dim); }
 </style>
 <canvas id="c" width="640" height="480"></canvas>
+<div id="bar">
+  <button id="pp" title="Pause / resume (Space)">Pause</button>
+  <input id="seek" type="range" min="0" max="1" step="0.1" value="0" aria-label="Seek" disabled>
+  <span id="time">0:00 / 0:00</span>
+  <select id="mode" aria-label="Sound mode"><option value="hifi">Hi-fi</option><option value="oldschool">Old-school</option></select>
+</div>
 <script type="module">
   import { runDisc } from './js/app.js';
   const d = new URLSearchParams(location.search).get('d') || 'journey1';
-  runDisc(document.getElementById('c'), d).then(r => { location.href = './'; });
+  const $ = id => document.getElementById(id), fmt = s => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
+  let player, dragging = false;
+  $('pp').onclick = () => { player?.pause(); $('pp').blur(); };
+  $('seek').oninput = e => { dragging = true; player?.seek(+e.target.value); };
+  $('seek').onchange = () => { dragging = false; };
+  $('mode').onchange = e => player?.setMode(e.target.value);
+  const ui = {
+    attach(p) { player = p; },
+    title(t) { document.title = t + ' - MDP'; },
+    update(pos, p) {
+      $('seek').disabled = !p.duration; $('seek').max = p.duration;
+      if (!dragging) $('seek').value = pos.sec;
+      $('time').textContent = `${fmt(pos.sec)} / ${fmt(p.duration)}`;
+      $('pp').textContent = p.paused ? 'Play' : 'Pause';
+    },
+  };
+  const fit = () => {
+    const s = Math.max(1, Math.floor(Math.min(innerWidth / 640, (innerHeight - 48) / 480)));
+    $('c').style.width = 640 * s + 'px'; $('c').style.height = 480 * s + 'px';
+  };
+  addEventListener('resize', fit); fit();
+  runDisc($('c'), d, ui).then(() => { location.href = './'; });
 </script>
