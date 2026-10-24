@@ -19,8 +19,7 @@
   <button id="pp" title="Pause / resume (Space)">Pause</button>
   <input id="seek" type="range" min="0" max="1" step="0.1" value="0" aria-label="Seek" disabled>
   <span id="time">0:00 / 0:00</span>
-  <select id="scale" aria-label="Scaling"><option value="sharp">Sharp</option><option value="integer">Pixel</option></select>
-  <select id="mode" aria-label="Sound mode"><option value="hifi">Hi-fi</option><option value="oldschool">Old-school</option></select>
+  <select id="style" aria-label="Rendering and sound style" title="Modern: sharp scaling + hi-fi sound. Old-school: exact pixels + 22 kHz 8-bit sound."><option value="modern">Modern</option><option value="oldschool">Old-school</option></select>
 </div>
 <script type="module">
   import { runDisc } from './js/app.js';
@@ -30,10 +29,9 @@
   $('pp').onclick = () => { player?.pause(); $('pp').blur(); };
   $('seek').oninput = e => { dragging = true; player?.seek(+e.target.value); };
   $('seek').onchange = () => { dragging = false; };
-  $('mode').onchange = e => player?.setMode(e.target.value);
   const ui = {
-    attach(p) { player = p; },
-    screen(s) { scr = s; },
+    attach(p) { player = p; p.setMode(style.value === 'modern' ? 'hifi' : 'oldschool'); },
+    screen(s) { scr = s; scr.setMode(style.value === 'modern' ? 'sharp' : 'integer'); },
     avail: () => [innerWidth, innerHeight - $('bar').offsetHeight],
     title(t) { document.title = t + ' - MDP'; },
     update(pos, p) {
@@ -43,7 +41,9 @@
       $('pp').textContent = p.paused ? 'Play' : 'Pause';
     },
   };
-  const scale = $('scale'); try { scale.value = localStorage.getItem('mdp-scale') || 'sharp'; } catch {}
-  scale.onchange = e => { scr?.setMode(e.target.value); scale.blur(); };
+  const style = $('style');
+  const apply = v => { scr?.setMode(v === 'modern' ? 'sharp' : 'integer'); player?.setMode(v === 'modern' ? 'hifi' : 'oldschool'); };
+  try { style.value = localStorage.getItem('mdp-style') || 'modern'; } catch {}
+  style.onchange = e => { try { localStorage.setItem('mdp-style', e.target.value); } catch {} apply(e.target.value); style.blur(); };
   runDisc($('c'), d, ui).then(() => { location.href = './'; });
 </script>

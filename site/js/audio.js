@@ -1,6 +1,6 @@
 // Main-thread side of the player: Web Audio graph, load / pause / seek, position feed.
 export class Player {
-  constructor() { this.ctx = null; this.pos = { sec: 0, order: 0, pattern: 0, row: 0 }; this.duration = 0; this.paused = false; this.volume = 64; this.gain = null; }
+  constructor() { this.ctx = null; this.pos = { sec: 0, order: 0, pattern: 0, row: 0 }; this.duration = 0; this.paused = false; this.volume = 64; this.gain = null; this.mode = 'hifi'; }
   async ensure() {
     if (!this.ctx) {
       this.ctx = new AudioContext({ latencyHint: 'interactive' });
@@ -8,6 +8,7 @@ export class Player {
         this.node = new AudioWorkletNode(this.ctx, 'mdp-player', { numberOfInputs: 0, outputChannelCount: [2] });
         this.gain = this.ctx.createGain(); this.node.connect(this.gain).connect(this.ctx.destination);
         this.node.port.onmessage = e => this.onMsg(e.data);
+        this.node.port.postMessage({ cmd: 'mode', val: this.mode });
         this.setVolume(this.volume);
       });
     }
