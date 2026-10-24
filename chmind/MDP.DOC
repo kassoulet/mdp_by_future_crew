@@ -1,0 +1,199 @@
+MusicDiscPlayer V1.1   Copyright (C) 1993 Future Crew
+컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴
+
+Contents:
+1    Using MusicDiscPlayer
+2    Supported music file formats
+3.1  Creating your own music disc
+3.2  Why we released a modifiable music disc
+3.3  Description of the MDP.MDI file format
+3.4  Example of an MDP.MDI file
+4.1  When will Scream Tracker 3 be released
+4.2  For more information
+5    MusicDiscPlayer V1.1 What's new?
+
+컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴
+1    Using MusicDiscPlayer
+컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴
+
+There are two modes of usage. 
+1. Player mode
+2. Music disc mode
+
+The former, player mode is engaged by entering
+	MDP <filename>
+This will load the selected file and start playing. You'll find the
+list of keys to change orders and quit from the top of the screen.
+
+The latter mode is executed by just writing
+	MDP
+In this mode the MusicDiscPlayer will look for the file MDP.MDI in
+the current directory. If it's found, a menu described in it is
+displayed. From this menu one can select with arrows and enter
+the song to be played. After the song is selected the MDP changes
+to playing mode. You can get back to menu and vice versa with ESC.
+Other keys are as in player mode.
+
+Normally MDP automatically detects the soudncard you are using. It
+first looks for Gravis Ultrasound and then for SoundBlaster Pro or
+a normal Blaster. If you want to override this default search, you
+can use command line parameters. Execute
+	MDP -?
+for list of available command line options.
+
+컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴
+2    Supported music file formats
+컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴
+
+MusicDiscPlayer supports:
+- Protracker modules (.MOD)
+- Scream Tracker 2.x modules (.STM)
+- Scream Tracker 3.0 modules (.S3M)
+- FastTracker modules (.MOD)
+
+It's not possible to say that these formats are fully supported, since
+every player plays modules a bit differently. However, in practice there
+seem to be no major differences to other players, so you should be able
+to trust that MDP plays your modules 'correctly'.
+
+컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴
+3.1  Creating your own music disc
+컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴
+
+You can freely use the MusicDiskPlayer to publish 
+your own musics. To do this, just follow these simple steps:
+
+- unzip (or copy) the music disk to an empty directory
+- remove all modules from the directory
+- put in your own modules
+- edit the MDP.MDI file to contain the list and description 
+  of your modules and title of the music disk (see below).
+- change the FILE_ID.DIZ and README files to describe the
+  music collection you are publishing.
+- zip the whole thing, and you have a simple music disk!
+- NOTE that we'd really appreciate if you left this file
+  intact, so that people receiving your music disc can
+  also modify it just like you did.
+
+컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴
+3.2  Why we released a modifiable music disc
+컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴
+
+Why did we publish a music disk in this remodifiable form?
+Well, since we think there are many musicians out there who 
+can make great modules but don't have the resources to compile
+a music disk, we though we should give them a chance to get 
+their music distributed in a simple package. This music disk
+system is clearly nothing spectacular, but it is practical
+and easy to use (well, should be). We hope you find the
+MusicDiskPlayer useful.
+
+컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴
+3.3  Description of the MDP.MDI file format
+컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴
+
+In practice the example following this description is most 
+useful. Remember that experimenting is never (well, hardly
+ever) dangerous...
+
+In the beginning of the file, there should be the title of
+the music disk. It can span multiple rows and is automatically
+centered in big letters to the beginning of the menu. 
+
+After the title, all the modules to appear in the menu are
+listed in the following format:
+	#<full filename of the module>
+	<name of the tune>
+	<author of the tune>
+	<description of the module>
+That is, the first row of the module description contains
+a '#' directly followed by the file name. The next row
+contains the name of the tune (displayed in big letters).
+On following row there should be the name of the author,
+which is displayed on the same row as the name of the
+tune. After the author there can be a few lines (1..6)
+of description for the module.
+
+The module list is terminated with ## alone on a line. After
+the module list, there are still the last words, which are
+displayed under the list with centered text. Normally these
+describe the keys to exit the menu. The last line terminating
+the last words should contain a #.
+
+Note that there should be no extra spaces at end of rows. 
+If you want to make an empty row, put at least one space
+on the row. Otherwise you'll get strange results! Note 
+also that you can't make the title or last words too 
+high, since they won't be fully displayed if they are
+too big.
+
+You can also justify the text in the description. You can
+do this by prefixing the lines you want justified with
+'$' chars.
+
+There is also a possibility to change color to emphasize
+words. If you put a '@' char to the text, it flips the 
+color between cyan and white.
+
+IMPORTANT: There are some limitations with the number of lines
+of text etc. The most important are listed here, and if the menu 
+behaves strangely you have probably overflown some of these.
+- maximum size of the MDP.MDI file is 8K
+- maximum number of musics is 50
+- maximum number of description lines is 6. (If you want longer
+  stories, put them in a modules.txt file etc.)
+- there are no overflow checks for text, so if you try to write 
+  too long lines, they'll mess up in the screen
+Generally to check on these, just run the music disk. If it works
+ok, it works ok. If not, there is something wrong :-)
+
+컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴
+3.4  Example of an MDP.MDI file
+컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴
+
+This is a music disk by
+@Musician@ of @TheGroup@
+#MODULE1.MOD
+My first module
+Musician
+$This 4 channel module is my first production, and
+it sounds... well... ok...
+#MODULE2.MOD
+My second module
+Musician
+$Well, if you liked the first one, you'll surely
+$enjoy this, since I finally learned how to load
+more than one sample!
+##
+Press F10 to return to playing screen, ESC to exit.
+#
+
+컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴
+4.1  When will Scream Tracker 3 be released
+컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴
+
+Since we now released a player for Scream Tracker 3 modules, everyone
+is going to ask: When will ST3 really be out?
+The definite answer is that there is NO planned release date, and
+currently no work is done on ST3. Thus it will NOT be released in
+the near future. If it gets completed, you'll surely hear about it.
+
+컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴
+4.2. For more information
+컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴
+
+There is an accomplying file FCINFO13.TXT which contains information
+on the Future Crew, our productions and on how to contact us. There
+is also a list of frequently asked questions that's worth browsing.
+
+컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴
+5    MusicDiscPlayer V1.1 What's new?
+컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴
+
+- Removed screen flicker with slow machines (we don't have :)
+- Volume control (+/-)
+- Fixed some playing bugs
+- Fixed dosshell bug
+- Fixed some problems with special characters in modulename
+- S key to toggle mono/stereo
+

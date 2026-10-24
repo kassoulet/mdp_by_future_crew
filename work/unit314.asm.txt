@@ -1,0 +1,2324 @@
+314:445b cmp al, 0x40
+314:445d je 0x4544
+314:4461 mov bx, word ptr [0x286e]
+314:4465 mov si, word ptr [0x2802]
+314:4469 or si, si
+314:446b je 0x4543
+314:446f xor ah, ah
+314:4471 mov bx, ax
+314:4473 sub bx, word ptr [si + 2]
+314:4476 jb 0x454e
+314:447a cmp ax, word ptr [si + 4]
+314:447d ja 0x454e
+314:4481 shl bx, 2
+314:4484 mov ch, byte ptr [si]
+314:4486 mov dx, word ptr [bx + si + 0xa]
+314:4489 or dx, dx
+314:448b je 0x454e
+314:448f add si, word ptr [bx + si + 8]
+314:4492 mov di, word ptr [0x286e]
+314:4496 add di, di
+314:4498 and di, 0x7ff
+314:449c mov di, word ptr [di]
+314:44a0 mov ax, word ptr [0x286c]
+314:44a3 add dx, ax
+314:44a5 mov word ptr [0x286c], dx
+314:44a9 mov cl, al
+314:44ab shr ax, 3
+314:44ae add di, ax
+314:44b0 and cl, 7
+314:44b3 push es
+314:44b4 push cx
+314:44b5 push si
+314:44b6 push di
+314:44b7 mov es, word ptr [0x2898]
+314:44bb mov dx, 0x3c4
+314:44be mov ah, byte ptr [0x2870]
+314:44c2 mov al, 2
+314:44c4 out dx, ax
+314:44c5 mov dx, 0x3ce
+314:44c8 mov ah, byte ptr [0x2871]
+314:44cc mov al, 4
+314:44ce out dx, ax
+314:44cf mov ax, word ptr [si]
+314:44d1 xor dh, dh
+314:44d3 shrd dx, ax, cl
+314:44d6 or byte ptr es:[di + 2], dh
+314:44da add si, 2
+314:44dd shr ax, cl
+314:44df xchg ah, al
+314:44e1 or word ptr es:[di], ax
+314:44e4 add di, word ptr [0x2892]
+314:44e8 dec ch
+314:44ea jne 0x44cf
+314:44ec pop di
+314:44ed pop si
+314:44ee pop cx
+314:44ef cmp word ptr [0x2894], 0
+314:44f4 je 0x4542
+314:44f6 nop 
+314:44f7 nop 
+314:44f8 add cl, 2
+314:44fb test cl, 8
+314:44fe je 0x4503
+314:4500 nop 
+314:4501 nop 
+314:4502 inc di
+314:4503 and cl, 7
+314:4506 mov ax, word ptr [0x2892]
+314:4509 add ax, ax
+314:450b add di, ax
+314:450d push cx
+314:450e push si
+314:450f push di
+314:4510 mov es, word ptr [0x2898]
+314:4514 mov dx, 0x3c4
+314:4517 mov ax, 0x802
+314:451a out dx, ax
+314:451b mov dx, 0x3ce
+314:451e mov ax, 0x304
+314:4521 out dx, ax
+314:4522 mov ax, word ptr [si]
+314:4524 xor dh, dh
+314:4526 shrd dx, ax, cl
+314:4529 or byte ptr es:[di + 2], dh
+314:452d add si, 2
+314:4530 shr ax, cl
+314:4532 xchg ah, al
+314:4534 or word ptr es:[di], ax
+314:4537 add di, word ptr [0x2892]
+314:453b dec ch
+314:453d jne 0x4522
+314:453f pop di
+314:4540 pop si
+314:4541 pop cx
+314:4542 pop es
+314:4543 ret 
+314:4544 mov al, byte ptr cs:[0x2871]
+314:4548 xor al, 1
+314:454a call 0x4418
+314:454d ret 
+314:454e mov ax, word ptr [si + 6]
+314:4551 add word ptr [0x286c], ax
+314:4555 jmp 0x4543
+314:4557 xor dx, dx
+314:4559 xor cx, cx
+314:455b mov al, byte ptr [bx]
+314:455d cmp al, 0x20
+314:455f jne 0x4564
+314:4561 nop 
+314:4562 nop 
+314:4563 inc cx
+314:4564 cmp al, 0x20
+314:4566 jb 0x4578
+314:4568 nop 
+314:4569 nop 
+314:456a push cx
+314:456b push dx
+314:456c push bx
+314:456d call 0x4425
+314:4570 pop bx
+314:4571 pop dx
+314:4572 pop cx
+314:4573 add dx, ax
+314:4575 inc bx
+314:4576 jmp 0x455b
+314:4578 mov ax, dx
+314:457a ret 
+314:457b xor dx, dx
+314:457d xor cx, cx
+314:457f mov al, byte ptr fs:[bx]
+314:4582 cmp al, 0x20
+314:4584 jne 0x4589
+314:4586 nop 
+314:4587 nop 
+314:4588 inc cx
+314:4589 cmp al, 0x20
+314:458b jb 0x459d
+314:458d nop 
+314:458e nop 
+314:458f push cx
+314:4590 push dx
+314:4591 push bx
+314:4592 call 0x4425
+314:4595 pop bx
+314:4596 pop dx
+314:4597 pop cx
+314:4598 add dx, ax
+314:459a inc bx
+314:459b jmp 0x457f
+314:459d mov ax, dx
+314:459f ret 
+314:45a0 push bx
+314:45a1 call 0x4557
+314:45a4 neg ax
+314:45a6 add ax, 0x200
+314:45a9 sar ax, 1
+314:45ab add word ptr [0x286c], ax
+314:45af pop bx
+314:45b0 jmp 0x463c
+314:45b3 push bx
+314:45b4 call 0x4557
+314:45b7 neg ax
+314:45b9 add ax, 0x1fc
+314:45bc mov word ptr [0x286c], ax
+314:45bf pop bx
+314:45c0 jmp 0x463c
+314:45c2 nop 
+314:45c3 mov al, byte ptr [bx]
+314:45c5 cmp al, 0x24
+314:45c7 jne 0x45ea
+314:45c9 nop 
+314:45ca nop 
+314:45cb inc bx
+314:45cc push bx
+314:45cd call 0x4557
+314:45d0 jcxz 0x45e9
+314:45d2 neg ax
+314:45d4 add ax, 0x1f8
+314:45d7 cmp ax, 0
+314:45da jle 0x45e9
+314:45dc nop 
+314:45dd nop 
+314:45de mov word ptr [0x287c], ax
+314:45e1 mov word ptr [0x287e], cx
+314:45e5 pop bx
+314:45e6 jmp 0x45ed
+314:45e8 nop 
+314:45e9 pop bx
+314:45ea jmp 0x463c
+314:45ec nop 
+314:45ed mov ax, word ptr [0x286e]
+314:45f0 mov dx, word ptr [0x2884]
+314:45f4 cmp ax, dx
+314:45f6 jl 0x4633
+314:45f8 nop 
+314:45f9 nop 
+314:45fa mov dx, word ptr [0x2886]
+314:45fe cmp ax, dx
+314:4600 jg 0x4633
+314:4602 nop 
+314:4603 nop 
+314:4604 mov al, byte ptr [bx]
+314:4606 cmp al, 0x20
+314:4608 jb 0x4632
+314:460a nop 
+314:460b nop 
+314:460c cmp al, 0x20
+314:460e jne 0x462a
+314:4610 nop 
+314:4611 nop 
+314:4612 mov ax, word ptr [0x287c]
+314:4615 xor dx, dx
+314:4617 div word ptr [0x287e]
+314:461b dec word ptr [0x287e]
+314:461f sub word ptr [0x287c], ax
+314:4623 add word ptr [0x286c], ax
+314:4627 mov ax, 0x20
+314:462a push bx
+314:462b call 0x445b
+314:462e pop bx
+314:462f inc bx
+314:4630 jmp 0x4604
+314:4632 ret 
+314:4633 mov al, byte ptr [bx]
+314:4635 cmp al, 0x20
+314:4637 jb 0x4632
+314:4639 inc bx
+314:463a jmp 0x4633
+314:463c mov ax, word ptr [0x286e]
+314:463f mov dx, word ptr [0x2884]
+314:4643 cmp ax, dx
+314:4645 jl 0x4664
+314:4647 nop 
+314:4648 nop 
+314:4649 mov dx, word ptr [0x2886]
+314:464d cmp ax, dx
+314:464f jg 0x4664
+314:4651 nop 
+314:4652 nop 
+314:4653 mov al, byte ptr [bx]
+314:4655 cmp al, 0x20
+314:4657 jb 0x4663
+314:4659 nop 
+314:465a nop 
+314:465b push bx
+314:465c call 0x445b
+314:465f pop bx
+314:4660 inc bx
+314:4661 jmp 0x4653
+314:4663 ret 
+314:4664 mov al, byte ptr [bx]
+314:4666 cmp al, 0x20
+314:4668 jb 0x4663
+314:466a inc bx
+314:466b jmp 0x4664
+314:466d cmp al, 0x40
+314:466f je 0x475a
+314:4673 mov bx, word ptr [0x286e]
+314:4677 mov si, word ptr [0x2802]
+314:467b or si, si
+314:467d je 0x4759
+314:4681 xor ah, ah
+314:4683 mov bx, ax
+314:4685 sub bx, word ptr [si + 2]
+314:4688 jb 0x4764
+314:468c cmp ax, word ptr [si + 4]
+314:468f ja 0x4764
+314:4693 shl bx, 2
+314:4696 mov ch, byte ptr [si]
+314:4698 mov dx, word ptr [bx + si + 0xa]
+314:469b or dx, dx
+314:469d je 0x4764
+314:46a1 add si, word ptr [bx + si + 8]
+314:46a4 mov di, word ptr [0x286e]
+314:46a8 add di, di
+314:46aa and di, 0x7ff
+314:46ae mov di, word ptr [di]
+314:46b2 mov ax, word ptr [0x286c]
+314:46b5 add dx, ax
+314:46b7 mov word ptr [0x286c], dx
+314:46bb mov cl, al
+314:46bd shr ax, 3
+314:46c0 add di, ax
+314:46c2 and cl, 7
+314:46c5 push es
+314:46c6 push cx
+314:46c7 push si
+314:46c8 push di
+314:46c9 mov es, word ptr [0x2898]
+314:46cd mov dx, 0x3c4
+314:46d0 mov ah, byte ptr [0x2870]
+314:46d4 mov al, 2
+314:46d6 out dx, ax
+314:46d7 mov dx, 0x3ce
+314:46da mov ah, byte ptr [0x2871]
+314:46de mov al, 4
+314:46e0 out dx, ax
+314:46e1 mov ax, word ptr [si]
+314:46e3 xor dh, dh
+314:46e5 shrd dx, ax, cl
+314:46e8 not dh
+314:46ea and byte ptr es:[di + 2], dh
+314:46ee add si, 2
+314:46f1 shr ax, cl
+314:46f3 xchg ah, al
+314:46f5 not ax
+314:46f7 and word ptr es:[di], ax
+314:46fa add di, word ptr [0x2892]
+314:46fe dec ch
+314:4700 jne 0x46e1
+314:4702 pop di
+314:4703 pop si
+314:4704 pop cx
+314:4705 cmp word ptr [0x2894], 0
+314:470a je 0x4758
+314:470c nop 
+314:470d nop 
+314:470e add cl, 2
+314:4711 test cl, 8
+314:4714 je 0x4719
+314:4716 nop 
+314:4717 nop 
+314:4718 inc di
+314:4719 and cl, 7
+314:471c mov ax, word ptr [0x2892]
+314:471f add ax, ax
+314:4721 add di, ax
+314:4723 push cx
+314:4724 push si
+314:4725 push di
+314:4726 mov es, word ptr [0x2898]
+314:472a mov dx, 0x3c4
+314:472d mov ax, 0x802
+314:4730 out dx, ax
+314:4731 mov dx, 0x3ce
+314:4734 mov ax, 0x304
+314:4737 out dx, ax
+314:4738 mov ax, word ptr [si]
+314:473a xor dh, dh
+314:473c shrd dx, ax, cl
+314:473f or byte ptr es:[di + 2], dh
+314:4743 add si, 2
+314:4746 shr ax, cl
+314:4748 xchg ah, al
+314:474a or word ptr es:[di], ax
+314:474d add di, word ptr [0x2892]
+314:4751 dec ch
+314:4753 jne 0x4738
+314:4755 pop di
+314:4756 pop si
+314:4757 pop cx
+314:4758 pop es
+314:4759 ret 
+314:475a mov al, byte ptr cs:[0x2871]
+314:475e xor al, 1
+314:4760 call 0x4418
+314:4763 ret 
+314:4764 mov ax, word ptr [si + 6]
+314:4767 add word ptr [0x286c], ax
+314:476b jmp 0x4759
+314:476d mov al, byte ptr fs:[bx]
+314:4770 cmp al, 0x20
+314:4772 jb 0x477e
+314:4774 nop 
+314:4775 nop 
+314:4776 push bx
+314:4777 call 0x466d
+314:477a pop bx
+314:477b inc bx
+314:477c jmp 0x476d
+314:477e ret 
+314:477f push bx
+314:4780 call 0x457b
+314:4783 sub word ptr [0x286c], ax
+314:4787 pop bx
+314:4788 jmp 0x476d
+314:478a push si
+314:478b mov si, word ptr [0x2802]
+314:478f or si, si
+314:4791 je 0x47a4
+314:4793 nop 
+314:4794 nop 
+314:4795 mov ax, word ptr [si]
+314:4797 add ax, 2
+314:479a add word ptr [0x286e], ax
+314:479e mov word ptr [0x286c], 0
+314:47a4 pop si
+314:47a5 ret 
+314:47a6 push si
+314:47a7 mov si, word ptr [0x2802]
+314:47ab or si, si
+314:47ad je 0x47c3
+314:47af nop 
+314:47b0 nop 
+314:47b1 mov ax, word ptr [si]
+314:47b3 add ax, 2
+314:47b6 shr ax, 2
+314:47b9 add word ptr [0x286e], ax
+314:47bd mov word ptr [0x286c], 0
+314:47c3 pop si
+314:47c4 ret 
+314:47c5 mov ax, cs
+314:47c7 mov es, ax
+314:47c9 mov cx, 0x400
+314:47cc xor di, di
+314:47ce xor ax, ax
+314:47d0 stosw word ptr es:[di], ax
+314:47d1 add ax, word ptr [0x2892]
+314:47d5 loop 0x47d0
+314:47d7 ret 
+314:47d8 mov ax, 0x12
+314:47db int 0x10
+314:47dd call 0x47c5
+314:47e0 mov dx, 0x3da
+314:47e3 in al, dx
+314:47e4 mov dx, 0x3c0
+314:47e7 xor al, al
+314:47e9 mov cx, 0x10
+314:47ec out dx, al
+314:47ed out dx, al
+314:47ee inc al
+314:47f0 loop 0x47ec
+314:47f2 mov al, 0x20
+314:47f4 out dx, al
+314:47f5 ret 
+314:47f6 push ax
+314:47f7 call 0x480c
+314:47fa pop ax
+314:47fb add al, ah
+314:47fd cmp al, 0
+314:47ff jl 0x480b
+314:4801 nop 
+314:4802 nop 
+314:4803 cmp al, 0x40
+314:4805 jg 0x480b
+314:4807 nop 
+314:4808 nop 
+314:4809 jmp 0x47f6
+314:480b ret 
+314:480c push ax
+314:480d call 0x4406
+314:4810 pop ax
+314:4811 push si
+314:4812 push cx
+314:4813 push bx
+314:4814 mov bl, al
+314:4816 mov dx, 0x3c8
+314:4819 xor al, al
+314:481b out dx, al
+314:481c inc dx
+314:481d mov cx, 0x30
+314:4820 lodsb al, byte ptr [si]
+314:4821 mul bl
+314:4823 shr ax, 6
+314:4826 out dx, al
+314:4827 loop 0x4820
+314:4829 xor al, al
+314:482b out dx, al
+314:482c out dx, al
+314:482d out dx, al
+314:482e pop bx
+314:482f pop cx
+314:4830 pop si
+314:4831 ret 
+314:4832 mov word ptr [0x286c], 0
+314:4838 mov word ptr [0x286e], 0x20
+314:483e mov ax, 0x28ac
+314:4841 call 0x4414
+314:4844 call 0x478a
+314:4847 mov ax, 1
+314:484a call 0x4418
+314:484d mov bx, 0x800
+314:4850 call 0x45a0
+314:4853 call 0x478a
+314:4856 call 0x490b
+314:4859 mov al, byte ptr [bx]
+314:485b or al, al
+314:485d jne 0x4850
+314:485f call 0x478a
+314:4862 mov word ptr [0x288e], 0xffff
+314:4868 mov word ptr [0x288c], 0xffff
+314:486e xor bx, bx
+314:4870 mov cx, word ptr [0x286a]
+314:4874 push bx
+314:4875 push cx
+314:4876 push bx
+314:4877 cmp word ptr [0x288c], -1
+314:487c jne 0x4891
+314:487e nop 
+314:487f nop 
+314:4880 mov ax, word ptr [0x2888]
+314:4883 cmp word ptr [0x286e], ax
+314:4887 jle 0x4891
+314:4889 nop 
+314:488a nop 
+314:488b lea ax, [bx - 1]
+314:488e mov word ptr [0x288c], ax
+314:4891 cmp word ptr [0x288e], -1
+314:4896 jne 0x48ab
+314:4898 nop 
+314:4899 nop 
+314:489a mov ax, word ptr [0x288a]
+314:489d cmp word ptr [0x286e], ax
+314:48a1 jle 0x48ab
+314:48a3 nop 
+314:48a4 nop 
+314:48a5 lea ax, [bx - 1]
+314:48a8 mov word ptr [0x288e], ax
+314:48ab add bx, bx
+314:48ad mov bx, word ptr [bx + 0x2804]
+314:48b1 call 0x492f
+314:48b4 pop dx
+314:48b5 cmp dx, word ptr [0x2800]
+314:48b9 jne 0x48c0
+314:48bb nop 
+314:48bc nop 
+314:48bd call 0x49b0
+314:48c0 pop cx
+314:48c1 pop bx
+314:48c2 inc bx
+314:48c3 loop 0x4874
+314:48c5 cmp word ptr [0x288c], -1
+314:48ca jne 0x48d4
+314:48cc nop 
+314:48cd nop 
+314:48ce mov word ptr [0x288c], 0
+314:48d4 cmp word ptr [0x288e], -1
+314:48d9 jne 0x48e4
+314:48db nop 
+314:48dc nop 
+314:48dd mov ax, word ptr [0x286a]
+314:48e0 dec ax
+314:48e1 mov word ptr [0x288e], ax
+314:48e4 mov ax, 0x369c
+314:48e7 call 0x4414
+314:48ea call 0x478a
+314:48ed call 0x478a
+314:48f0 mov ax, 1
+314:48f3 call 0x4418
+314:48f6 mov bx, word ptr [0x2890]
+314:48fa call 0x490b
+314:48fd call 0x45a0
+314:4900 call 0x478a
+314:4903 call 0x490b
+314:4906 or al, al
+314:4908 jne 0x48fd
+314:490a ret 
+314:490b mov al, byte ptr [bx]
+314:490d or al, al
+314:490f je 0x491c
+314:4911 nop 
+314:4912 nop 
+314:4913 cmp al, 0x20
+314:4915 jae 0x491c
+314:4917 nop 
+314:4918 nop 
+314:4919 inc bx
+314:491a jmp 0x490b
+314:491c ret 
+314:491d mov al, byte ptr [bx]
+314:491f or al, al
+314:4921 je 0x492e
+314:4923 nop 
+314:4924 nop 
+314:4925 cmp al, 0x20
+314:4927 jb 0x492e
+314:4929 nop 
+314:492a nop 
+314:492b inc bx
+314:492c jmp 0x491d
+314:492e ret 
+314:492f mov ax, 0x28ac
+314:4932 call 0x4414
+314:4935 call 0x478a
+314:4938 push word ptr [0x286e]
+314:493c mov ax, 0
+314:493f call 0x4418
+314:4942 mov word ptr [0x286c], 4
+314:4948 call 0x491d
+314:494b call 0x490b
+314:494e or al, al
+314:4950 je 0x49a6
+314:4952 nop 
+314:4953 nop 
+314:4954 call 0x463c
+314:4957 call 0x490b
+314:495a or al, al
+314:495c je 0x49a6
+314:495e nop 
+314:495f nop 
+314:4960 mov ax, 0x369c
+314:4963 call 0x4414
+314:4966 mov word ptr [0x286c], 0x118
+314:496c add word ptr [0x286e], 2
+314:4971 call 0x45b3
+314:4974 call 0x478a
+314:4977 call 0x47a6
+314:497a mov word ptr [0x286c], 4
+314:4980 call 0x490b
+314:4983 or al, al
+314:4985 je 0x49a6
+314:4987 nop 
+314:4988 nop 
+314:4989 mov ax, 1
+314:498c call 0x4418
+314:498f call 0x45c3
+314:4992 call 0x478a
+314:4995 mov word ptr [0x286c], 4
+314:499b call 0x490b
+314:499e or al, al
+314:49a0 je 0x49a6
+314:49a2 nop 
+314:49a3 nop 
+314:49a4 jmp 0x498f
+314:49a6 pop ax
+314:49a7 sub ax, 4
+314:49aa mov bx, word ptr [0x286e]
+314:49ae inc bx
+314:49af ret 
+314:49b0 push es
+314:49b1 mov word ptr [0x2872], ax
+314:49b4 mov word ptr [0x2874], bx
+314:49b8 mov cx, bx
+314:49ba sub cx, ax
+314:49bc inc cx
+314:49bd cmp cx, 0
+314:49c0 jl 0x4aac
+314:49c4 mov bx, ax
+314:49c6 add bx, bx
+314:49c8 and bx, 0x7ff
+314:49cc mov di, word ptr [bx]
+314:49d0 mov es, word ptr [0x2898]
+314:49d4 mov dx, 0x3c4
+314:49d7 mov ax, 0x402
+314:49da out dx, ax
+314:49db mov ax, 0xffff
+314:49de push di
+314:49df mov word ptr es:[di], ax
+314:49e2 add di, 2
+314:49e5 mov word ptr es:[di], ax
+314:49e8 add di, 2
+314:49eb mov word ptr es:[di], ax
+314:49ee add di, 2
+314:49f1 mov word ptr es:[di], ax
+314:49f4 add di, 2
+314:49f7 mov word ptr es:[di], ax
+314:49fa add di, 2
+314:49fd mov word ptr es:[di], ax
+314:4a00 add di, 2
+314:4a03 mov word ptr es:[di], ax
+314:4a06 add di, 2
+314:4a09 mov word ptr es:[di], ax
+314:4a0c add di, 2
+314:4a0f mov word ptr es:[di], ax
+314:4a12 add di, 2
+314:4a15 mov word ptr es:[di], ax
+314:4a18 add di, 2
+314:4a1b mov word ptr es:[di], ax
+314:4a1e add di, 2
+314:4a21 mov word ptr es:[di], ax
+314:4a24 add di, 2
+314:4a27 mov word ptr es:[di], ax
+314:4a2a add di, 2
+314:4a2d mov word ptr es:[di], ax
+314:4a30 add di, 2
+314:4a33 mov word ptr es:[di], ax
+314:4a36 add di, 2
+314:4a39 mov word ptr es:[di], ax
+314:4a3c add di, 2
+314:4a3f mov word ptr es:[di], ax
+314:4a42 add di, 2
+314:4a45 mov word ptr es:[di], ax
+314:4a48 add di, 2
+314:4a4b mov word ptr es:[di], ax
+314:4a4e add di, 2
+314:4a51 mov word ptr es:[di], ax
+314:4a54 add di, 2
+314:4a57 mov word ptr es:[di], ax
+314:4a5a add di, 2
+314:4a5d mov word ptr es:[di], ax
+314:4a60 add di, 2
+314:4a63 mov word ptr es:[di], ax
+314:4a66 add di, 2
+314:4a69 mov word ptr es:[di], ax
+314:4a6c add di, 2
+314:4a6f mov word ptr es:[di], ax
+314:4a72 add di, 2
+314:4a75 mov word ptr es:[di], ax
+314:4a78 add di, 2
+314:4a7b mov word ptr es:[di], ax
+314:4a7e add di, 2
+314:4a81 mov word ptr es:[di], ax
+314:4a84 add di, 2
+314:4a87 mov word ptr es:[di], ax
+314:4a8a add di, 2
+314:4a8d mov word ptr es:[di], ax
+314:4a90 add di, 2
+314:4a93 mov word ptr es:[di], ax
+314:4a96 add di, 2
+314:4a99 mov word ptr es:[di], ax
+314:4a9c add di, 2
+314:4a9f pop di
+314:4aa0 add di, word ptr [0x2892]
+314:4aa4 dec cx
+314:4aa5 je 0x4aac
+314:4aa7 nop 
+314:4aa8 nop 
+314:4aa9 jmp 0x49de
+314:4aac pop es
+314:4aad ret 
+314:4aae push es
+314:4aaf mov ax, word ptr [0x2872]
+314:4ab2 mov bx, word ptr [0x2874]
+314:4ab6 mov cx, bx
+314:4ab8 sub cx, ax
+314:4aba inc cx
+314:4abb cmp cx, 0
+314:4abe jl 0x4ba9
+314:4ac2 mov bx, ax
+314:4ac4 add bx, bx
+314:4ac6 and bx, 0x7ff
+314:4aca mov di, word ptr [bx]
+314:4ace mov es, word ptr [0x2898]
+314:4ad2 mov dx, 0x3c4
+314:4ad5 mov ax, 0x402
+314:4ad8 out dx, ax
+314:4ad9 xor ax, ax
+314:4adb push di
+314:4adc mov word ptr es:[di], ax
+314:4adf add di, 2
+314:4ae2 mov word ptr es:[di], ax
+314:4ae5 add di, 2
+314:4ae8 mov word ptr es:[di], ax
+314:4aeb add di, 2
+314:4aee mov word ptr es:[di], ax
+314:4af1 add di, 2
+314:4af4 mov word ptr es:[di], ax
+314:4af7 add di, 2
+314:4afa mov word ptr es:[di], ax
+314:4afd add di, 2
+314:4b00 mov word ptr es:[di], ax
+314:4b03 add di, 2
+314:4b06 mov word ptr es:[di], ax
+314:4b09 add di, 2
+314:4b0c mov word ptr es:[di], ax
+314:4b0f add di, 2
+314:4b12 mov word ptr es:[di], ax
+314:4b15 add di, 2
+314:4b18 mov word ptr es:[di], ax
+314:4b1b add di, 2
+314:4b1e mov word ptr es:[di], ax
+314:4b21 add di, 2
+314:4b24 mov word ptr es:[di], ax
+314:4b27 add di, 2
+314:4b2a mov word ptr es:[di], ax
+314:4b2d add di, 2
+314:4b30 mov word ptr es:[di], ax
+314:4b33 add di, 2
+314:4b36 mov word ptr es:[di], ax
+314:4b39 add di, 2
+314:4b3c mov word ptr es:[di], ax
+314:4b3f add di, 2
+314:4b42 mov word ptr es:[di], ax
+314:4b45 add di, 2
+314:4b48 mov word ptr es:[di], ax
+314:4b4b add di, 2
+314:4b4e mov word ptr es:[di], ax
+314:4b51 add di, 2
+314:4b54 mov word ptr es:[di], ax
+314:4b57 add di, 2
+314:4b5a mov word ptr es:[di], ax
+314:4b5d add di, 2
+314:4b60 mov word ptr es:[di], ax
+314:4b63 add di, 2
+314:4b66 mov word ptr es:[di], ax
+314:4b69 add di, 2
+314:4b6c mov word ptr es:[di], ax
+314:4b6f add di, 2
+314:4b72 mov word ptr es:[di], ax
+314:4b75 add di, 2
+314:4b78 mov word ptr es:[di], ax
+314:4b7b add di, 2
+314:4b7e mov word ptr es:[di], ax
+314:4b81 add di, 2
+314:4b84 mov word ptr es:[di], ax
+314:4b87 add di, 2
+314:4b8a mov word ptr es:[di], ax
+314:4b8d add di, 2
+314:4b90 mov word ptr es:[di], ax
+314:4b93 add di, 2
+314:4b96 mov word ptr es:[di], ax
+314:4b99 add di, 2
+314:4b9c pop di
+314:4b9d add di, word ptr [0x2892]
+314:4ba1 dec cx
+314:4ba2 je 0x4ba9
+314:4ba4 nop 
+314:4ba5 nop 
+314:4ba6 jmp 0x4adb
+314:4ba9 pop es
+314:4baa ret 
+314:4bab mov ax, cs
+314:4bad mov ds, ax
+314:4baf mov si, 0x289a
+314:4bb2 mov di, 0x800
+314:4bb5 mov dx, si
+314:4bb7 mov ax, 0x3d00
+314:4bba int 0x21
+314:4bbc mov bx, ax
+314:4bbe mov ah, 0x3f
+314:4bc0 mov cx, 0x2800
+314:4bc3 sub cx, di
+314:4bc5 mov dx, di
+314:4bc7 int 0x21
+314:4bc9 add di, ax
+314:4bcb mov ah, 0x3e
+314:4bcd int 0x21
+314:4bcf mov byte ptr [di], 0
+314:4bd2 inc di
+314:4bd3 mov bx, 0x800
+314:4bd6 mov al, 0x23
+314:4bd8 mov ah, 0
+314:4bda cmp byte ptr [bx], al
+314:4bdc jne 0x4c09
+314:4bde nop 
+314:4bdf nop 
+314:4be0 mov byte ptr [bx], ah
+314:4be2 push bp
+314:4be3 mov bp, word ptr [0x286a]
+314:4be7 cmp bp, 0x32
+314:4bea jge 0x4c03
+314:4bec nop 
+314:4bed nop 
+314:4bee add bp, bp
+314:4bf0 inc bx
+314:4bf1 cmp byte ptr [bx], al
+314:4bf3 je 0x4c03
+314:4bf5 nop 
+314:4bf6 nop 
+314:4bf7 mov word ptr ds:[bp + 0x2804], bx
+314:4bfc inc word ptr [0x286a]
+314:4c00 jmp 0x4c08
+314:4c02 nop 
+314:4c03 inc bx
+314:4c04 mov word ptr [0x2890], bx
+314:4c08 pop bp
+314:4c09 inc bx
+314:4c0a cmp bx, di
+314:4c0c jb 0x4bda
+314:4c0e dec word ptr [0x286a]
+314:4c12 mov ax, 0x800
+314:4c15 ret 
+314:4c16 push ax
+314:4c17 call 0x4aae
+314:4c1a mov ax, word ptr [0x2882]
+314:4c1d call 0x4d95
+314:4c20 call 0x4ce1
+314:4c23 pop ax
+314:4c24 add word ptr [0x2800], ax
+314:4c28 cmp word ptr [0x2800], 0
+314:4c2d jge 0x4c3d
+314:4c2f nop 
+314:4c30 nop 
+314:4c31 mov word ptr [0x2800], 0
+314:4c37 mov dx, word ptr [0x286a]
+314:4c3b dec dx
+314:4c3c dec dx
+314:4c3d cmp word ptr [0x2800], dx
+314:4c41 jle 0x4c49
+314:4c43 nop 
+314:4c44 nop 
+314:4c45 mov word ptr [0x2800], dx
+314:4c49 cmp ax, 0
+314:4c4c jge 0x4c59
+314:4c4e nop 
+314:4c4f nop 
+314:4c50 sub word ptr [0x2884], 0x200
+314:4c56 jmp 0x4c5f
+314:4c58 nop 
+314:4c59 add word ptr [0x2886], 0x200
+314:4c5f call 0x4832
+314:4c62 mov ax, word ptr [0x2872]
+314:4c65 sub ax, 0xc8
+314:4c68 mov word ptr [0x287a], ax
+314:4c6b add ax, word ptr [0x2882]
+314:4c6f sar ax, 1
+314:4c71 mov word ptr [0x2878], ax
+314:4c74 mov bp, 2
+314:4c77 mov cx, bp
+314:4c79 cmp cx, 0x10
+314:4c7c jb 0x4c83
+314:4c7e nop 
+314:4c7f nop 
+314:4c80 mov cx, 0x10
+314:4c83 or cx, cx
+314:4c85 jne 0x4c8c
+314:4c87 nop 
+314:4c88 nop 
+314:4c89 mov cx, 1
+314:4c8c mov ax, word ptr [0x287a]
+314:4c8f cmp word ptr [0x2882], ax
+314:4c93 je 0x4cd7
+314:4c95 nop 
+314:4c96 nop 
+314:4c97 jl 0x4ca2
+314:4c99 nop 
+314:4c9a nop 
+314:4c9b dec word ptr [0x2882]
+314:4c9f jmp 0x4ca6
+314:4ca1 nop 
+314:4ca2 inc word ptr [0x2882]
+314:4ca6 loop 0x4c8c
+314:4ca8 mov dx, word ptr [0x2882]
+314:4cac mov ax, word ptr [0x287a]
+314:4caf cmp dx, ax
+314:4cb1 jg 0x4cc0
+314:4cb3 nop 
+314:4cb4 nop 
+314:4cb5 cmp dx, word ptr [0x2878]
+314:4cb9 jl 0x4ccb
+314:4cbb nop 
+314:4cbc nop 
+314:4cbd jmp 0x4ccf
+314:4cbf nop 
+314:4cc0 cmp dx, word ptr [0x2878]
+314:4cc4 jg 0x4ccb
+314:4cc6 nop 
+314:4cc7 nop 
+314:4cc8 jmp 0x4ccf
+314:4cca nop 
+314:4ccb inc bp
+314:4ccc jmp 0x4cd0
+314:4cce nop 
+314:4ccf dec bp
+314:4cd0 mov ax, dx
+314:4cd2 call 0x4d95
+314:4cd5 jmp 0x4c77
+314:4cd7 mov ax, word ptr [0x2882]
+314:4cda call 0x4d95
+314:4cdd call 0x4832
+314:4ce0 ret 
+314:4ce1 push ax
+314:4ce2 push es
+314:4ce3 mov ax, word ptr [0x2886]
+314:4ce6 and ax, 0x3ff
+314:4ce9 mov dx, word ptr [0x2884]
+314:4ced and dx, 0x3ff
+314:4cf1 mov bx, ax
+314:4cf3 add bx, bx
+314:4cf5 and bx, 0x7ff
+314:4cf9 mov di, word ptr [bx]
+314:4cfd mov es, word ptr [0x2898]
+314:4d01 mov cx, dx
+314:4d03 sub cx, ax
+314:4d05 or cx, cx
+314:4d07 jne 0x4d0e
+314:4d09 nop 
+314:4d0a nop 
+314:4d0b jmp 0x4d92
+314:4d0e jge 0x4d16
+314:4d10 nop 
+314:4d11 nop 
+314:4d12 add cx, 0x400
+314:4d16 mov dx, 0x3c4
+314:4d19 mov ax, 0xf02
+314:4d1c out dx, ax
+314:4d1d xor eax, eax
+314:4d20 mov dword ptr es:[di], eax
+314:4d24 add di, 4
+314:4d27 mov dword ptr es:[di], eax
+314:4d2b add di, 4
+314:4d2e mov dword ptr es:[di], eax
+314:4d32 add di, 4
+314:4d35 mov dword ptr es:[di], eax
+314:4d39 add di, 4
+314:4d3c mov dword ptr es:[di], eax
+314:4d40 add di, 4
+314:4d43 mov dword ptr es:[di], eax
+314:4d47 add di, 4
+314:4d4a mov dword ptr es:[di], eax
+314:4d4e add di, 4
+314:4d51 mov dword ptr es:[di], eax
+314:4d55 add di, 4
+314:4d58 mov dword ptr es:[di], eax
+314:4d5c add di, 4
+314:4d5f mov dword ptr es:[di], eax
+314:4d63 add di, 4
+314:4d66 mov dword ptr es:[di], eax
+314:4d6a add di, 4
+314:4d6d mov dword ptr es:[di], eax
+314:4d71 add di, 4
+314:4d74 mov dword ptr es:[di], eax
+314:4d78 add di, 4
+314:4d7b mov dword ptr es:[di], eax
+314:4d7f add di, 4
+314:4d82 mov dword ptr es:[di], eax
+314:4d86 add di, 4
+314:4d89 mov dword ptr es:[di], eax
+314:4d8d add di, 4
+314:4d90 loop 0x4d20
+314:4d92 pop es
+314:4d93 pop ax
+314:4d94 ret 
+314:4d95 mov word ptr [0x2882], ax
+314:4d98 mov dx, ax
+314:4d9a sub dx, 0x20
+314:4d9d mov word ptr [0x2884], dx
+314:4da1 mov word ptr [0x2888], dx
+314:4da5 add dx, 0x200
+314:4da9 mov word ptr [0x2886], dx
+314:4dad mov word ptr [0x288a], dx
+314:4db1 and ax, 0x3ff
+314:4db4 push ax
+314:4db5 mov cx, 0x40
+314:4db8 mul cx
+314:4dba mov cx, ax
+314:4dbc mov dx, 0x3d4
+314:4dbf mov al, 0xc
+314:4dc1 out dx, ax
+314:4dc2 mov al, 0xd
+314:4dc4 mov ah, cl
+314:4dc6 out dx, ax
+314:4dc7 call 0x4406
+314:4dca pop ax
+314:4dcb mov cx, 0x3ff
+314:4dce sub cx, ax
+314:4dd0 cmp cx, 0x1e0
+314:4dd4 jb 0x4ddb
+314:4dd6 nop 
+314:4dd7 nop 
+314:4dd8 mov cx, 0x1e0
+314:4ddb mov dx, 0x3d4
+314:4dde mov al, 0x18
+314:4de0 mov ah, cl
+314:4de2 out dx, ax
+314:4de3 mov al, 7
+314:4de5 out dx, al
+314:4de6 inc dx
+314:4de7 in al, dx
+314:4de8 and al, 0xef
+314:4dea test cx, 0x100
+314:4dee je 0x4df4
+314:4df0 nop 
+314:4df1 nop 
+314:4df2 or al, 0x10
+314:4df4 out dx, al
+314:4df5 dec dx
+314:4df6 mov al, 9
+314:4df8 out dx, al
+314:4df9 inc dx
+314:4dfa in al, dx
+314:4dfb and al, 0xbf
+314:4dfd test cx, 0x200
+314:4e01 je 0x4e07
+314:4e03 nop 
+314:4e04 nop 
+314:4e05 or al, 0x40
+314:4e07 out dx, al
+314:4e08 dec dx
+314:4e09 ret 
+314:4e0a mov bl, al
+314:4e0c mov dx, 0x3d4
+314:4e0f out dx, al
+314:4e10 inc dx
+314:4e11 in al, dx
+314:4e12 mov ah, al
+314:4e14 mov al, bl
+314:4e16 ret 
+314:4e17 mov dx, 0x3d4
+314:4e1a out dx, ax
+314:4e1b ret 
+314:4e1c mov ax, cs
+314:4e1e mov ds, ax
+314:4e20 push es
+314:4e21 mov es, ax
+314:4e23 mov di, 0x2802
+314:4e26 mov cx, 0x82
+314:4e29 xor al, al
+314:4e2b rep stosb byte ptr es:[di], al
+314:4e2d pop es
+314:4e2e mov word ptr [0x2894], 1
+314:4e34 call 0x4bab
+314:4e37 call 0x47d8
+314:4e3a call 0x4406
+314:4e3d mov dx, 0x3c0
+314:4e40 mov al, 0x11
+314:4e42 out dx, al
+314:4e43 mov al, 0
+314:4e45 out dx, al
+314:4e46 mov al, 0x20
+314:4e48 out dx, al
+314:4e49 mov dx, 0x3d4
+314:4e4c mov ax, 0x2013
+314:4e4f out dx, ax
+314:4e50 mov al, 0x11
+314:4e52 call 0x4e0a
+314:4e55 and ah, 0x7f
+314:4e58 call 0x4e17
+314:4e5b mov al, 1
+314:4e5d call 0x4e0a
+314:4e60 sub ah, 0x10
+314:4e63 call 0x4e17
+314:4e66 mov al, 2
+314:4e68 call 0x4e0a
+314:4e6b sub ah, 8
+314:4e6e call 0x4e17
+314:4e71 mov al, 3
+314:4e73 call 0x4e0a
+314:4e76 mov bl, ah
+314:4e78 sub ah, 8
+314:4e7b and ah, 0x1f
+314:4e7e and bl, 0xe0
+314:4e81 or ah, bl
+314:4e83 call 0x4e17
+314:4e86 mov al, 4
+314:4e88 call 0x4e0a
+314:4e8b sub ah, 8
+314:4e8e call 0x4e17
+314:4e91 mov al, 5
+314:4e93 call 0x4e0a
+314:4e96 mov bl, ah
+314:4e98 sub ah, 8
+314:4e9b and ah, 0x1f
+314:4e9e and bl, 0xe0
+314:4ea1 or ah, bl
+314:4ea3 and ah, 0x7f
+314:4ea6 call 0x4e17
+314:4ea9 mov al, 0x15
+314:4eab call 0x4e0a
+314:4eae sub ah, 8
+314:4eb1 call 0x4e17
+314:4eb4 mov al, 0x16
+314:4eb6 call 0x4e0a
+314:4eb9 add ah, 8
+314:4ebc call 0x4e17
+314:4ebf mov si, 0x4334
+314:4ec2 mov al, 0
+314:4ec4 call 0x480c
+314:4ec7 call 0x4832
+314:4eca mov ax, word ptr [0x2872]
+314:4ecd sub ax, 0xc8
+314:4ed0 call 0x4d95
+314:4ed3 xor ax, ax
+314:4ed5 call 0x4c16
+314:4ed8 mov ax, 0x400
+314:4edb mov si, 0x4334
+314:4ede call 0x47f6
+314:4ee1 call 0x4406
+314:4ee4 mov ah, 1
+314:4ee6 int 0x16
+314:4ee8 je 0x4ee1
+314:4eea mov ah, 0
+314:4eec int 0x16
+314:4eee cmp al, 0x1b
+314:4ef0 je 0x4f7b
+314:4ef4 cmp al, 0xd
+314:4ef6 je 0x4f84
+314:4efa cmp ax, 0x4400
+314:4efd je 0x4f72
+314:4eff nop 
+314:4f00 nop 
+314:4f01 cmp al, 0
+314:4f03 jne 0x4ee1
+314:4f05 mov al, ah
+314:4f07 cmp al, 0x48
+314:4f09 jne 0x4f1e
+314:4f0b nop 
+314:4f0c nop 
+314:4f0d mov dx, word ptr [0x2800]
+314:4f11 cmp dx, 0
+314:4f14 jle 0x4f1e
+314:4f16 nop 
+314:4f17 nop 
+314:4f18 mov ax, 0xffff
+314:4f1b call 0x4c16
+314:4f1e cmp al, 0x50
+314:4f20 jne 0x4f37
+314:4f22 nop 
+314:4f23 nop 
+314:4f24 mov dx, word ptr [0x2800]
+314:4f28 inc dx
+314:4f29 cmp dx, word ptr [0x286a]
+314:4f2d jge 0x4f37
+314:4f2f nop 
+314:4f30 nop 
+314:4f31 mov ax, 1
+314:4f34 call 0x4c16
+314:4f37 cmp al, 0x51
+314:4f39 jne 0x4f54
+314:4f3b nop 
+314:4f3c nop 
+314:4f3d mov dx, word ptr [0x2800]
+314:4f41 inc dx
+314:4f42 cmp dx, word ptr [0x286a]
+314:4f46 jge 0x4f54
+314:4f48 nop 
+314:4f49 nop 
+314:4f4a mov ax, word ptr [0x288e]
+314:4f4d sub ax, word ptr [0x2800]
+314:4f51 call 0x4c16
+314:4f54 cmp al, 0x49
+314:4f56 jne 0x4f6f
+314:4f58 nop 
+314:4f59 nop 
+314:4f5a mov dx, word ptr [0x2800]
+314:4f5e cmp dx, 0
+314:4f61 jle 0x4f6f
+314:4f63 nop 
+314:4f64 nop 
+314:4f65 mov ax, word ptr [0x288c]
+314:4f68 sub ax, word ptr [0x2800]
+314:4f6c call 0x4c16
+314:4f6f jmp 0x4ee1
+314:4f72 mov word ptr [0x2876], 0x28a7
+314:4f78 jmp 0x4f98
+314:4f7a nop 
+314:4f7b mov word ptr [0x2876], 0x28a2
+314:4f81 jmp 0x4f98
+314:4f83 nop 
+314:4f84 mov bx, word ptr [0x2800]
+314:4f88 add bx, bx
+314:4f8a mov bx, word ptr [bx + 0x2804]
+314:4f8e mov word ptr [0x2876], bx
+314:4f92 call 0x491d
+314:4f95 mov byte ptr [bx], 0
+314:4f98 mov ax, 0xfc3f
+314:4f9b mov si, 0x4334
+314:4f9e call 0x47f6
+314:4fa1 mov ax, 0x12
+314:4fa4 int 0x10
+314:4fa6 mov dx, cs
+314:4fa8 mov ax, word ptr [0x2876]
+314:4fab retf 
+314:4fac add byte ptr [bx + si], al
+314:4fae add byte ptr [bx + si], al
+314:4fb0 and byte ptr [bp + di + 0x63], dl
+314:4fb3 jb 0x501a
+314:4fb5 popaw 
+314:4fb6 insw word ptr es:[di], dx
+314:4fb7 and byte ptr [si + 0x72], dl
+314:4fba popaw 
+314:4fbb arpl word ptr [bp + di + 0x65], bp
+314:4fbe jb 0x4fe0
+314:4fc0 push si
+314:4fc1 xor bp, word ptr [0x2030]
+314:4fc5 dec bp
+314:4fc6 jne 0x503b
+314:4fc8 imul sp, word ptr [bp + di + 0x20], 0x6e49
+314:4fcd je 0x5034
+314:4fcf jb 0x5037
+314:4fd1 popaw 
+314:4fd2 arpl word ptr [di + 0x20], sp
+314:4fd5 dec bx
+314:4fd6 imul si, word ptr [si + 0x20], 0x3056
+314:4fdb cmp cx, sp
+314:4fde and byte ptr [bx + si], ch
+314:4fe0 push bx
+314:4fe1 push sp
+314:4fe2 dec bp
+314:4fe3 dec cx
+314:4fe4 dec bx
+314:4fe5 sub word ptr [bx + si], sp
+314:4fe7 or ax, 0x200a
+314:4fea inc bx
+314:4feb outsw dx, word ptr [si]
+314:4fec jo 0x5067
+314:4fee jb 0x5059
+314:4ff0 push 0x2074
+314:4ff4 sub byte ptr [bp + di + 0x29], al
+314:4ff7 and byte ptr [bx + di], dh
+314:4ff9 cmp word ptr [bx + di], di
+314:4ffb xor word ptr [si], bp
+314:4ffd cmp word ptr [bp + si], si
+314:4fff sub al, 0x39
+314:5001 xor sp, word ptr [bx + si]
+314:5003 push bx
+314:5004 popaw 
+314:5005 insw word ptr es:[di], dx
+314:5006 imul sp, word ptr [bx + si], 0x6154
+314:500a insw word ptr es:[di], dx
+314:500b insw word ptr es:[di], dx
+314:500c imul bp, word ptr [si + 0x65], 0x7468
+314:5011 outsw dx, word ptr [si]
+314:5012 and byte ptr cs:[di], cl
+314:5015 or bl, byte ptr [bp + si]
+314:5017 nop 
+314:5018 add byte ptr [bx + si], al
+314:501a add byte ptr [bx + si], al
+314:501c outsb dx, byte ptr [si]
+314:501d add byte ptr [bx + si], al
+314:501f add byte ptr [bx + si], al
+314:5021 add byte ptr [bx + si], al
+314:5023 add byte ptr [bx + si], al
+314:5025 add byte ptr [bx + si], al
+314:5027 add byte ptr [bx + si], al
+314:5029 add byte ptr [bx + si], al
+314:502b add byte ptr [bx + si], al
+314:502d add byte ptr [bx + si], al
+314:502f add byte ptr [bx + si], al
+314:5031 add byte ptr [bx + si], al
+314:5033 add byte ptr [bx + si], al
+314:5035 add byte ptr [bx + si], al
+314:5037 add byte ptr [bx + si], al
+314:5039 add byte ptr [bx + si], al
+314:503b add byte ptr [bx + si], al
+314:503d add byte ptr [bx + si], al
+314:503f add byte ptr [bx + si], al
+314:5041 add byte ptr [bx + si], al
+314:5043 add byte ptr [bx + si], al
+314:5045 add byte ptr [bx + si], al
+314:5047 add byte ptr [bx + si], al
+314:5049 add byte ptr [bx + si], al
+314:504b add byte ptr [bx + si], al
+314:504d add byte ptr [bx + si], al
+314:504f add byte ptr [bx + si], al
+314:5051 add byte ptr [bx + si], al
+314:5053 add byte ptr [bx + si], al
+314:5055 add byte ptr [bx + si], al
+314:5057 add byte ptr [bx + si], al
+314:5059 add byte ptr [bx + si], al
+314:505b add byte ptr [bx + si], al
+314:505d add byte ptr [bx + si], al
+314:505f add byte ptr [bx + si], al
+314:5061 add byte ptr [bx + si], al
+314:5063 add byte ptr [bx + si], al
+314:5065 add byte ptr [bx + si], al
+314:5067 add byte ptr [bx + si], al
+314:5069 add byte ptr [bx + si], al
+314:506b add byte ptr [bx + si], al
+314:506d add byte ptr [bx + si], al
+314:506f add byte ptr [bx + si], al
+314:5071 add byte ptr [bx + si], al
+314:5073 add byte ptr [bx + si], al
+314:5075 add byte ptr [bx + si], al
+314:5077 add byte ptr [bx + si], al
+314:5079 add byte ptr [bx + si], al
+314:507b add byte ptr [bx + si], al
+314:507d add byte ptr [bx + si], al
+314:507f add byte ptr [bx + si], al
+314:5081 add byte ptr [bx + si], al
+314:5083 add byte ptr [bx + si], al
+314:5085 add byte ptr [bx + si], al
+314:5087 add byte ptr [bx + si], al
+314:5089 add byte ptr [bx + si], al
+314:508b add byte ptr [bx + si], al
+314:508d add byte ptr [bx + si], al
+314:508f add byte ptr [bx + si], al
+314:5091 add byte ptr [bx + si], al
+314:5093 add byte ptr [bx + si], al
+314:5095 add byte ptr [bx + si], al
+314:5097 add byte ptr [bx + si], al
+314:5099 add byte ptr [bx + si], al
+314:509b add byte ptr [bx + si], al
+314:509d add byte ptr [bx + si], al
+314:509f add byte ptr [bx + si], al
+314:50a1 add byte ptr [bx + si], al
+314:50a3 add byte ptr [bx + si], al
+314:50a5 add byte ptr [bx + si], al
+314:50a7 add byte ptr [bx + si], al
+314:50a9 add byte ptr [bx + si], al
+314:50ab add byte ptr [bx + si], al
+314:50ad add byte ptr [bx + si], al
+314:50af add byte ptr [bx + si], al
+314:50b1 add byte ptr [bx + si], al
+314:50b3 add byte ptr [bx + si], al
+314:50b5 add byte ptr [bx + si], al
+314:50b7 add byte ptr [bx + si], al
+314:50b9 add byte ptr [bx + si], al
+314:50bb add byte ptr [bx + si], al
+314:50bd add byte ptr [bx + si], al
+314:50bf add byte ptr [bx + si], al
+314:50c1 add byte ptr [bx + si], al
+314:50c3 add byte ptr [bx + si], al
+314:50c5 add byte ptr [bx + si], al
+314:50c7 add byte ptr [bx + si], al
+314:50c9 add byte ptr [bx + si], al
+314:50cb add byte ptr [bx + si], al
+314:50cd add byte ptr [bx + si], al
+314:50cf add byte ptr [bx + si], al
+314:50d1 add byte ptr [bx + si], al
+314:50d3 add byte ptr [bx + si], al
+314:50d5 add byte ptr [bx + si], al
+314:50d7 add byte ptr [bx + si], al
+314:50d9 add byte ptr [bx + si], al
+314:50db add byte ptr [bx + si], al
+314:50dd add byte ptr [bx + si], al
+314:50df add byte ptr [bx + si], al
+314:50e1 add byte ptr [bx + si], al
+314:50e3 add byte ptr [bx + si], al
+314:50e5 add byte ptr [bx + si], al
+314:50e7 add byte ptr [bx + si], al
+314:50e9 add byte ptr [bx + si], al
+314:50eb add byte ptr [bx + si], al
+314:50ed add byte ptr [bx + si], al
+314:50ef add byte ptr [bx + si], al
+314:50f1 add byte ptr [bx + si], al
+314:50f3 add byte ptr [bx + si], al
+314:50f5 add byte ptr [bx + si], al
+314:50f7 add byte ptr [bx + si], al
+314:50f9 add byte ptr [bx + si], al
+314:50fb add byte ptr [bx + si], al
+314:50fd add byte ptr [bx + si], al
+314:50ff add byte ptr [bx + si], al
+314:5101 add byte ptr [bx + si], al
+314:5103 add byte ptr [bx + si], al
+314:5105 add byte ptr [bx + si], al
+314:5107 add byte ptr [bx + si], al
+314:5109 add byte ptr [bx + si], al
+314:510b add byte ptr [bx + si], al
+314:510d add byte ptr [bx + si], al
+314:510f add byte ptr [bx + si], al
+314:5111 add byte ptr [bx + si], al
+314:5113 add byte ptr [bx + si], al
+314:5115 add byte ptr [bx + si], al
+314:5117 add byte ptr [bx + si], al
+314:5119 add byte ptr [bx + si], al
+314:511b add byte ptr [bx + si], al
+314:511d add byte ptr [bx + si], al
+314:511f add byte ptr [bx + si], al
+314:5121 add byte ptr [bx + si], al
+314:5123 add byte ptr [bx + si], al
+314:5125 add byte ptr [bx + si], al
+314:5127 add byte ptr [bx + si], al
+314:5129 add byte ptr [bx + si], al
+314:512b add byte ptr [bx + si], al
+314:512d add byte ptr [bx + si], al
+314:512f add byte ptr [bx + si], al
+314:5131 add byte ptr [bx + si], al
+314:5133 add byte ptr [bx + si], al
+314:5135 add byte ptr [bx + si], al
+314:5137 add byte ptr [bx + si], al
+314:5139 add byte ptr [bx + si], al
+314:513b add byte ptr [bx + si], al
+314:513d add byte ptr [bx + si], al
+314:513f add byte ptr [bx + si], al
+314:5141 add byte ptr [bx + si], al
+314:5143 add byte ptr [bx + si], al
+314:5145 add byte ptr [bx + si], al
+314:5147 add byte ptr [bx + si], al
+314:5149 add byte ptr [bx + si], al
+314:514b add byte ptr [bx + si], al
+314:514d add byte ptr [bx + si], al
+314:514f add byte ptr [bx + si], al
+314:5151 add byte ptr [bx + si], al
+314:5153 add byte ptr [bx + si], al
+314:5155 add byte ptr [bx + si], al
+314:5157 add byte ptr [bx + si], al
+314:5159 add byte ptr [bx + si], al
+314:515b add byte ptr [bx + si], al
+314:515d add byte ptr [bx + si], al
+314:515f add byte ptr [bx + si], al
+314:5161 add byte ptr [bx + si], al
+314:5163 add byte ptr [bx + si], al
+314:5165 add byte ptr [bx + si], al
+314:5167 add byte ptr [bx + si], al
+314:5169 add byte ptr [bx + si], al
+314:516b add byte ptr [bx + si], al
+314:516d add byte ptr [bx + si], al
+314:516f add byte ptr [bx + si], al
+314:5171 add byte ptr [bx + si], al
+314:5173 add byte ptr [bx + si], al
+314:5175 add byte ptr [bx + si], al
+314:5177 add byte ptr [bx + si], al
+314:5179 add byte ptr [bx + si], al
+314:517b add byte ptr [bx + si], al
+314:517d add byte ptr [bx + si], al
+314:517f add byte ptr [bx + si], al
+314:5181 add byte ptr [bx + si], al
+314:5183 add byte ptr [bx + si], al
+314:5185 add byte ptr [bx + si], al
+314:5187 add byte ptr [bx + si], al
+314:5189 add byte ptr [bx + si], al
+314:518b add byte ptr [bx + si], al
+314:518d add byte ptr [bx + si], al
+314:518f add byte ptr [bx + si], al
+314:5191 add byte ptr [bx + si], al
+314:5193 add byte ptr [bx + si], al
+314:5195 add byte ptr [bx + si], al
+314:5197 add byte ptr [bx + si], al
+314:5199 add byte ptr [bx + si], al
+314:519b add byte ptr [bx + si], al
+314:519d add byte ptr [bx + si], al
+314:519f add byte ptr [bx + si], al
+314:51a1 add byte ptr [bx + si], al
+314:51a3 add byte ptr [bx + si], al
+314:51a5 add byte ptr [bx + si], al
+314:51a7 add byte ptr [bx + si], al
+314:51a9 add byte ptr [bx + si], al
+314:51ab add byte ptr [bx + si], al
+314:51ad add byte ptr [bx + si], al
+314:51af add byte ptr [bx + si], al
+314:51b1 add byte ptr [bx + si], al
+314:51b3 add byte ptr [bx + si], al
+314:51b5 add byte ptr [bx + si], al
+314:51b7 add byte ptr [bx + si], al
+314:51b9 add byte ptr [bx + si], al
+314:51bb add byte ptr [bx + si], al
+314:51bd add byte ptr [bx + si], al
+314:51bf add byte ptr [bx + si], al
+314:51c1 add byte ptr [bx + si], al
+314:51c3 add byte ptr [bx + si], al
+314:51c5 add byte ptr [bx + si], al
+314:51c7 add byte ptr [bx + si], al
+314:51c9 add byte ptr [bx + si], al
+314:51cb add byte ptr [bx + si], al
+314:51cd add byte ptr [bx + si], al
+314:51cf add byte ptr [bx + si], al
+314:51d1 add byte ptr [bx + si], al
+314:51d3 add byte ptr [bx + si], al
+314:51d5 add byte ptr [bx + si], al
+314:51d7 add byte ptr [bx + si], al
+314:51d9 add byte ptr [bx + si], al
+314:51db add byte ptr [bx + si], al
+314:51dd add byte ptr [bx + si], al
+314:51df add byte ptr [bx + si], al
+314:51e1 add byte ptr [bx + si], al
+314:51e3 add byte ptr [bx + si], al
+314:51e5 add byte ptr [bx + si], al
+314:51e7 add byte ptr [bx + si], al
+314:51e9 add byte ptr [bx + si], al
+314:51eb add byte ptr [bx + si], al
+314:51ed add byte ptr [bx + si], al
+314:51ef add byte ptr [bx + si], al
+314:51f1 add byte ptr [bx + si], al
+314:51f3 add byte ptr [bx + si], al
+314:51f5 add byte ptr [bx + si], al
+314:51f7 add byte ptr [bx + si], al
+314:51f9 add byte ptr [bx + si], al
+314:51fb add byte ptr [bx + si], al
+314:51fd add byte ptr [bx + si], al
+314:51ff add byte ptr [bx + si], al
+314:5201 add byte ptr [bx + si], al
+314:5203 add byte ptr [bx + si], al
+314:5205 add byte ptr [bx + si], al
+314:5207 add byte ptr [bx + si], al
+314:5209 add byte ptr [bx + si], al
+314:520b add byte ptr [bx + si], al
+314:520d add byte ptr [bx + si], al
+314:520f add byte ptr [bx + si], al
+314:5211 add byte ptr [bx + si], al
+314:5213 add byte ptr [bx + si], al
+314:5215 add byte ptr [bx + si], al
+314:5217 add byte ptr [bx + si], al
+314:5219 add byte ptr [bx + si], al
+314:521b add byte ptr [bx + si], al
+314:521d add byte ptr [bx + si], al
+314:521f add byte ptr [bx + si], al
+314:5221 add byte ptr [bx + si], al
+314:5223 add byte ptr [bx + si], al
+314:5225 add byte ptr [bx + si], al
+314:5227 add byte ptr [bx + si], al
+314:5229 add byte ptr [bx + si], al
+314:522b add byte ptr [bx + si], al
+314:522d add byte ptr [bx + si], al
+314:522f add byte ptr [bx + si], al
+314:5231 add byte ptr [bx + si], al
+314:5233 add byte ptr [bx + si], al
+314:5235 add byte ptr [bx + si], al
+314:5237 add byte ptr [bx + si], al
+314:5239 add byte ptr [bx + si], al
+314:523b add byte ptr [bx + si], al
+314:523d add byte ptr [bx + si], al
+314:523f add byte ptr [bx + si], al
+314:5241 add byte ptr [bx + si], al
+314:5243 add byte ptr [bx + si], al
+314:5245 add byte ptr [bx + si], al
+314:5247 add byte ptr [bx + si], al
+314:5249 add byte ptr [bx + si], al
+314:524b add byte ptr [bx + si], al
+314:524d add byte ptr [bx + si], al
+314:524f add byte ptr [bx + si], al
+314:5251 add byte ptr [bx + si], al
+314:5253 add byte ptr [bx + si], al
+314:5255 add byte ptr [bx + si], al
+314:5257 add byte ptr [bx + si], al
+314:5259 add byte ptr [bx + si], al
+314:525b add byte ptr [bx + si], al
+314:525d add byte ptr [bx + si], al
+314:525f add byte ptr [bx + si], al
+314:5261 add byte ptr [bx + si], al
+314:5263 add byte ptr [bx + si], al
+314:5265 add byte ptr [bx + si], al
+314:5267 add byte ptr [bx + si], al
+314:5269 add byte ptr [bx + si], al
+314:526b add byte ptr [bx + si], al
+314:526d add byte ptr [bx + si], al
+314:526f add byte ptr [bx + si], al
+314:5271 add byte ptr [bx + si], al
+314:5273 add byte ptr [bx + si], al
+314:5275 add byte ptr [bx + si], al
+314:5277 add byte ptr [bx + si], al
+314:5279 add byte ptr [bx + si], al
+314:527b add byte ptr [bx + si], al
+314:527d add byte ptr [bx + si], al
+314:527f add byte ptr [bx + si], al
+314:5281 add byte ptr [bx + si], al
+314:5283 add byte ptr [bx + si], al
+314:5285 add byte ptr [bx + si], al
+314:5287 add byte ptr [bx + si], al
+314:5289 add byte ptr [bx + si], al
+314:528b add byte ptr [bx + si], al
+314:528d add byte ptr [bx + si], al
+314:528f add byte ptr [bx + si], al
+314:5291 add byte ptr [bx + si], al
+314:5293 add byte ptr [bx + si], al
+314:5295 add byte ptr [bx + si], al
+314:5297 add byte ptr [bx + si], al
+314:5299 add byte ptr [bx + si], al
+314:529b add byte ptr [bx + si], al
+314:529d add byte ptr [bx + si], al
+314:529f add byte ptr [bx + si], al
+314:52a1 add byte ptr [bx + si], al
+314:52a3 add byte ptr [bx + si], al
+314:52a5 add byte ptr [bx + si], al
+314:52a7 add byte ptr [bx + si], al
+314:52a9 add byte ptr [bx + si], al
+314:52ab add byte ptr [bx + si], al
+314:52ad add byte ptr [bx + si], al
+314:52af add byte ptr [bx + si], al
+314:52b1 add byte ptr [bx + si], al
+314:52b3 add byte ptr [bx + si], al
+314:52b5 add byte ptr [bx + si], al
+314:52b7 add byte ptr [bx + si], al
+314:52b9 add byte ptr [bx + si], al
+314:52bb add byte ptr [bx + si], al
+314:52bd add byte ptr [bx + si], al
+314:52bf add byte ptr [bx + si], al
+314:52c1 add byte ptr [bx + si], al
+314:52c3 add byte ptr [bx + si], al
+314:52c5 add byte ptr [bx + si], al
+314:52c7 add byte ptr [bx + si], al
+314:52c9 add byte ptr [bx + si], al
+314:52cb add byte ptr [bx + si], al
+314:52cd add byte ptr [bx + si], al
+314:52cf add byte ptr [bx + si], al
+314:52d1 add byte ptr [bx + si], al
+314:52d3 add byte ptr [bx + si], al
+314:52d5 add byte ptr [bx + si], al
+314:52d7 add byte ptr [bx + si], al
+314:52d9 add byte ptr [bx + si], al
+314:52db add byte ptr [bx + si], al
+314:52dd add byte ptr [bx + si], al
+314:52df add byte ptr [bx + si], al
+314:52e1 add byte ptr [bx + si], al
+314:52e3 add byte ptr [bx + si], al
+314:52e5 add byte ptr [bx + si], al
+314:52e7 add byte ptr [bx + si], al
+314:52e9 add byte ptr [bx + si], al
+314:52eb add byte ptr [bx + si], al
+314:52ed add byte ptr [bx + si], al
+314:52ef add byte ptr [bx + si], al
+314:52f1 add byte ptr [bx + si], al
+314:52f3 add byte ptr [bx + si], al
+314:52f5 add byte ptr [bx + si], al
+314:52f7 add byte ptr [bx + si], al
+314:52f9 add byte ptr [bx + si], al
+314:52fb add byte ptr [bx + si], al
+314:52fd add byte ptr [bx + si], al
+314:52ff add byte ptr [bx + si], al
+314:5301 add byte ptr [bx + si], al
+314:5303 add byte ptr [bx + si], al
+314:5305 add byte ptr [bx + si], al
+314:5307 add byte ptr [bx + si], al
+314:5309 add byte ptr [bx + si], al
+314:530b add byte ptr [bx + si], al
+314:530d add byte ptr [bx + si], al
+314:530f add byte ptr [bx + si], al
+314:5311 add byte ptr [bx + si], al
+314:5313 add byte ptr [bx + si], al
+314:5315 add byte ptr [bx + si], al
+314:5317 add byte ptr [bx + si], al
+314:5319 add byte ptr [bx + si], al
+314:531b add byte ptr [bx + si], al
+314:531d add byte ptr [bx + si], al
+314:531f add byte ptr [bx + si], al
+314:5321 add byte ptr [bx + si], al
+314:5323 add byte ptr [bx + si], al
+314:5325 add byte ptr [bx + si], al
+314:5327 add byte ptr [bx + si], al
+314:5329 add byte ptr [bx + si], al
+314:532b add byte ptr [bx + si], al
+314:532d add byte ptr [bx + si], al
+314:532f add byte ptr [bx + si], al
+314:5331 add byte ptr [bx + si], al
+314:5333 add byte ptr [bx + si], al
+314:5335 add byte ptr [bx + si], al
+314:5337 add byte ptr [bx + si], al
+314:5339 add byte ptr [bx + si], al
+314:533b add byte ptr [bx + si], al
+314:533d add byte ptr [bx + si], al
+314:533f add byte ptr [bx + si], al
+314:5341 add byte ptr [bx + si], al
+314:5343 add byte ptr [bx + si], al
+314:5345 add byte ptr [bx + si], al
+314:5347 add byte ptr [bx + si], al
+314:5349 add byte ptr [bx + si], al
+314:534b add byte ptr [bx + si], al
+314:534d add byte ptr [bx + si], al
+314:534f add byte ptr [bx + si], al
+314:5351 add byte ptr [bx + si], al
+314:5353 add byte ptr [bx + si], al
+314:5355 add byte ptr [bx + si], al
+314:5357 add byte ptr [bx + si], al
+314:5359 add byte ptr [bx + si], al
+314:535b add byte ptr [bx + si], al
+314:535d add byte ptr [bx + si], al
+314:535f add byte ptr [bx + si], al
+314:5361 add byte ptr [bx + si], al
+314:5363 add byte ptr [bx + si], al
+314:5365 add byte ptr [bx + si], al
+314:5367 add byte ptr [bx + si], al
+314:5369 add byte ptr [bx + si], al
+314:536b add byte ptr [bx + si], al
+314:536d add byte ptr [bx + si], al
+314:536f add byte ptr [bx + si], al
+314:5371 add byte ptr [bx + si], al
+314:5373 add byte ptr [bx + si], al
+314:5375 add byte ptr [bx + si], al
+314:5377 add byte ptr [bx + si], al
+314:5379 add byte ptr [bx + si], al
+314:537b add byte ptr [bx + si], al
+314:537d add byte ptr [bx + si], al
+314:537f add byte ptr [bx + si], al
+314:5381 add byte ptr [bx + si], al
+314:5383 add byte ptr [bx + si], al
+314:5385 add byte ptr [bx + si], al
+314:5387 add byte ptr [bx + si], al
+314:5389 add byte ptr [bx + si], al
+314:538b add byte ptr [bx + si], al
+314:538d add byte ptr [bx + si], al
+314:538f add byte ptr [bx + si], al
+314:5391 add byte ptr [bx + si], al
+314:5393 add byte ptr [bx + si], al
+314:5395 add byte ptr [bx + si], al
+314:5397 add byte ptr [bx + si], al
+314:5399 add byte ptr [bx + si], al
+314:539b add byte ptr [bx + si], al
+314:539d add byte ptr [bx + si], al
+314:539f add byte ptr [bx + si], al
+314:53a1 add byte ptr [bx + si], al
+314:53a3 add byte ptr [bx + si], al
+314:53a5 add byte ptr [bx + si], al
+314:53a7 add byte ptr [bx + si], al
+314:53a9 add byte ptr [bx + si], al
+314:53ab add byte ptr [bx + si], al
+314:53ad add byte ptr [bx + si], al
+314:53af add byte ptr [bx + si], al
+314:53b1 add byte ptr [bx + si], al
+314:53b3 add byte ptr [bx + si], al
+314:53b5 add byte ptr [bx + si], al
+314:53b7 add byte ptr [bx + si], al
+314:53b9 add byte ptr [bx + si], al
+314:53bb add byte ptr [bx + si], al
+314:53bd add byte ptr [bx + si], al
+314:53bf add byte ptr [bx + si], al
+314:53c1 add byte ptr [bx + si], al
+314:53c3 add byte ptr [bx + si], al
+314:53c5 add byte ptr [bx + si], al
+314:53c7 add byte ptr [bx + si], al
+314:53c9 add byte ptr [bx + si], al
+314:53cb add byte ptr [bx + si], al
+314:53cd add byte ptr [bx + si], al
+314:53cf add byte ptr [bx + si], al
+314:53d1 add byte ptr [bx + si], al
+314:53d3 add byte ptr [bx + si], al
+314:53d5 add byte ptr [bx + si], al
+314:53d7 add byte ptr [bx + si], al
+314:53d9 add byte ptr [bx + si], al
+314:53db add byte ptr [bx + si], al
+314:53dd add byte ptr [bx + si], al
+314:53df add byte ptr [bx + si], al
+314:53e1 add byte ptr [bx + si], al
+314:53e3 add byte ptr [bx + si], al
+314:53e5 add byte ptr [bx + si], al
+314:53e7 add byte ptr [bx + si], al
+314:53e9 add byte ptr [bx + si], al
+314:53eb add byte ptr [bx + si], al
+314:53ed add byte ptr [bx + si], al
+314:53ef add byte ptr [bx + si], al
+314:53f1 add byte ptr [bx + si], al
+314:53f3 add byte ptr [bx + si], al
+314:53f5 add byte ptr [bx + si], al
+314:53f7 add byte ptr [bx + si], al
+314:53f9 add byte ptr [bx + si], al
+314:53fb add byte ptr [bx + si], al
+314:53fd add byte ptr [bx + si], al
+314:53ff add byte ptr [bx + si], al
+314:5401 add byte ptr [bx + si], al
+314:5403 add byte ptr [bx + si], al
+314:5405 add byte ptr [bx + si], al
+314:5407 add byte ptr [bx + si], al
+314:5409 add byte ptr [bx + si], al
+314:540b add byte ptr [bx + si], al
+314:540d add byte ptr [bx + si], al
+314:540f add byte ptr [bx + si], al
+314:5411 add byte ptr [bx + si], al
+314:5413 add byte ptr [bx + si], al
+314:5415 add byte ptr [bx + si], al
+314:5417 add byte ptr [bx + si], al
+314:5419 add byte ptr [bx + si], al
+314:541b add byte ptr [bx + si], al
+314:541d add byte ptr [bx + si], al
+314:541f add byte ptr [bx + si], al
+314:5421 add byte ptr [bx + si], al
+314:5423 add byte ptr [bx + si], al
+314:5425 add byte ptr [bx + si], al
+314:5427 add byte ptr [bx + si], al
+314:5429 add byte ptr [bx + si], al
+314:542b add byte ptr [bx + si], al
+314:542d add byte ptr [bx + si], al
+314:542f add byte ptr [bx + si], al
+314:5431 add byte ptr [bx + si], al
+314:5433 add byte ptr [bx + si], al
+314:5435 add byte ptr [bx + si], al
+314:5437 add byte ptr [bx + si], al
+314:5439 add byte ptr [bx + si], al
+314:543b add byte ptr [bx + si], al
+314:543d add byte ptr [bx + si], al
+314:543f add byte ptr [bx + si], al
+314:5441 add byte ptr [bx + si], al
+314:5443 add byte ptr [bx + si], al
+314:5445 add byte ptr [bx + si], al
+314:5447 add byte ptr [bx + si], al
+314:5449 add byte ptr [bx + si], al
+314:544b add byte ptr [bx + si], al
+314:544d add byte ptr [bx + si], al
+314:544f add byte ptr [bx + si], al
+314:5451 add byte ptr [bx + si], al
+314:5453 add byte ptr [bx + si], al
+314:5455 add byte ptr [bx + si], al
+314:5457 add byte ptr [bx + si], al
+314:5459 add byte ptr [bx + si], al
+314:545b add byte ptr [bx + si], al
+314:545d add byte ptr [bx + si], al
+314:545f add byte ptr [bx + si], al
+314:5461 add byte ptr [bx + si], al
+314:5463 add byte ptr [bx + si], al
+314:5465 add byte ptr [bx + si], al
+314:5467 add byte ptr [bx + si], al
+314:5469 add byte ptr [bx + si], al
+314:546b add byte ptr [bx + si], al
+314:546d add byte ptr [bx + si], al
+314:546f add byte ptr [bx + si], al
+314:5471 add byte ptr [bx + si], al
+314:5473 add byte ptr [bx + si], al
+314:5475 add byte ptr [bx + si], al
+314:5477 add byte ptr [bx + si], al
+314:5479 add byte ptr [bx + si], al
+314:547b add byte ptr [bx + si], al
+314:547d add byte ptr [bx + si], al
+314:547f add byte ptr [bx + si], al
+314:5481 add byte ptr [bx + si], al
+314:5483 add byte ptr [bx + si], al
+314:5485 add byte ptr [bx + si], al
+314:5487 add byte ptr [bx + si], al
+314:5489 add byte ptr [bx + si], al
+314:548b add byte ptr [bx + si], al
+314:548d add byte ptr [bx + si], al
+314:548f add byte ptr [bx + si], al
+314:5491 add byte ptr [bx + si], al
+314:5493 add byte ptr [bx + si], al
+314:5495 add byte ptr [bx + si], al
+314:5497 add byte ptr [bx + si], al
+314:5499 add byte ptr [bx + si], al
+314:549b add byte ptr [bx + si], al
+314:549d add byte ptr [bx + si], al
+314:549f add byte ptr [bx + si], al
+314:54a1 add byte ptr [bx + si], al
+314:54a3 add byte ptr [bx + si], al
+314:54a5 add byte ptr [bx + si], al
+314:54a7 add byte ptr [bx + si], al
+314:54a9 add byte ptr [bx + si], al
+314:54ab add byte ptr [bx + si], al
+314:54ad add byte ptr [bx + si], al
+314:54af add byte ptr [bx + si], al
+314:54b1 add byte ptr [bx + si], al
+314:54b3 add byte ptr [bx + si], al
+314:54b5 add byte ptr [bx + si], al
+314:54b7 add byte ptr [bx + si], al
+314:54b9 add byte ptr [bx + si], al
+314:54bb add byte ptr [bx + si], al
+314:54bd add byte ptr [bx + si], al
+314:54bf add byte ptr [bx + si], al
+314:54c1 add byte ptr [bx + si], al
+314:54c3 add byte ptr [bx + si], al
+314:54c5 add byte ptr [bx + si], al
+314:54c7 add byte ptr [bx + si], al
+314:54c9 add byte ptr [bx + si], al
+314:54cb add byte ptr [bx + si], al
+314:54cd add byte ptr [bx + si], al
+314:54cf add byte ptr [bx + si], al
+314:54d1 add byte ptr [bx + si], al
+314:54d3 add byte ptr [bx + si], al
+314:54d5 add byte ptr [bx + si], al
+314:54d7 add byte ptr [bx + si], al
+314:54d9 add byte ptr [bx + si], al
+314:54db add byte ptr [bx + si], al
+314:54dd add byte ptr [bx + si], al
+314:54df add byte ptr [bx + si], al
+314:54e1 add byte ptr [bx + si], al
+314:54e3 add byte ptr [bx + si], al
+314:54e5 add byte ptr [bx + si], al
+314:54e7 add byte ptr [bx + si], al
+314:54e9 add byte ptr [bx + si], al
+314:54eb add byte ptr [bx + si], al
+314:54ed add byte ptr [bx + si], al
+314:54ef add byte ptr [bx + si], al
+314:54f1 add byte ptr [bx + si], al
+314:54f3 add byte ptr [bx + si], al
+314:54f5 add byte ptr [bx + si], al
+314:54f7 add byte ptr [bx + si], al
+314:54f9 add byte ptr [bx + si], al
+314:54fb add byte ptr [bx + si], al
+314:54fd add byte ptr [bx + si], al
+314:54ff add byte ptr [bx + si], al
+314:5501 add byte ptr [bx + si], al
+314:5503 add byte ptr [bx + si], al
+314:5505 add byte ptr [bx + si], al
+314:5507 add byte ptr [bx + si], al
+314:5509 add byte ptr [bx + si], al
+314:550b add byte ptr [bx + si], al
+314:550d add byte ptr [bx + si], al
+314:550f add byte ptr [bx + si], al
+314:5511 add byte ptr [bx + si], al
+314:5513 add byte ptr [bx + si], al
+314:5515 add byte ptr [bx + si], al
+314:5517 add byte ptr [bx + si], al
+314:5519 add byte ptr [bx + si], al
+314:551b add byte ptr [bx + si], al
+314:551d add byte ptr [bx + si], al
+314:551f add byte ptr [bx + si], al
+314:5521 add byte ptr [bx + si], al
+314:5523 add byte ptr [bx + si], al
+314:5525 add byte ptr [bx + si], al
+314:5527 add byte ptr [bx + si], al
+314:5529 add byte ptr [bx + si], al
+314:552b add byte ptr [bx + si], al
+314:552d add byte ptr [bx + si], al
+314:552f add byte ptr [bx + si], al
+314:5531 add byte ptr [bx + si], al
+314:5533 add byte ptr [bx + si], al
+314:5535 add byte ptr [bx + si], al
+314:5537 add byte ptr [bx + si], al
+314:5539 add byte ptr [bx + si], al
+314:553b add byte ptr [bx + si], al
+314:553d add byte ptr [bx + si], al
+314:553f add byte ptr [bx + si], al
+314:5541 add byte ptr [bx + si], al
+314:5543 add byte ptr [bx + si], al
+314:5545 add byte ptr [bx + si], al
+314:5547 add byte ptr [bx + si], al
+314:5549 add byte ptr [bx + si], al
+314:554b add byte ptr [bx + si], al
+314:554d add byte ptr [bx + si], al
+314:554f add byte ptr [bx + si], al
+314:5551 add byte ptr [bx + si], al
+314:5553 add byte ptr [bx + si], al
+314:5555 add byte ptr [bx + si], al
+314:5557 add byte ptr [bx + si], al
+314:5559 add byte ptr [bx + si], al
+314:555b add byte ptr [bx + si], al
+314:555d add byte ptr [bx + si], al
+314:555f add byte ptr [bx + si], al
+314:5561 add byte ptr [bx + si], al
+314:5563 add byte ptr [bx + si], al
+314:5565 add byte ptr [bx + si], al
+314:5567 add byte ptr [bx + si], al
+314:5569 add byte ptr [bx + si], al
+314:556b add byte ptr [bx + si], al
+314:556d add byte ptr [bx + si], al
+314:556f add byte ptr [bx + si], al
+314:5571 add byte ptr [bx + si], al
+314:5573 add byte ptr [bx + si], al
+314:5575 add byte ptr [bx + si], al
+314:5577 add byte ptr [bx + si], al
+314:5579 add byte ptr [bx + si], al
+314:557b add byte ptr [bx + si], al
+314:557d add byte ptr [bx + si], al
+314:557f add byte ptr [bx + si], al
+314:5581 add byte ptr [bx + si], al
+314:5583 add byte ptr [bx + si], al
+314:5585 add byte ptr [bx + si], al
+314:5587 add byte ptr [bx + si], al
+314:5589 add byte ptr [bx + si], al
+314:558b add byte ptr [bx + si], al
+314:558d add byte ptr [bx + si], al
+314:558f add byte ptr [bx + si], al
+314:5591 add byte ptr [bx + si], al
+314:5593 add byte ptr [bx + si], al
+314:5595 add byte ptr [bx + si], al
+314:5597 add byte ptr [bx + si], al
+314:5599 add byte ptr [bx + si], al
+314:559b add byte ptr [bx + si], al
+314:559d add byte ptr [bx + si], al
+314:559f add byte ptr [bx + si], al
+314:55a1 add byte ptr [bx + si], al
+314:55a3 add byte ptr [bx + si], al
+314:55a5 add byte ptr [bx + si], al
+314:55a7 add byte ptr [bx + si], al
+314:55a9 add byte ptr [bx + si], al
+314:55ab add byte ptr [bx + si], al
+314:55ad add byte ptr [bx + si], al
+314:55af add byte ptr [bx + si], al
+314:55b1 add byte ptr [bx + si], al
+314:55b3 add byte ptr [bx + si], al
+314:55b5 add byte ptr [bx + si], al
+314:55b7 add byte ptr [bx + si], al
+314:55b9 add byte ptr [bx + si], al
+314:55bb add byte ptr [bx + si], al
+314:55bd add byte ptr [bx + si], al
+314:55bf add byte ptr [bx + si], al
+314:55c1 add byte ptr [bx + si], al
+314:55c3 add byte ptr [bx + si], al
+314:55c5 add byte ptr [bx + si], al
+314:55c7 add byte ptr [bx + si], al
+314:55c9 add byte ptr [bx + si], al
+314:55cb add byte ptr [bx + si], al
+314:55cd add byte ptr [bx + si], al
+314:55cf add byte ptr [bx + si], al
+314:55d1 add byte ptr [bx + si], al
+314:55d3 add byte ptr [bx + si], al
+314:55d5 add byte ptr [bx + si], al
+314:55d7 add byte ptr [bx + si], al
+314:55d9 add byte ptr [bx + si], al
+314:55db add byte ptr [bx + si], al
+314:55dd add byte ptr [bx + si], al
+314:55df add byte ptr [bx + si], al
+314:55e1 add byte ptr [bx + si], al
+314:55e3 add byte ptr [bx + si], al
+314:55e5 add byte ptr [bx + si], al
+314:55e7 add byte ptr [bx + si], al
+314:55e9 add byte ptr [bx + si], al
+314:55eb add byte ptr [bx + si], al
+314:55ed add byte ptr [bx + si], al
+314:55ef add byte ptr [bx + si], al
+314:55f1 add byte ptr [bx + si], al
+314:55f3 add byte ptr [bx + si], al
+314:55f5 add byte ptr [bx + si], al
+314:55f7 add byte ptr [bx + si], al
+314:55f9 add byte ptr [bx + si], al
+314:55fb add byte ptr [bx + si], al
+314:55fd add byte ptr [bx + si], al
+314:55ff add byte ptr [bx + si], al
+314:5601 add byte ptr [bx + si], al
+314:5603 add byte ptr [bx + si], al
+314:5605 add byte ptr [bx + si], al
+314:5607 add byte ptr [bx + si], al
+314:5609 add byte ptr [bx + si], al
+314:560b add byte ptr [bx + si], al
+314:560d add byte ptr [bx + si], al
+314:560f add byte ptr [bx + si], al
+314:5611 add byte ptr [bx + si], al
+314:5613 add byte ptr [bx + si], al
+314:5615 add byte ptr [bx + si], al
+314:5617 add byte ptr [bx + si], al
+314:5619 add byte ptr [bx + si], al
+314:561b add byte ptr [bx + si], al
+314:561d add byte ptr [bx + si], al
+314:561f add byte ptr [bx + si], al
+314:5621 add byte ptr [bx + si], al
+314:5623 add byte ptr [bx + si], al
+314:5625 add byte ptr [bx + si], al
+314:5627 add byte ptr [bx + si], al
+314:5629 add byte ptr [bx + si], al
+314:562b add byte ptr [bx + si], al
+314:562d add byte ptr [bx + si], al
+314:562f add byte ptr [bx + si], al
+314:5631 add byte ptr [bx + si], al
+314:5633 add byte ptr [bx + si], al
+314:5635 add byte ptr [bx + si], al
+314:5637 add byte ptr [bx + si], al
+314:5639 add byte ptr [bx + si], al
+314:563b add byte ptr [bx + si], al
+314:563d add byte ptr [bx + si], al
+314:563f add byte ptr [bx + si], al
+314:5641 add byte ptr [bx + si], al
+314:5643 add byte ptr [bx + si], al
+314:5645 add byte ptr [bx + si], al
+314:5647 add byte ptr [bx + si], al
+314:5649 add byte ptr [bx + si], al
+314:564b add byte ptr [bx + si], al
+314:564d add byte ptr [bx + si], al
+314:564f add byte ptr [bx + si], al
+314:5651 add byte ptr [bx + si], al
+314:5653 add byte ptr [bx + si], al
+314:5655 add byte ptr [bx + si], al
+314:5657 add byte ptr [bx + si], al
+314:5659 add byte ptr [bx + si], al
+314:565b add byte ptr [bx + si], al
+314:565d add byte ptr [bx + si], al
+314:565f add byte ptr [bx + si], al
+314:5661 add byte ptr [bx + si], al
+314:5663 add byte ptr [bx + si], al
+314:5665 add byte ptr [bx + si], al
+314:5667 add byte ptr [bx + si], al
+314:5669 add byte ptr [bx + si], al
+314:566b add byte ptr [bx + si], al
+314:566d add byte ptr [bx + si], al
+314:566f add byte ptr [bx + si], al
+314:5671 add byte ptr [bx + si], al
+314:5673 add byte ptr [bx + si], al
+314:5675 add byte ptr [bx + si], al
+314:5677 add byte ptr [bx + si], al
+314:5679 add byte ptr [bx + si], al
+314:567b add byte ptr [bx + si], al
+314:567d add byte ptr [bx + si], al
+314:567f add byte ptr [bx + si], al
+314:5681 add byte ptr [bx + si], al
+314:5683 add byte ptr [bx + si], al
+314:5685 add byte ptr [bx + si], al
+314:5687 add byte ptr [bx + si], al
+314:5689 add byte ptr [bx + si], al
+314:568b add byte ptr [bx + si], al
+314:568d add byte ptr [bx + si], al
+314:568f add byte ptr [bx + si], al
+314:5691 add byte ptr [bx + si], al
+314:5693 add byte ptr [bx + si], al
+314:5695 add byte ptr [bx + si], al
+314:5697 add byte ptr [bx + si], al
+314:5699 add byte ptr [bx + si], al
+314:569b add byte ptr [bx + si], al
+314:569d add byte ptr [bx + si], al
+314:569f add byte ptr [bx + si], al
+314:56a1 add byte ptr [bx + si], al
+314:56a3 add byte ptr [bx + si], al
+314:56a5 add byte ptr [bx + si], al
+314:56a7 add byte ptr [bx + si], al
+314:56a9 add byte ptr [bx + si], al
+314:56ab add byte ptr [bx + si], al
+314:56ad add byte ptr [bx + si], al
+314:56af add byte ptr [bx + si], al
+314:56b1 add byte ptr [bx + si], al
+314:56b3 add byte ptr [bx + si], al
+314:56b5 add byte ptr [bx + si], al
+314:56b7 add byte ptr [bx + si], al
+314:56b9 add byte ptr [bx + si], al
+314:56bb add byte ptr [bx + si], al
+314:56bd add byte ptr [bx + si], al
+314:56bf add byte ptr [bx + si], al
+314:56c1 add byte ptr [bx + si], al
+314:56c3 add byte ptr [bx + si], al
+314:56c5 add byte ptr [bx + si], al
+314:56c7 add byte ptr [bx + si], al
+314:56c9 add byte ptr [bx + si], al
+314:56cb add byte ptr [bx + si], al
+314:56cd add byte ptr [bx + si], al
+314:56cf add byte ptr [bx + si], al
+314:56d1 add byte ptr [bx + si], al
+314:56d3 add byte ptr [bx + si], al
+314:56d5 add byte ptr [bx + si], al
+314:56d7 add byte ptr [bx + si], al
+314:56d9 add byte ptr [bx + si], al
+314:56db add byte ptr [bx + si], al
+314:56dd add byte ptr [bx + si], al
+314:56df add byte ptr [bx + si], al
+314:56e1 add byte ptr [bx + si], al
+314:56e3 add byte ptr [bx + si], al
+314:56e5 add byte ptr [bx + si], al
+314:56e7 add byte ptr [bx + si], al
+314:56e9 add byte ptr [bx + si], al
+314:56eb add byte ptr [bx + si], al
+314:56ed add byte ptr [bx + si], al
+314:56ef add byte ptr [bx + si], al
+314:56f1 add byte ptr [bx + si], al
+314:56f3 add byte ptr [bx + si], al
+314:56f5 add byte ptr [bx + si], al
+314:56f7 add byte ptr [bx + si], al
+314:56f9 add byte ptr [bx + si], al
+314:56fb add byte ptr [bx + si], al
+314:56fd add byte ptr [bx + si], al
+314:56ff add byte ptr [bx + si], al
+314:5701 add byte ptr [bx + si], al
+314:5703 add byte ptr [bx + si], al
+314:5705 add byte ptr [bx + si], al
+314:5707 add byte ptr [bx + si], al
+314:5709 add byte ptr [bx + si], al
+314:570b add byte ptr [bx + si], al
+314:570d add byte ptr [bx + si], al
+314:570f add byte ptr [bx + si], al
+314:5711 add byte ptr [bx + si], al
+314:5713 add byte ptr [bx + si], al
+314:5715 add byte ptr [bx + si], al
+314:5717 add byte ptr [bx + si], al
+314:5719 add byte ptr [bx + si], al
+314:571b add byte ptr [bx + si], al
+314:571d add byte ptr [bx + si], al
+314:571f add byte ptr [bx + si], al
+314:5721 add byte ptr [bx + si], al
+314:5723 add byte ptr [bx + si], al
+314:5725 add byte ptr [bx + si], al
+314:5727 add byte ptr [bx + si], al
+314:5729 add byte ptr [bx + si], al
+314:572b add byte ptr [bx + si], al
+314:572d add byte ptr [bx + si], al
+314:572f add byte ptr [bx + si], al
+314:5731 add byte ptr [bx + si], al
+314:5733 add byte ptr [bx + si], al
+314:5735 add byte ptr [bx + si], al
+314:5737 add byte ptr [bx + si], al
+314:5739 add byte ptr [bx + si], al
+314:573b add byte ptr [bx + si], al
+314:573d add byte ptr [bx + si], al
+314:573f add byte ptr [bx + si], al
+314:5741 add byte ptr [bx + si], al
+314:5743 add byte ptr [bx + si], al
+314:5745 add byte ptr [bx + si], al
+314:5747 add byte ptr [bx + si], al
+314:5749 add byte ptr [bx + si], al
+314:574b add byte ptr [bx + si], al
+314:574d add byte ptr [bx + si], al
+314:574f add byte ptr [bx + si], al
+314:5751 add byte ptr [bx + si], al
+314:5753 add byte ptr [bx + si], al
+314:5755 add byte ptr [bx + si], al
+314:5757 add byte ptr [bx + si], al
+314:5759 add byte ptr [bx + si], al
+314:575b add byte ptr [bx + si], al
+314:575d add byte ptr [bx + si], al
+314:575f add byte ptr [bx + si], al
+314:5761 add byte ptr [bx + si], al
+314:5763 add byte ptr [bx + si], al
+314:5765 add byte ptr [bx + si], al
+314:5767 add byte ptr [bx + si], al
+314:5769 add byte ptr [bx + si], al
+314:576b add byte ptr [bx + si], al
+314:576d add byte ptr [bx + si], al
+314:576f add byte ptr [bx + si], al
+314:5771 add byte ptr [bx + si], al
+314:5773 add byte ptr [bx + si], al
+314:5775 add byte ptr [bx + si], al
+314:5777 add byte ptr [bx + si], al
+314:5779 add byte ptr [bx + si], al
+314:577b add byte ptr [bx + si], al
+314:577d add byte ptr [bx + si], al
+314:577f add byte ptr [bx + si], al
+314:5781 add byte ptr [bx + si], al
+314:5783 add byte ptr [bx + si], al
+314:5785 add byte ptr [bx + si], al
+314:5787 add byte ptr [bx + si], al
+314:5789 add byte ptr [bx + si], al
+314:578b add byte ptr [bx + si], al
+314:578d add byte ptr [bx + si], al
+314:578f add byte ptr [bx + si], al
+314:5791 add byte ptr [bx + si], al
+314:5793 add byte ptr [bx + si], al
+314:5795 add byte ptr [bx + si], al
+314:5797 add byte ptr [bx + si], al
+314:5799 add byte ptr [bx + si], al
+314:579b add byte ptr [bx + si], al
+314:579d add byte ptr [bx + si], al
+314:579f add byte ptr [bx + si], al
+314:57a1 add byte ptr [bx + si], al
+314:57a3 add byte ptr [bx + si], al
+314:57a5 add byte ptr [bx + si], al
+314:57a7 add byte ptr [bx + si], al
+314:57a9 add byte ptr [bx + si], al
+314:57ab add byte ptr [bx + si], al
+314:57ad add byte ptr [bx + si], al
+314:57af add byte ptr [bx + si], al
+314:57b1 add byte ptr [bx + si], al
+314:57b3 add byte ptr [bx + si], al
+314:57b5 add byte ptr [bx + si], al
+314:57b7 add byte ptr [bx + si], al
+314:57b9 add byte ptr [bx + si], al
+314:57bb add byte ptr [bx + si], al
+314:57bd add byte ptr [bx + si], al
+314:57bf add byte ptr [bx + si], al
+314:57c1 add byte ptr [bx + si], al
+314:57c3 add byte ptr [bx + si], al
+314:57c5 add byte ptr [bx + si], al
+314:57c7 add byte ptr [bx + si], al
+314:57c9 add byte ptr [bx + si], al
+314:57cb add byte ptr [bx + si], al
+314:57cd add byte ptr [bx + si], al
+314:57cf add byte ptr [bx + si], al
+314:57d1 add byte ptr [bx + si], al
+314:57d3 add byte ptr [bx + si], al
+314:57d5 add byte ptr [bx + si], al
+314:57d7 add byte ptr [bx + si], al
+314:57d9 add byte ptr [bx + si], al
+314:57db add byte ptr [bx + si], al
+314:57dd add byte ptr [bx + si], al
+314:57df add byte ptr [bx + si], al
+314:57e1 add byte ptr [bx + si], al
+314:57e3 add byte ptr [bx + si], al
+314:57e5 add byte ptr [bx + si], al
+314:57e7 add byte ptr [bx + si], al
+314:57e9 add byte ptr [bx + si], al
+314:57eb add byte ptr [bx + si], al
+314:57ed add byte ptr [bx + si], al
+314:57ef add byte ptr [bx + si], al
+314:57f1 add byte ptr [bx + si], al
+314:57f3 add byte ptr [bx + si], al
+314:57f5 add byte ptr [bx + si], al
+314:57f7 add byte ptr [bx + si], al
+314:57f9 add byte ptr [bx + si], al
+314:57fb add byte ptr [bx + si], al
+314:57fd add byte ptr [bx + si], al
+314:57ff add byte ptr [bx + si], al
+314:5801 add byte ptr [bx + si], al
+314:5803 add byte ptr [bx + si], al
+314:5805 add byte ptr [bx + si], al
+314:5807 add byte ptr [bx + si], al
+314:5809 add byte ptr [bx + si], al
+314:580b add byte ptr [bx + si], al
+314:580d add byte ptr [bx + si], al
+314:580f add byte ptr [bx + si], al
+314:5811 add byte ptr [bx + si], al
+314:5813 add byte ptr [bx + si], al
+314:5815 add byte ptr [bx + si], al
+314:5817 add byte ptr [bx + si], al
+314:5819 add byte ptr [bx + si], al
+314:581b add byte ptr [bx + si], al
+314:581d add byte ptr [bx + 0xdb], al
+314:5821 add bh, bh
+314:5823 inc word ptr [bx + si]
+314:5825 add byte ptr [bx + si], al
+314:5827 add byte ptr [bx + si], al
+314:5829 add byte ptr [bx + si], al
+314:582b add word ptr [bx + si], ax
+314:582d add byte ptr [bx + si], al
+314:582f add byte ptr [bx + si], al
+314:5831 add byte ptr [di], al
+314:5833 add bh, bh
