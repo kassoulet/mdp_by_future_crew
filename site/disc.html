@@ -8,6 +8,10 @@
   html, body { margin: 0; height: 100%; background: #000; color: var(--fg); font: 14px monospace; }
   body { display: grid; grid-template-rows: 1fr auto; justify-items: center; align-items: center; overflow: hidden; }
   canvas { display: block; }
+  #crt { position: fixed; pointer-events: none; background-image:
+    linear-gradient(to bottom, transparent 55%, rgba(0,0,0,.35) 100%),
+    radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,.15) 100%); }
+  #bar label { color: var(--dim); white-space: nowrap; }
   #bar { display: flex; gap: 12px; align-items: center; padding: 8px 16px; width: min(640px, 100%); box-sizing: border-box; background: var(--bg); }
   #bar button, #bar select { font: inherit; background: #000; color: var(--fg); border: 1px solid var(--dim); padding: 2px 8px; }
   #bar button:focus-visible, #bar select:focus-visible, #seek:focus-visible { outline: 2px solid var(--hi); }
@@ -15,12 +19,14 @@
   #time { min-width: 6.5em; text-align: right; color: var(--dim); }
 </style>
 <canvas id="c" width="640" height="480"></canvas>
+<div id="crt" hidden></div>
 <div id="bar">
   <button id="back" title="Back (Backspace): playing screen to menu, menu to launcher">&larr; Back</button>
   <button id="pp" title="Pause / resume (Space)">Pause</button>
   <input id="seek" type="range" min="0" max="1" step="0.1" value="0" aria-label="Seek" disabled>
   <span id="time">0:00 / 0:00</span>
   <select id="sound" aria-label="Sound mode" title="Hi-fi: sinc interpolation at the native rate. Old-school: 22 kHz, 8-bit, no interpolation."><option value="hifi">Hi-fi</option><option value="oldschool">Old-school</option></select>
+  <label title="Scanline overlay (C)"><input type="checkbox" id="crtbox"> CRT</label>
 </div>
 <script type="module">
   import { runDisc } from './js/app.js';
@@ -33,7 +39,11 @@
   $('seek').onchange = () => { dragging = false; };
   const ui = {
     attach(p) { player = p; p.setMode(sound.value); },
-    screen(s) { scr = s; },
+    screen(s) {
+      scr = s; s.overlay = $('crt');
+      s.onLayout = () => { box.disabled = !s.crtOk; box.parentNode.title = s.crtOk ? 'Scanline overlay (C)' : 'Window too small for the CRT overlay (needs at least 2 device pixels per source row)'; };
+      s.crt = box.checked; s.layout();
+    },
     avail: () => [innerWidth, innerHeight - $('bar').offsetHeight],
     title(t) { document.title = t + ' - MDP'; },
     update(pos, p) {
@@ -46,5 +56,10 @@
   const sound = $('sound');
   try { sound.value = localStorage.getItem('mdp-sound') || 'hifi'; } catch {}
   sound.onchange = e => { try { localStorage.setItem('mdp-sound', e.target.value); } catch {} player?.setMode(e.target.value); sound.blur(); };
+  const box = $('crtbox');
+  try { box.checked = localStorage.getItem('mdp-crt') === '1'; } catch {}
+  const setCrt = on => { box.checked = on; try { localStorage.setItem('mdp-crt', on ? '1' : '0'); } catch {} if (scr) { scr.crt = on; scr.layout(); } };
+  box.onchange = () => { setCrt(box.checked); box.blur(); };
+  addEventListener('keydown', e => { if ((e.key === 'c' || e.key === 'C') && !e.ctrlKey && !e.altKey && !e.metaKey && !box.disabled) setCrt(!box.checked); });
   runDisc($('c'), d, ui).then(() => { location.href = './'; });
 </script>

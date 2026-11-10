@@ -30,17 +30,31 @@ export class Screen {
       this.wheel += e.deltaY * (e.deltaMode === 1 ? 40 : e.deltaMode === 2 ? 400 : 1);   // pixels; 40 px = one step
       this.wheelShift = e.shiftKey; this.wheel = Math.max(-200, Math.min(200, this.wheel));
     }, { passive: false });
-    addEventListener('resize', () => this.layout()); this.layout();
+    addEventListener('resize', () => this.layout()); addEventListener('fullscreenchange', () => this.layout()); this.layout();
     requestAnimationFrame(t => this.tick(t));
   }
   // 4:3 box in device pixels, any size. The image is first enlarged by a whole factor with nearest-neighbour and then
   // scaled down smoothly, so edges stay crisp.
   layout() {
     const dpr = devicePixelRatio || 1, [aw, ah] = this.avail();
-    const s = Math.min(aw * dpr / 640, ah * dpr / 480);
+    let s = Math.min(aw * dpr / 640, ah * dpr / 480);
+    // CRT overlay (display only): the scanline period must be a whole number k of device pixels per source row, so the
+    // picture is sized to k*480 device px. k < 2: unavailable, normal layout.
+    const kc = Math.floor(s); this.crtOk = kc >= 2;
+    const crt = !!this.crt && this.crtOk; if (crt) s = kc;
     const W = Math.round(640 * s), H = Math.round(480 * s);
     this.canvas.width = W; this.canvas.height = H;
     this.canvas.style.width = W / dpr + 'px'; this.canvas.style.height = H / dpr + 'px';
+    const o = this.overlay;
+    if (o) {
+      o.hidden = !crt;
+      if (crt) {
+        const r = this.canvas.getBoundingClientRect(), p = kc / dpr + 'px';
+        Object.assign(o.style, { left: r.left + 'px', top: r.top + 'px', width: r.width + 'px', height: r.height + 'px',
+          backgroundSize: `100% ${p}, 100% 100%` });
+      }
+    }
+    this.onLayout?.();
     this.k = Math.max(1, Math.ceil(s));
     this.mid.width = 640 * this.k; this.mid.height = 480 * this.k;
     this.mctx.imageSmoothingEnabled = false;

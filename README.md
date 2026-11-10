@@ -22,6 +22,8 @@ Open <http://localhost:8000/>. Pushes to `main` deploy to GitHub Pages (`.github
 
 Mouse: wheel scrolls the menu (volume on the playing screen, with Shift: order), click selects then plays, click the progress bar to seek, click "ESC for menu" / "F10 for dos". Back button or Backspace: playing screen to menu, menu to launcher.
 
+CRT option (display only, off by default; checkbox or `C`, remembered): a scanline + faint vignette overlay. The picture is then sized to a whole number k of device pixels per source row (k*480 px high) so the bands are regular, with no moire; unavailable (checkbox greyed) when k < 2.
+
 Keys: arrows / PgUp / PgDn and Enter in the menu; Esc switches between menu and playing screen, F10 leaves;
 Left/Right change order; `+`/`-` volume and `S` stereo on Chaotic Mind; Space pauses. Under the canvas: pause,
 seek bar and a Hi-fi / Old-school sound switch.
