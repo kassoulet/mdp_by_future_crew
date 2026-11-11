@@ -57,3 +57,17 @@ function parseMOD(b) {
   }
   return { kind: 'mod', title: str(b, 0, 20), orders, nOrders: len, samples, patterns, nChannels: nch };
 }
+
+// True when the exact S3M/MOD reader above understands the file (S3M, or a MOD with a known signature)
+export function isExact(b) {
+  if (b.length > 0x30 && str(b, 0x2c, 4) === 'SCRM') return true;
+  const sig = str(b, 1080, 4);
+  return b.length > 1084 && /^(M\.K\.|M!K!|\dCHN|\d\dCH|FLT[48])$/.test(sig);
+}
+// Generic module (any format libopenmpt loads) from the worklet's pattern dump; same shape as parseModule's result.
+export function fromDump(d) {
+  const patterns = d.pats.map(({ rows, a }) => Array.from({ length: rows }, (_, r) => Array.from({ length: d.nch }, (_, c) => {
+    const o = (r * d.nch + c) * 5; return { note: a[o], inst: a[o + 1], vol: a[o + 2], cmd: a[o + 3], info: a[o + 4] };
+  })));
+  return { kind: 'omp', title: d.title, orders: d.orders, nOrders: d.orders.length, samples: [], patterns, nChannels: d.nch };
+}

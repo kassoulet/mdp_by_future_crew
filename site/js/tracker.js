@@ -12,7 +12,14 @@ export class Tracker {
     for (let c = 0; c < 16; c++) {
       const cell = cells[c], ch = this.ch[c]; if (!cell) continue;
       const smp = cell.inst ? m.samples[cell.inst - 1] : null;
-      if (m.kind === 's3m') {
+      if (m.kind === 'omp') {                       // generic: note 1..120, anything above = cut / off; volume column when present
+        if (cell.note >= 121) ch.vol = 0;
+        else if (cell.note) {
+          if (cell.inst) ch.inst = cell.inst;
+          ch.vol = cell.vol || 64; ch.loop = false;
+          ch.period = Math.min(0xffff, Math.floor(16 * 16 * T[(cell.note - 1) % 12] / 2 ** ((cell.note - 1) / 12 | 0)));
+        } else if (cell.vol) ch.vol = cell.vol;
+      } else if (m.kind === 's3m') {
         const porta = cell.cmd === 7 || cell.cmd === 12;                       // G, L
         if (cell.note === 254) ch.vol = 0;
         else if (cell.note < 254 && !porta) {

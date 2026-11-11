@@ -22,7 +22,7 @@
 </style>
 <canvas id="c" width="640" height="480"></canvas>
 <div id="crt" hidden></div>
-<div id="pick" hidden><b>Play your own music</b>Drop an S3M or MOD file here, or <input type="file" id="file" accept=".s3m,.mod"><div id="msg"></div><small>The file stays in your browser (nothing is uploaded).</small></div>
+<div id="pick" hidden><b>Play your own music</b>Drop a module (MOD S3M XM IT 669 AMF DBM DMF DSM FAR MDL MED MTM OKT PTM STM ULT UMX MT2 PSM ...) here, or <input type="file" id="file"><div id="msg"></div><small>The file stays in your browser (nothing is uploaded).</small></div>
 <div id="bar">
   <button id="back" title="Back (Backspace): playing screen to menu, menu to launcher">&larr; Back</button>
   <button id="pp" title="Pause / resume (Space)">Pause</button>
@@ -70,7 +70,7 @@
     pick.hidden = false;
     const go = async f => {
       if (!f) return;
-      try { const buf = await f.arrayBuffer(); pick.hidden = true; await runFile($('c'), buf, ui); location.href = './'; }
+      try { const buf = await f.arrayBuffer(); pick.hidden = true; ui.name = f.name; await runFile($('c'), buf, ui); location.href = './'; }
       catch (e) { pick.hidden = false; msg.textContent = f.name + ': ' + e.message; }
     };
     file.onchange = () => go(file.files[0]);

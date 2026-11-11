@@ -2,7 +2,7 @@ import { VGA } from './vga.js';
 import { Menu } from './menu.js';
 import { PlayScreen } from './play.js';
 import { Player } from './audio.js';
-import { parseModule } from './modinfo.js';
+import { parseModule, isExact, fromDump } from './modinfo.js';
 import { Tracker } from './tracker.js';
 
 const KEYMAP = { ArrowUp: 0x4800, ArrowDown: 0x5000, PageUp: 0x4900, PageDown: 0x5100, Enter: 0x1c0d, Escape: 0x011b, F10: 0x4400,
@@ -127,11 +127,13 @@ export async function runDisc(canvas, disc, ui = {}) {
 // Upload mode: play one S3M/MOD file the user picked (no menu). Resolves when the user leaves the playing screen.
 export async function runFile(canvas, buf, ui = {}) {
   const data = await fetch('assets/menu_data.bin').then(r => r.arrayBuffer());
-  const mod = parseModule(new Uint8Array(buf.slice(0)));
-  if (!mod.nOrders || !mod.patterns.length) throw new Error('not a valid S3M or MOD file');
-  const scr = new Screen(canvas, ui.avail), player = new Player();
-  ui.screen?.(scr); scr.onGesture = () => player.ensure(); ui.attach?.(player);
-  await player.load(buf);
+  const bytes = new Uint8Array(buf.slice(0)), exact = isExact(bytes);
+  const player = new Player(); ui.attach?.(player);
+  await player.load(buf);          // rejects when libopenmpt cannot read it (before any screen exists)
+  const scr = new Screen(canvas, ui.avail); ui.screen?.(scr); scr.onGesture = () => player.ensure();
+  const mod = exact ? parseModule(bytes) : fromDump(await player.dump());
+  if (!mod.title) mod.title = ui.name || 'untitled';
+  if (!mod.nOrders) throw new Error('empty module');
   ui.title?.(mod.title);
   await playScreen(scr, player, { mod, tracker: new Tracker(mod) }, data, false, ui);
   player.stop();

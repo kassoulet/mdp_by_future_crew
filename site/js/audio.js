@@ -17,15 +17,18 @@ export class Player {
   }
   onMsg(m) {
     if (m.cmd === 'pos') { this.pos = m; this.posAt = performance.now(); }
+    else if (m.cmd === 'error') this.loadedRej?.(new Error('not a module file libopenmpt can read'));
+    else if (m.cmd === 'dump') this.dumpRes?.(m);
     else if (m.cmd === 'loaded') { this.duration = m.duration; this.orders = m.orders; this.loadedRes?.(m); }
   }
   async load(buf) {
     await this.ensure();
-    const p = new Promise(r => { this.loadedRes = r; });
+    const p = new Promise((r, j) => { this.loadedRes = r; this.loadedRej = j; });
     this.node.port.postMessage({ cmd: 'load', val: buf }, [buf]);
     await p; this.pos = { sec: 0, order: 0, pattern: 0, row: 0 };
     this.paused = false; this.node.port.postMessage({ cmd: 'play' });
   }
+  dump() { const p = new Promise(r => { this.dumpRes = r; }); this.node.port.postMessage({ cmd: 'dump' }); return p; }
   pause(on = !this.paused) { this.paused = on; this.node?.port.postMessage({ cmd: on ? 'pause' : 'play' }); }
   seek(sec) { this.node?.port.postMessage({ cmd: 'seek', val: sec }); }
   orderRow(o, r = 0) { this.node?.port.postMessage({ cmd: 'orderRow', val: { o, r } }); }

@@ -24,7 +24,7 @@ Mouse: wheel scrolls the menu (volume on the playing screen, with Shift: order),
 
 CRT option (display only, off by default; checkbox or `C`, remembered): a scanline + faint vignette overlay. The picture is then sized to a whole number k of device pixels per source row (k*480 px high) so the bands are regular, with no moire; unavailable (checkbox greyed) when k < 2.
 
-Your own music: the launcher has a "Your own music" entry (`disc.html?d=upload`): pick or drop an S3M or MOD file and it plays on the original playing screen with the same controls (file stays in the browser; XM/IT are not supported by the playing-screen parser).
+Your own music: the launcher has a "Your own music" entry (`disc.html?d=upload`): pick or drop any module libopenmpt loads (MOD S3M XM IT 669 AMF AMS DBM DMF DSM FAR MDL MED MTM OKT PTM STM ULT UMX MT2 PSM ...; not libmodplug's ABC/MIDI/PAT) and it plays on the original playing screen with the same controls. The file stays in the browser. S3M and standard MODs use the exact parser; other formats get their note markers from libopenmpt's pattern data (sample volume/loop and slides are not followed, so the markers are approximate).
 
 Keys: arrows / PgUp / PgDn and Enter in the menu; Esc switches between menu and playing screen, F10 leaves;
 Left/Right change order; `+`/`-` volume and `S` stereo on Chaotic Mind; Space pauses. Under the canvas: pause,

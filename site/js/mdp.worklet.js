@@ -26,6 +26,7 @@ class MDP extends AudioWorkletProcessor {
       case 'mode': this.mode = val; this.applyParams(); this.resetSrc(); break;
       case 'stereo': this.sep = val; this.applyParams(); break;
       case 'stop': this.stop(); break;
+      case 'dump': this.dump(); break;
     }
   }
   resetSrc() { this.srcLen = 0; this.phase = 0; }
@@ -48,6 +49,20 @@ class MDP extends AudioWorkletProcessor {
     this.applyParams(); this.resetSrc();
     this.port.postMessage({ cmd: 'loaded', duration: lib._openmpt_module_get_duration_seconds(this.mod),
       orders: lib._openmpt_module_get_num_orders(this.mod), channels: lib._openmpt_module_get_num_channels(this.mod) });
+  }
+  // Generic pattern data for formats the JS parser does not read (XM, IT, ...): first 16 channels, 5 bytes per cell
+  dump() {
+    const m = this.mod, L = lib, nPat = L._openmpt_module_get_num_patterns(m), nOrd = L._openmpt_module_get_num_orders(m);
+    const nch = Math.min(16, L._openmpt_module_get_num_channels(m)), orders = [];
+    for (let i = 0; i < nOrd; i++) orders.push(L._openmpt_module_get_order_pattern(m, i));
+    const pats = [];
+    for (let p = 0; p < nPat; p++) {
+      const rows = L._openmpt_module_get_pattern_num_rows(m, p), a = new Uint8Array(rows * nch * 5);
+      for (let r = 0, k = 0; r < rows; r++) for (let c = 0; c < nch; c++) for (const cmd of [0, 1, 4, 3, 5]) a[k++] = L._openmpt_module_get_pattern_row_channel_command(m, p, r, c, cmd);
+      pats.push({ rows, a });
+    }
+    const t = L._openmpt_module_get_metadata(m, cstr('title')); let title = ''; for (let i = 0; L.HEAPU8[t + i]; i++) title += String.fromCharCode(L.HEAPU8[t + i]);
+    this.port.postMessage({ cmd: 'dump', title, orders, nch, pats });
   }
   // fetch up to 512 frames at `rate` into this.src (interleaved L,R)
   fill(rate) {
