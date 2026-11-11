@@ -8,6 +8,8 @@
   html, body { margin: 0; height: 100%; background: #000; color: var(--fg); font: 14px monospace; }
   body { display: grid; grid-template-rows: 1fr auto; justify-items: center; align-items: center; overflow: hidden; }
   canvas { display: block; }
+  #pick { position: fixed; inset: 0 0 auto 0; margin: 20vh auto 0; width: min(520px, 90%); padding: 24px; background: var(--bg); text-align: center; border: 2px dashed var(--dim); }
+  #pick b { display: block; color: var(--hi); font-size: 1.2em; margin-bottom: 12px; } #pick input { display: block; margin: 12px auto; } #msg { color: #f88; min-height: 1.4em; } #pick small { color: var(--dim); }
   #crt { position: fixed; pointer-events: none; background-image:
     linear-gradient(to bottom, transparent 55%, rgba(0,0,0,.35) 100%),
     radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,.15) 100%); }
@@ -20,6 +22,7 @@
 </style>
 <canvas id="c" width="640" height="480"></canvas>
 <div id="crt" hidden></div>
+<div id="pick" hidden><b>Play your own music</b>Drop an S3M or MOD file here, or <input type="file" id="file" accept=".s3m,.mod"><div id="msg"></div><small>The file stays in your browser (nothing is uploaded).</small></div>
 <div id="bar">
   <button id="back" title="Back (Backspace): playing screen to menu, menu to launcher">&larr; Back</button>
   <button id="pp" title="Pause / resume (Space)">Pause</button>
@@ -29,7 +32,7 @@
   <label title="Scanline overlay (C)"><input type="checkbox" id="crtbox"> CRT</label>
 </div>
 <script type="module">
-  import { runDisc } from './js/app.js';
+  import { runDisc, runFile } from './js/app.js';
   const d = new URLSearchParams(location.search).get('d') || 'journey1';
   const $ = id => document.getElementById(id), fmt = s => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
   let player, scr, dragging = false;
@@ -61,5 +64,17 @@
   const setCrt = on => { box.checked = on; try { localStorage.setItem('mdp-crt', on ? '1' : '0'); } catch {} if (scr) { scr.crt = on; scr.layout(); } };
   box.onchange = () => { setCrt(box.checked); box.blur(); };
   addEventListener('keydown', e => { if ((e.key === 'c' || e.key === 'C') && !e.ctrlKey && !e.altKey && !e.metaKey && !box.disabled) setCrt(!box.checked); });
-  runDisc($('c'), d, ui).then(() => { location.href = './'; });
+  if (d !== 'upload') runDisc($('c'), d, ui).then(() => { location.href = './'; });
+  else {   // upload mode: pick or drop an S3M/MOD, then the normal playing screen
+    const pick = $('pick'), file = $('file'), msg = $('msg');
+    pick.hidden = false;
+    const go = async f => {
+      if (!f) return;
+      try { const buf = await f.arrayBuffer(); pick.hidden = true; await runFile($('c'), buf, ui); location.href = './'; }
+      catch (e) { pick.hidden = false; msg.textContent = f.name + ': ' + e.message; }
+    };
+    file.onchange = () => go(file.files[0]);
+    addEventListener('dragover', e => e.preventDefault());
+    addEventListener('drop', e => { e.preventDefault(); go(e.dataTransfer.files[0]); });
+  }
 </script>

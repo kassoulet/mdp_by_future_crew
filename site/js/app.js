@@ -124,6 +124,19 @@ export async function runDisc(canvas, disc, ui = {}) {
   return { kind: 'exit' };
 }
 
+// Upload mode: play one S3M/MOD file the user picked (no menu). Resolves when the user leaves the playing screen.
+export async function runFile(canvas, buf, ui = {}) {
+  const data = await fetch('assets/menu_data.bin').then(r => r.arrayBuffer());
+  const mod = parseModule(new Uint8Array(buf.slice(0)));
+  if (!mod.nOrders || !mod.patterns.length) throw new Error('not a valid S3M or MOD file');
+  const scr = new Screen(canvas, ui.avail), player = new Player();
+  ui.screen?.(scr); scr.onGesture = () => player.ensure(); ui.attach?.(player);
+  await player.load(buf);
+  ui.title?.(mod.title);
+  await playScreen(scr, player, { mod, tracker: new Tracker(mod) }, data, false, ui);
+  player.stop();
+}
+
 async function playScreen(scr, player, L, data, v11, ui) {
   const p = new PlayScreen(new Uint8Array(data), scr.vga), mod = L.mod;
   p.init({ title: mod.title, help: v11 ? HELP11 : HELP10, labels: v11 ? ['Ord', 'Pat', 'Row', 'Vol'] : ['Ord', 'Pat', 'Row'] });
