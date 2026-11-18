@@ -1,0 +1,256 @@
+# MDP (Future Crew, 1993) - asm snippets worth reading
+
+`MDP.EXE` is a Turbo Pascal 6/7 program (sound = STMIK 0.9) with two hand-written assembly units: the menu / glyph engine (code segment `0x314`) and the playing
+screen markers (segment `0xf4e`). v1.0 is LZEXE 0.91 packed; it was unpacked with unlzexe (`work/MDP10_unpacked.EXE`, 0x129A7 bytes). Every listing below is
+copied from `work/unit314.asm.txt` / `work/unitf4e*.asm.txt`, which are real-mode Capstone dumps made with `tools/disasm_seg.py unpacked.exe SEG OFF LEN`
+(addresses are `segment:offset` inside the unpacked image). The same routines run unmodified in the Unicorn oracle (`tools/oracle.py`), against which the JS port is
+diffed. Only the unit-0x314 routines were disassembled as a whole; the Pascal main program (progress bar at `0:20ba`, header at `0:2246`) was not dumped here, so
+nothing is claimed about it below.
+
+The hardware is BIOS mode 12h (640x480, 16 colours, 4 planar bit planes, 0xA000 segment). Nothing in these units is about speed in the 3D sense: the interesting
+part is how to get a 16-colour planar screen to do a lot with very few writes, on a 386/486.
+
+A note on reading the listings: almost every short conditional jump is followed by two `nop`s (`jb 0x4503` ... `nop; nop`). This is how the code in the file looks;
+the reason (assembler jump padding) is not verified, so the `nop`s are dropped from the excerpts below.
+
+---
+
+## 1. One glyph row = one `shrd`, one word store, one byte store (314:44cf..44ea)
+
+```
+314:44bb mov dx, 0x3c4            ; sequencer
+314:44be mov ah, byte ptr [0x2870]; plane mask of the current colour
+314:44c2 mov al, 2
+314:44c4 out dx, ax               ; SEQ index 2 (map mask) = mask
+314:44c5 mov dx, 0x3ce
+314:44c8 mov ah, byte ptr [0x2871]; colour (plane number)
+314:44cc mov al, 4
+314:44ce out dx, ax               ; GC index 4 (read map select) = plane
+314:44cf mov ax, word ptr [si]    ; one glyph row: 16 bits, bit 15 = left pixel
+314:44d1 xor dh, dh
+314:44d3 shrd dx, ax, cl          ; CL = x & 7: bits shifted out of AX land in DH
+314:44d6 or byte ptr es:[di + 2], dh   ; the spill into the third byte
+314:44da add si, 2
+314:44dd shr ax, cl
+314:44df xchg ah, al              ; big-endian byte order for the word store
+314:44e1 or word ptr es:[di], ax  ; bytes 0 and 1
+314:44e4 add di, word ptr [0x2892]; next row (pitch)
+314:44e8 dec ch
+314:44ea jne 0x44cf
+```
+
+Why it is clever: a 16-pixel-wide glyph placed at an arbitrary x covers up to 3 bytes (16 + 7 bits). The usual approach is a shift loop or a pre-shifted copy of
+every glyph. Here `shrd dx, ax, cl` produces the overflow byte in one instruction (386+), `shr ax, cl` + `xchg ah, al` produces the word, and the three bytes are
+merged into video memory with an `or word` and an `or byte`. Per glyph row: 9 instructions, no table, no branch on the shift. The hardware does the rest: the map
+mask (SEQ 2) restricts the write to the planes of the chosen colour, so a coloured glyph is a single plane (see the effects write-up for the palette that goes with it).
+
+## 2. The drop shadow reuses the same routine and the same glyph pointer (314:44f8..453d)
+
+```
+314:44f8 add cl, 2                ; shadow = 2 pixels right ...
+314:44fb test cl, 8
+314:44fe je 0x4503
+314:4502 inc di                   ; ... carry into the next byte
+314:4503 and cl, 7
+314:4506 mov ax, word ptr [0x2892]
+314:4509 add ax, ax
+314:450b add di, ax               ; ... and 2 rows down
+314:4517 mov ax, 0x802            ; map mask = plane 3 only
+314:451e mov ax, 0x304            ; read map = plane 3
+```
+
+After the glyph the same bit-row loop (a verbatim second copy of 1., `shrd` and all) is run with CL+2 and DI + 2 pitches, writing only to plane 3 (`0x802`). The
+shadow is therefore a second plane of the same picture: no mask is built, no shadow bitmap exists. `test cl,8` / `inc di` is the 2-pixel bump with byte carry.
+`[0x2894]` is the on/off flag (the menu uses shadows, the playing screen does not).
+
+## 3. Row addresses from a table: no `mul` in the pixel path (314:49c4..49cc and 4364)
+
+```
+314:49c4 mov bx, ax               ; ax = y
+314:49c6 add bx, bx
+314:49c8 and bx, 0x7ff            ; y mod 1024, as a word index
+314:49cc mov di, word ptr [bx]    ; cs:[0] = table of 0x400 start offsets
+```
+
+`4364` ("set pitch") fills a 1024-entry word table with `y * pitch` (the JS port: `rowTab[i] = i * stride & 0xffff`). The same code serves the
+menu (pitch 0x40 bytes = 512 pixels) and the playing screen (0x50 = 640 pixels). The `and bx, 0x7ff` is also the **vertical wrap** of the 512x1024 virtual screen:
+a y beyond 1023 lands on row y-1024 for free, which is exactly what the circular scroll needs (section 5).
+
+## 4. Unrolled word stores with the plane mask set once (314:49d7..)
+
+```
+314:49d7 mov ax, 0x402            ; map mask = plane 2
+314:49da out dx, ax
+314:49db mov ax, 0xffff
+314:49de push di
+314:49df mov word ptr es:[di], ax
+314:49e2 add di, 2
+314:49e5 mov word ptr es:[di], ax
+314:49e8 add di, 2
+...                               ; 32 times: one 64-byte row = 512 pixels
+```
+
+The menu's selection bar is a rectangle of whole 512-pixel rows set in plane 2 (`49b0` fills with `0xffff`, `4aae` with `0`, which is how it is erased). A row is 32
+unrolled stores, the plane mask is written once per rectangle, not per row. In the playing screen unit the idea is pushed further:
+
+```
+f4e:00ca mov word ptr es:[di + 0x50], dx
+f4e:00ce mov word ptr es:[di], dx
+f4e:00d1 mov word ptr es:[di - 0x50], ax
+f4e:00d5 mov word ptr es:[di - 0xa0], ax
+f4e:00da mov word ptr es:[di - 0xf0], ax
+...
+```
+
+one vertical dotted line of the note grid is 386 stores with constant displacements (0x50 = row pitch, `0x700` = a 3-pixel tick, `0x200` = the 1-pixel line), executed
+39 times (`mov cx, 0x27`) with `di` advancing by two. The map mask is `0x802`: the whole grid is drawn in plane 3 only (the port reproduces the tick rows
+in a table, `GRID_TICK`, taken from the displacements).
+
+## 5. Smooth scroll with wrap, using the CRTC start address and line compare (314:4d95..4e09)
+
+```
+314:4db1 and ax, 0x3ff            ; ax = scroll y, modulo 1024
+314:4db4 push ax
+314:4db5 mov cx, 0x40
+314:4db8 mul cx                   ; start address = y * 64 (bytes per virtual row)
+314:4dba mov cx, ax
+314:4dbc mov dx, 0x3d4
+314:4dbf mov al, 0xc
+314:4dc1 out dx, ax               ; CRTC 0Ch  = start address high (ah = ch)
+314:4dc2 mov al, 0xd
+314:4dc4 mov ah, cl
+314:4dc6 out dx, ax               ; CRTC 0Dh  = start address low
+314:4dc7 call 0x4406              ; wait vertical retrace
+314:4dca pop ax
+314:4dcb mov cx, 0x3ff
+314:4dce sub cx, ax               ; rows left before the end of the 1024-row space
+314:4dd0 cmp cx, 0x1e0
+314:4dd4 jb 0x4ddb
+314:4dd8 mov cx, 0x1e0            ; at most 480 = the screen
+314:4ddb mov al, 0x18             ; CRTC 18h = line compare, bits 0..7
+314:4de0 mov ah, cl
+314:4de2 out dx, ax
+314:4de3 mov al, 7                ; bit 8 -> CRTC 7 bit 4
+...                               ; bit 9 -> CRTC 9 bit 6
+```
+
+The screen is a window over a 512x1024 virtual surface. When the window would run past the 1024th row, the *line compare* counter makes the CRTC restart from
+address 0 for the remaining scanlines, so the 1024 rows behave like a ring buffer. The `cx = min(0x3ff - y, 0x1e0)` is the line at which the wrap happens; when
+the window fits, it equals 0x1e0 = the number of visible lines and the wrap is never seen. The 10-bit compare value is split over three registers (0x18, 0x07
+bit 4, 0x09 bit 6) with read-modify-write so other bits are preserved (`and al,0xef` / `or al,0x10`). No byte of video memory is copied during a scroll.
+
+The ease-in/ease-out is 4c16..4cd7: `bp` is the speed (pixels per frame, clamped to 1..16, `cmp cx,0x10 / jb`), incremented while the scroll position is before
+the half-way point `[0x2878] = (target + start) >> 1`, decremented after. One `inc bp` / `dec bp` per frame, no table, no float.
+
+## 6. Palette fade in four instructions per component (314:480c..4829)
+
+```
+314:4814 mov bl, al               ; al = brightness 0..0x40
+314:4816 mov dx, 0x3c8
+314:4819 xor al, al
+314:481b out dx, al               ; DAC write index 0
+314:481c inc dx
+314:481d mov cx, 0x30             ; 16 colours x 3 components
+314:4820 lodsb al, byte ptr [si]  ; target component (6-bit)
+314:4821 mul bl                   ; * brightness
+314:4823 shr ax, 6                ; / 64
+314:4826 out dx, al
+314:4827 loop 0x4820
+```
+
+Brightness runs from 0 to 0x40 in steps of 4 (`47f6`: `add al, ah`; `cmp al,0` / `cmp al,0x40` end the loop). One `mul` and one shift scale a 6-bit
+channel, and the auto-incrementing DAC index (port 3C9) means the whole palette is a plain `out` stream. The routine ends with a write of three zeros
+(`xor al,al; out dx,al x3`), i.e. DAC entry 16 is set to black. The fade is therefore the *only* thing that changes between "menu invisible" and "menu
+visible": the screen is drawn once with the DAC at zero.
+
+## 7. Justified text by repeated division (314:4612..4623)
+
+```
+314:4612 mov ax, word ptr [0x287c]  ; slack (pixels still to distribute)
+314:4615 xor dx, dx
+314:4617 div word ptr [0x287e]      ; / number of spaces left
+314:461b dec word ptr [0x287e]      ; one space fewer
+314:461f sub word ptr [0x287c], ax  ; slack -= extra
+314:4623 add word ptr [0x286c], ax  ; pen x += extra
+```
+
+A text line to be justified to 0x1f8 = 504 pixels: `4557` first measures the width and counts the spaces. At each space the remaining slack is divided by the
+remaining number of spaces and added to the pen. Because the quotient is recomputed after each space, the rounding remainder is spread automatically and
+the last gap absorbs whatever is left; no error accumulator or fixed-point step is needed. (Lines that start with `$` are justified, others are left-aligned: `cmp al, 0x24` at 45c5.)
+
+## 8. The note quantiser: a compare chain, and one wrong constant (f4e:0c15..0c94)
+
+The playing screen places a marker at a height given by the note of the channel, from STMIK's channel period (`es:[si+0x12]`):
+
+```
+f4e:0c15 cmp ax, 0x38a0
+f4e:0c18 jae 0xc22
+f4e:0c1c add ax, ax              ; period < 0x38a0 -> double it
+f4e:0c1e inc cl                  ; ... and count one octave
+f4e:0c20 jmp 0xc15
+f4e:0c22 mov ch, 0xb
+f4e:0c24 cmp ax, 0x3a58          ; 11 thresholds, one per semitone
+f4e:0c27 jb 0xc2d
+f4e:0c2b dec ch
+f4e:0c2d cmp ax, 0x3dc0
+...
+f4e:0c63 cmp ax, 0x5760
+f4e:0c66 jb 0xc6c
+f4e:0c6a dec ch
+f4e:0c6c cmp ax, 0x3d60          ; <- here
+f4e:0c6f jb 0xc75
+f4e:0c73 dec ch
+f4e:0c75 cmp ax, 0x6220
+...
+f4e:0c87 mov al, 0xc
+f4e:0c89 mul cl                  ; 12 * octave
+f4e:0c8b add al, ch              ; + semitone
+f4e:0c8f shl ax, 2               ; * 4 pixels per semitone
+f4e:0c92 neg ax
+f4e:0c94 add ax, 0x186           ; y = 0x186 - 4*(12*oct + semi)
+```
+
+The period is first normalised into one octave by doubling (period halves per octave, so doubling moves up one octave) and counting, then
+`ch` counts down from 11 for each threshold the period reached: a branchy but table-free log2 of the pitch.
+
+The 9th threshold, `0x3d60`, breaks the otherwise increasing sequence (... 0x5260, 0x5760, **0x3d60**, 0x6220, 0x6800). Since `ch` is only a count of
+thresholds <= period, order does not matter, and an enumeration of the 11 constants gives, for the normalised period, `ch` = 11 below 0x3a58, 10 up to
+0x3d5f, then 9, 8, 7 ... starting at 0x3d60, 0x3dc0, 0x4160, 0x4540, 0x4960, 0x4dc0, 0x5260, 0x5760, and 2 for *both* 0x5760..0x61ff, then 1, 0 at 0x6220, 0x6800.
+A monotonic table with 0x5d60 in that slot (my guess from the sequence; not found in any source) would give the same values outside 0x3d60..0x5d5f
+and `ch` one higher inside it. So with the shipped constant, notes whose period falls between 0x3d60 and 0x5d5f are drawn one semitone high in every octave, and two
+adjacent semitones share a row. The JS port keeps the table including the bad constant (`THR` in `site/js/play.js`).
+
+## 9. Marker colour = plane mask looked up from a table; erase and draw in one pass (f4e:0a6a..0bac)
+
+```
+f4e:0ac0 mov ax, 0x702            ; map mask = planes 0,1,2
+f4e:0ac3 out dx, ax
+f4e:0ac4 xor ax, ax
+f4e:0ac6 mov word ptr es:[di], ax        ; erase the old marker: 20 unrolled word stores
+f4e:0ac9 mov word ptr es:[di + 0x50], ax
+...
+f4e:0b5d mov bl, cl
+f4e:0b5f dec bl
+f4e:0b63 mov ah, byte ptr [bx + 0x9be]   ; per-column plane mask (1,2,3,4,5,6,7,6,5,4,3,2)
+f4e:0b67 out dx, ax                      ; SEQ 2 = that mask
+f4e:0b7c mov ax, 0xf8ff
+f4e:0b89 mov word ptr es:[di], ax        ; draw: two rows per iteration,
+f4e:0b8c add di, 0x50
+f4e:0b8f mov word ptr es:[di], ax
+f4e:0b92 add di, 0x50
+f4e:0b95 loop 0xb89
+```
+
+Each of the 38 columns is a 16-pixel-wide marker, erased by 20 unrolled zero stores in the three colour planes (mask 7, plane 3 keeps the grid), then redrawn as
+two rows of the word `0xf8ff` per loop iteration, `(vol>>3)+3` iterations (the size is clamped to 8 at draw time, `cmp ax,8` at f4e:0a8c). The colour of a column is
+not stored anywhere: it is the **write mask**, read from a 12-entry byte table indexed by the column (`[bx+0x9be]`: 1,2,3,4,5,6,7,6,5,4,3,2), and combined with
+the palette (`PAL` in `play.js`) it gives a colour ramp across the grid. Colouring costs one `out` per column.
+
+---
+
+## Summary of what was and was not verified
+
+* Sections 1-7 and 9 were read from the listings above and each is exercised by the port, which matches the oracle on every frame of a scripted menu run (455 frames,
+  `tools/tests/menu_vs_oracle.mjs`). Section 8's channel-state fields (`es:[si+..]`) are STMIK's, whose layout was not documented in the files here; the port
+  rebuilds the same inputs from the module's pattern data, so the *quantiser maths* is original but its input is approximate.
+* Not extracted: the Pascal main program, STMIK itself.
