@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>MDP (Future Crew, 1993) - screens, effects and tricks</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <style>
+  :root{--bg:#fff;--fg:#1d1d22;--mut:#666;--ac:#c4155a;--code:#f3f3f6;--bd:#d8d8e0}
+  @media (prefers-color-scheme:dark){:root{--bg:#0b0b10;--fg:#d8d8e0;--mut:#9a9aa8;--ac:#ff6a9a;--code:#17171f;--bd:#33333f}}
+  *{box-sizing:border-box}
+  body{margin:0 auto;max-width:62rem;padding:0 16px;background:var(--bg);color:var(--fg);font:16px/1.55 system-ui,sans-serif}
+  #wunav{display:flex;gap:16px;flex-wrap:wrap;padding-top:12px;padding-bottom:8px;border-bottom:1px solid var(--bd);font-size:14px}
+  a{color:var(--ac)}
+  h1,h2,h3,h4{line-height:1.25;margin-top:1.8em}
+  img{max-width:100%;height:auto;image-rendering:auto}
+  pre{background:var(--code);border:1px solid var(--bd);border-radius:4px;padding:10px 12px;overflow-x:auto;font-size:13px;line-height:1.4}
+  code{background:var(--code);padding:1px 4px;border-radius:3px;font-size:.92em;overflow-wrap:anywhere}
+  pre code{background:none;padding:0;overflow-wrap:normal}
+  table{border-collapse:collapse;display:block;overflow-x:auto;max-width:100%}
+  td,th{border:1px solid var(--bd);padding:4px 8px}
+  blockquote{border-left:3px solid var(--bd);margin-left:0;padding-left:14px;color:var(--mut)}
+  #TOC{font-size:14px}#TOC ul{padding-left:1.2em}
+  #TOC>ul{padding-left:0;list-style:none}
+  details#toc-box{margin:12px 0}
+  </style>
+</head>
+<body>
+<nav id="wunav"><a href="../index.html">&larr; the demo</a> <a href="WRITEUP-asm.html">asm</a> <a href="WRITEUP-effects.html">effects</a> <a href="https://github.com/kassoulet/mdp_by_future_crew">README on GitHub</a></nav>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#mdp-future-crew-1993---screens-effects-and-tricks"
+id="toc-mdp-future-crew-1993---screens-effects-and-tricks">MDP (Future
+Crew, 1993) - screens, effects and tricks</a>
+<ul>
+<li><a href="#0-what-is-exact-what-is-not"
+id="toc-0-what-is-exact-what-is-not">0. What is exact, what is
+not</a></li>
+<li><a href="#1-display" id="toc-1-display">1. Display</a></li>
+<li><a href="#2-the-menu-unit-0x314-entry-4e1c-sitejsmenujs"
+id="toc-2-the-menu-unit-0x314-entry-4e1c-sitejsmenujs">2. The menu (unit
+0x314, entry 4e1c; <code>site/js/menu.js</code>)</a></li>
+<li><a
+href="#3-the-playing-screen-main-program--unit-0xf4e-sitejsplayjs"
+id="toc-3-the-playing-screen-main-program--unit-0xf4e-sitejsplayjs">3.
+The playing screen (main program + unit 0xf4e;
+<code>site/js/play.js</code>)</a></li>
+<li><a href="#4-sound" id="toc-4-sound">4. Sound</a></li>
+<li><a href="#5-not-covered" id="toc-5-not-covered">5. Not
+covered</a></li>
+<li><a
+href="#6-art-assets-fonts-and-palettes-there-is-no-bitmap-texture-sprite-or-3d-art"
+id="toc-6-art-assets-fonts-and-palettes-there-is-no-bitmap-texture-sprite-or-3d-art">6.
+Art assets: fonts and palettes (there is no bitmap, texture, sprite or
+3D art)</a></li>
+</ul></li>
+</ul>
+</nav>
+<h1 id="mdp-future-crew-1993---screens-effects-and-tricks">MDP (Future
+Crew, 1993) - screens, effects and tricks</h1>
+<p><em>MDP</em> ("MusicDiscPlayer") is not a demo with a timeline but
+the S3M/MOD player and menu that Future Crew shipped with their music
+disks (Purple Motion's <em>Journey I</em> and <em>II</em>, Skaven's
+<em>Chaotic Mind</em>; v1.0 for the first two, v1.1 adds
+<code>+</code>/<code>-</code> volume and <code>S</code> mono/stereo). It
+is a Turbo Pascal 6/7 program on STMIK 0.9 (SB / SB Pro / GUS sound),
+plus two assembly units for the graphics. So this document covers three
+things: the <strong>menu</strong>, the <strong>playing screen</strong>
+and what the port does about the <strong>sound</strong>. The
+reverse-engineering notes are in <a
+href="https://github.com/kassoulet/mdp_by_future_crew/blob/main/docs/ANALYSIS.md"><code>docs/ANALYSIS.md</code></a>,
+the asm excerpts in <a
+href="WRITEUP-asm.html"><code>WRITEUP-asm.md</code></a>.</p>
+<h2 id="0-what-is-exact-what-is-not">0. What is exact, what is not</h2>
+<table>
+<thead>
+<tr>
+<th>part</th>
+<th>status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Menu (layout, glyph placement, scroll, selection bar, fade)</td>
+<td>ported routine by routine from unit <code>0x314</code>; compared
+with the original code running under Unicorn on a planar VGA model
+(<code>tools/oracle.py</code>,
+<code>tools/tests/menu_vs_oracle.mjs</code>) on every vsync: the
+write-up page reports all 455 frames of a scripted run identical,
+planes, CRTC and DAC. The v1.1 menu matches DOSBox-X captures (0
+differing pixels, per the README). Only the v1.0 menu is checked against
+the oracle.</td>
+</tr>
+<tr>
+<td>Playing screen, static parts (header, labels, grid, bar frame)</td>
+<td>match DOSBox-X captures (<code>tools/tests/play_static.mjs</code>, 0
+differing pixels per the README)</td>
+</tr>
+<tr>
+<td>Playing screen, moving markers</td>
+<td><strong>approximated</strong>: the maths of the original (quantiser,
+size, decay) is ported, but the input is rebuilt from pattern data
+(section 3) and the pitch mapping is shifted. Not compared with the
+original frame by frame.</td>
+</tr>
+<tr>
+<td>Progress bar and positions</td>
+<td>come from libopenmpt, not from STMIK</td>
+</tr>
+<tr>
+<td>Sound</td>
+<td><strong>not original</strong>: libopenmpt (WebAssembly) instead of
+STMIK's mixer</td>
+</tr>
+<tr>
+<td>Launcher, mouse, CRT overlay, upload of your own modules</td>
+<td>additions, not in the original</td>
+</tr>
+</tbody>
+</table>
+<h2 id="1-display">1. Display</h2>
+<ul>
+<li><strong>BIOS mode 12h: 640x480, 16 colours, 4 planar bit
+planes</strong>, A000 segment, 80 bytes per row on the playing screen,
+64 on the menu. These pixels <em>are</em> square (640x480 is already
+4:3), unlike the 13h demos; the canvas is simply 640x480 scaled by a
+whole-number factor then smoothed (<code>Screen.layout</code> in
+<code>site/js/app.js</code>).</li>
+<li>The port models only what the code touches
+(<code>site/js/vga.js</code>): four 64 KB planes, CRTC start address /
+line compare / offset, a 16-entry 6-bit DAC, and a scan-out that walks
+the planes. 59.94 Hz frames drive <code>vsync()</code>, which the ported
+routines <code>await</code> where the original polled the retrace
+bit.</li>
+<li><strong>A colour is a plane.</strong> Nothing in the code writes
+"colour 5". The text engine sets the sequencer map mask and the
+graphics-controller read map to one plane and ORs the glyph bits into
+it, so colour <em>n</em> of a glyph = "bits only in plane n". The
+palette (a 16x3 table) is designed for that: entries with a single bit
+set are the text colours, and entry 15 (all planes) is the highlight.
+See <code>WRITEUP-asm.md</code> sections 1-2. The playing screen's
+<code>erase</code> variant (<code>466d</code>,
+<code>blit(..., erase=true)</code>) clears glyph bits instead of setting
+them, so text is drawn as "holes" in an all-ones background.</li>
+</ul>
+<h2 id="2-the-menu-unit-0x314-entry-4e1c-sitejsmenujs">2. The menu (unit
+0x314, entry 4e1c; <code>site/js/menu.js</code>)</h2>
+<p><strong>Data.</strong> <code>MDP.MDI</code> is a plain text file. A
+line starting with <code>#</code> begins an entry, the first line after
+it is the file name; a doubled <code>##</code> introduces the closing
+text. The header lines (<code>@JOURNEY I@</code>, <code>by</code>, ...)
+are centred. <code>@</code> inside a line toggles bit 0 of the colour,
+so <code>@Purple Motion@</code> flips to the next colour for a word.
+Entry bodies: line 1 = the module name (small font), line 2 = a
+right-aligned year, then body text; a line starting with <code>$</code>
+is justified.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">// menu.js: loadMdi - &#39;#&#39; ends the previous text and starts an entry, &#39;##&#39; starts the footer</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (<span class="kw">let</span> bx <span class="op">=</span> <span class="bn">0x800</span><span class="op">;</span> bx <span class="op">&lt;</span> di<span class="op">;</span> bx<span class="op">++</span>) {</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (b[bx] <span class="op">!==</span> <span class="bn">0x23</span>) <span class="cf">continue</span><span class="op">;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  b[bx] <span class="op">=</span> <span class="dv">0</span><span class="op">;</span>                                   <span class="co">// make every entry a 0-terminated string</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (count <span class="op">&gt;=</span> <span class="dv">50</span> <span class="op">||</span> (b[<span class="op">++</span>bx] <span class="op">===</span> <span class="bn">0x23</span>)) { <span class="kw">this</span><span class="op">.</span><span class="at">lastWords</span> <span class="op">=</span> bx <span class="op">+</span> <span class="dv">1</span><span class="op">;</span> bx<span class="op">++;</span> <span class="cf">continue</span><span class="op">;</span> }</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">this</span><span class="op">.</span><span class="at">ent</span>[count<span class="op">++</span>] <span class="op">=</span> bx<span class="op">;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>The file is copied to offset 0x800 of a 0x2800-byte buffer (at most
+0x2000 bytes), up to 50 entries.</p>
+<p><strong>Glyph engine.</strong> Fonts are small tables: a header
+(<code>+0</code> height, <code>+2</code> first char, <code>+4</code>
+last char, <code>+6</code> default advance) then 4 bytes per character
+(bitmap offset, advance); a bitmap is one 16-bit word per row, bit 15 on
+the left. There are two fonts, A (small, 0x28ac) and B (big, 0x369c),
+both extracted into <code>assets/menu_data.bin</code> and addressed with
+their original cs offsets. <code>drawChar</code> places a glyph at pixel
+x with a shift of <code>x &amp; 7</code>, 3 bytes per row; with
+<code>shadow</code> on (menu only), a second pass draws the same glyph
+into plane 3, 2 pixels right and 2 rows down:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">// text.js</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> v <span class="op">=</span> (<span class="fu">u16</span>(d<span class="op">,</span> g <span class="op">+</span> <span class="dv">2</span> <span class="op">*</span> r) <span class="op">&lt;&lt;</span> <span class="dv">8</span>) <span class="op">&gt;&gt;</span> cl<span class="op">;</span>                       <span class="co">// glyph row shifted into 3 bytes</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>pl[di] <span class="op">|=</span> v <span class="op">&gt;&gt;</span> <span class="dv">16</span> <span class="op">&amp;</span> <span class="dv">255</span><span class="op">;</span>  pl[di<span class="op">+</span><span class="dv">1</span>] <span class="op">|=</span> v <span class="op">&gt;&gt;</span> <span class="dv">8</span> <span class="op">&amp;</span> <span class="dv">255</span><span class="op">;</span>  pl[di<span class="op">+</span><span class="dv">2</span>] <span class="op">|=</span> v <span class="op">&amp;</span> <span class="dv">255</span><span class="op">;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="op">...</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="kw">this</span><span class="op">.</span><span class="at">shadow</span>) { <span class="kw">let</span> c2 <span class="op">=</span> cl <span class="op">+</span> <span class="dv">2</span><span class="op">,</span> d2 <span class="op">=</span> di<span class="op">;</span> <span class="cf">if</span> (c2 <span class="op">&amp;</span> <span class="dv">8</span>) d2<span class="op">++;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">this</span><span class="op">.</span><span class="fu">blit</span>(<span class="kw">this</span><span class="op">.</span><span class="at">vga</span><span class="op">.</span><span class="at">planes</span>[<span class="dv">3</span>]<span class="op">,</span> g<span class="op">,</span> h<span class="op">,</span> (d2 <span class="op">+</span> <span class="dv">2</span> <span class="op">*</span> <span class="kw">this</span><span class="op">.</span><span class="at">stride</span>) <span class="op">&amp;</span> <span class="bn">0xffff</span><span class="op">,</span> c2 <span class="op">&amp;</span> <span class="dv">7</span><span class="op">,</span> <span class="kw">false</span>)<span class="op">;</span> }</span></code></pre></div>
+<p>Text layout is a per-line state machine with five modes (plain
+<code>463c</code>, centred <code>45a0</code>, right <code>45b3</code>,
+justified <code>45c3</code>, and the <code>@</code>-toggle in
+<code>drawChar</code>). A justified line measures its width, takes the
+slack to 504 px (0x1f8) and gives each space
+<code>slack / spacesLeft</code> extra pixels in turn (asm section 7), so
+the right margin is flush without drift. Lines outside the visible band
+(<code>clipLo..clipHi</code>) are measured but not drawn, which keeps
+the page redraw cheap.</p>
+<p><strong>The page is a 512x1024 virtual screen.</strong> Menu text is
+drawn into video memory at pitch 64 bytes (512 px) over 1024 rows; the
+visible window is 480 lines of it, chosen by the CRTC start address.
+Only the entries near the window are drawn: <code>drawPage</code>
+redraws everything but only draws rows inside the clip band,
+<code>scrollBy</code> extends the band by 512 rows on the side one is
+scrolling towards. The selection is a bar of plane-2 bits
+(<code>fillRows(rect0, rect1, 0xff)</code>) behind the current entry,
+erased with <code>0</code> before the next scroll. Because the window
+can run past the end of video memory, the line-compare register restarts
+the display at address 0:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">// menu.js setScroll (4d95)</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">this</span><span class="op">.</span><span class="at">vga</span><span class="op">.</span><span class="at">start</span> <span class="op">=</span> ((ax <span class="op">&amp;</span> <span class="bn">0x3ff</span>) <span class="op">*</span> <span class="bn">0x40</span>) <span class="op">&amp;</span> <span class="bn">0xffff</span><span class="op">;</span>        <span class="co">// CRTC 0Ch/0Dh</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> <span class="kw">this</span><span class="op">.</span><span class="at">env</span><span class="op">.</span><span class="fu">vsync</span>()<span class="op">;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> cx <span class="op">=</span> <span class="bn">0x3ff</span> <span class="op">-</span> (ax <span class="op">&amp;</span> <span class="bn">0x3ff</span>)<span class="op">;</span> <span class="cf">if</span> (cx <span class="op">&gt;=</span> <span class="bn">0x1e0</span>) cx <span class="op">=</span> <span class="bn">0x1e0</span><span class="op">;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="kw">this</span><span class="op">.</span><span class="at">vga</span><span class="op">.</span><span class="at">lc</span> <span class="op">=</span> cx<span class="op">;</span>                                        <span class="co">// CRTC 18h (+ bits in 07h, 09h)</span></span></code></pre></div>
+<p>and <code>scanout</code> reproduces it:
+<code>a = L &lt;= lc ? start + L*stride : (L - lc - 1)*stride</code>.</p>
+<p><strong>Scrolling speed.</strong> <code>scrollBy</code> moves the
+target entry to 200 rows below the top (<code>tgt = rect0 - 0xc8</code>)
+and steps <code>bp</code> pixels per frame, with <code>bp</code> growing
+by 1 before the half-way point and shrinking after it, clamped to 1..16:
+a symmetric ease-in/out with no table.</p>
+<p><strong>Fades.</strong> The screen is drawn with the DAC at zero,
+then <code>fade(0, 4)</code> raises a brightness <code>al</code> from 0
+to 0x40 by 4 per frame, writing <code>pal * al &gt;&gt; 6</code> to the
+DAC; exit runs <code>fade(0x3f, -4)</code>.</p>
+<p><strong>What the port changes.</strong> Mouse wheel, click-to-select
+and click-to-play call the same <code>scrollBy</code> / key codes; the
+keyboard handling is the original's (scancode words). These are
+additions in the event loop only.</p>
+<h2 id="3-the-playing-screen-main-program--unit-0xf4e-sitejsplayjs">3.
+The playing screen (main program + unit 0xf4e;
+<code>site/js/play.js</code>)</h2>
+<p>The screen (set up at <code>f4e:0008</code>, then the header/labels
+from the Pascal side, <code>0:2246</code>) has:</p>
+<ul>
+<li>a title and four help lines at the top (<code>ESC for menu</code>,
+<code>F10 for dos</code>, ...), small and big font, drawn with the erase
+variant of the glyph engine;</li>
+<li>a 128-pixel progress bar with an 8-pixel-high frame
+(<code>bar(v)</code>, ported from <code>0:20ba</code>) built from plane
+writes, whose fill is one byte per 8 pixels plus a partial byte;</li>
+<li>the numeric panel (<code>numbers</code>, <code>0:2545..2690</code>:
+a 32x49 pixel block at x=592 cleared then <code>: n</code> drawn at
+x=580; 65 rows on v1.1 for the extra volume line);</li>
+<li>the <strong>note grid and markers</strong>, the only animated
+part.</li>
+</ul>
+<p><strong>Grid.</strong> 39 vertical lines (<code>mov cx, 0x27</code>),
+one per column boundary, drawn in plane 3 only with 1-pixel stems and
+3-pixel ticks every octave-ish interval (the tick rows are taken from
+the displacements of the unrolled stores, <code>GRID_TICK</code>). There
+are 38 columns of markers.</p>
+<p><strong>Markers.</strong> Each marker is 16 pixels wide and 2 rows
+high per size unit. Per module row change, <code>scan</code> goes
+through the 16 channels and updates a column:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">// play.js scan(): per channel</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> col <span class="op">=</span> c<span class="op">.</span><span class="at">inst</span> <span class="op">&amp;</span> <span class="bn">0xff</span><span class="op">;</span> col<span class="op">--;</span> <span class="cf">while</span> (col <span class="op">&gt;=</span> NCOL) col <span class="op">-=</span> NCOL<span class="op">;</span>   <span class="co">// column = (instrument-1) mod 38</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="op">...</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> y <span class="op">=</span> <span class="bn">0x186</span> <span class="op">-</span> ((<span class="dv">12</span> <span class="op">*</span> cl <span class="op">+</span> ch <span class="op">+</span> PITCH_SHIFT) <span class="op">&lt;&lt;</span> <span class="dv">2</span>)<span class="op">;</span>            <span class="co">// 4 px per semitone, 12 per octave</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> size <span class="op">=</span> (c<span class="op">.</span><span class="at">vol</span> <span class="op">&gt;&gt;</span> <span class="dv">3</span>) <span class="op">+</span> <span class="dv">3</span><span class="op">;</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="kw">this</span><span class="op">.</span><span class="at">mSize</span>[col] <span class="op">&gt;</span> size) <span class="cf">continue</span><span class="op">;</span>                              <span class="co">// louder marker wins</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="kw">this</span><span class="op">.</span><span class="at">mY</span>[col] <span class="op">=</span> y<span class="op">;</span> <span class="kw">this</span><span class="op">.</span><span class="at">mSize</span>[col] <span class="op">=</span> size<span class="op">;</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="kw">this</span><span class="op">.</span><span class="at">mHold</span>[col] <span class="op">=</span> c<span class="op">.</span><span class="at">loop</span> <span class="op">?</span> <span class="dv">10</span> <span class="op">:</span> <span class="dv">0</span><span class="op">;</span>                                 <span class="co">// looped samples stay up 10 frames</span></span></code></pre></div>
+<p>So <strong>the column identifies the instrument, the height the
+pitch, the height of the bar the volume</strong>. Every frame
+<code>markers</code> erases each old marker (20 rows), clamps the new
+<code>y</code> to [6, 0x186], draws the bar in the plane mask given by
+the column (<code>COLS</code> = 1,2,3,4,5,6,7,6,5,4,3,2, i.e. a colour
+cycle of period 12 across the columns) and then decays:
+<code>hold</code> counts down, and at 0 the <code>size</code> drops by
+one per frame until it disappears. The pitch is quantised by the
+original's chain of compares (asm section 8, including a wrong constant
+kept on purpose in <code>THR</code>).</p>
+<p>What is <strong>original</strong> here: the quantiser, the size
+formula, the hold/decay rule, the 38-column modulus, the colour table.
+What is <strong>not</strong>:</p>
+<ul>
+<li>STMIK exposed per-channel state (volume, period, loop end,
+instrument) in a record the original reads directly
+(<code>es:[si+0x12]</code> period, <code>+0x1a</code> volume,
+<code>+0x4c</code> loop end, <code>+0x37</code> instrument). The port
+has no STMIK, so <code>site/js/tracker.js</code> re-derives that state
+from the module's pattern data one row at a time: note -&gt; period via
+the semitone table and the sample's C2SPD (S3M:
+<code>16*8363*16*T[semi] / (c2spd * 2^oct)</code>; the factor 16 matches
+the original's pitch scale, noted in <code>docs/ANALYSIS.md</code>),
+sample volume, volume column, note cut. <strong>Slides, vibrato and most
+effects are not followed</strong>, so markers do not wobble the way the
+original's did, and the original's extra skip for a non-looping channel
+(<code>es:[si+0x32] &gt; 0xfa</code>) is not modelled (its meaning was
+not worked out).</li>
+<li><strong>Pitch range.</strong> The original maps periods only upward
+(<code>while ax &lt; 0x38a0: ax*=2, cl++</code>), so very low notes pile
+up on the bottom row. The port adds the opposite loop
+(<code>while ax &gt;= 0x7140: ax/=2; cl--</code>) and shifts everything
+by <code>PITCH_SHIFT = 36</code> semitones to centre typical music. The
+README states this: "markers are shifted up 3 octaves".</li>
+<li>For module formats other than S3M/MOD (the "your own music"
+feature), markers come from libopenmpt's pattern data and are cruder
+still (generic note/volume cells only).</li>
+</ul>
+<h2 id="4-sound">4. Sound</h2>
+<p>The original sound is STMIK's software mixer (or GUS hardware
+mixing). The port does <strong>not</strong> reproduce it.
+<code>site/js/mdp.worklet.js</code> runs libopenmpt in an AudioWorklet
+in two modes:</p>
+<ul>
+<li><strong>Hi-fi</strong>: windowed-sinc interpolation, native sample
+rate, 32-bit float;</li>
+<li><strong>Old-school</strong>: nearest-neighbour mixing at 22.05 kHz,
+8-bit, sample-and-hold output, "close to a Sound Blaster Pro" (the
+README's words; no measurement against STMIK is claimed).</li>
+</ul>
+<p>Pause and seek (module position: <code>set_position_seconds</code> /
+<code>set_position_order_row</code>) are handled in the worklet; the
+screen reads back order/row/seconds and the marker tracker is advanced
+from the pattern data for the new position. Because the original screen
+is driven only by module state and not by a separate clock, the same
+structure is kept here.</p>
+<h2 id="5-not-covered">5. Not covered</h2>
+<p>STMIK itself and the Pascal main program (apart from the two routines
+named above) were not disassembled in this repository, so nothing is
+claimed about the player's timing or the exact moment it samples channel
+state beyond what the ported code does.</p>
+<h2
+id="6-art-assets-fonts-and-palettes-there-is-no-bitmap-texture-sprite-or-3d-art">6.
+Art assets: fonts and palettes (there is no bitmap, texture, sprite or
+3D art)</h2>
+<p>MDP has no cover image, texture, sprite or mesh: everything on screen
+is text, filled rectangles and plane writes. The only art is two bitmap
+fonts and the palettes. All of it is verified from
+<code>site/assets/menu_data.bin</code> (6840 bytes = the unit-0x314 data
+from cs offset 0x28ac to 0x4364, byte-identical to
+<code>work/MDP10_unpacked.EXE</code> at file offset 0x600 + 0x3140 +
+0x28ac; the port addresses it by the original cs offsets).</p>
+<table>
+<thead>
+<tr>
+<th>asset</th>
+<th>where</th>
+<th>format</th>
+<th>size</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>font A (small)</td>
+<td>cs 0x28ac</td>
+<td>header <code>+0</code> height (18), <code>+2</code> first char (33),
+<code>+4</code> last char (148), <code>+6</code> default advance (10);
+then 4 bytes per char (bitmap offset from the font start, advance);
+bitmap = one 16-bit word per row, bit 15 = left</td>
+<td>1 bit/pixel, glyphs up to 16 px wide, 116 entries</td>
+</tr>
+<tr>
+<td>font B (big)</td>
+<td>cs 0x369c</td>
+<td>same layout; height 16, first 33, last 148, default advance 9</td>
+<td>116 entries</td>
+</tr>
+<tr>
+<td>menu palette</td>
+<td>cs 0x4334</td>
+<td>16 entries x 3 bytes, 6-bit VGA DAC values, scaled by the fade</td>
+<td>16 colours</td>
+</tr>
+<tr>
+<td>playing-screen palette</td>
+<td>unit 0xf4e, offset 0x48 (copied to <code>PAL</code> in
+<code>play.js</code>)</td>
+<td>16 x 3, 6-bit DAC</td>
+<td>16 colours</td>
+</tr>
+</tbody>
+</table>
+<p>Both fonts are 1-bit and single-colour: a glyph takes its colour from
+the plane it is OR-ed into (section 1), so "number of colours per glyph"
+is 1 (plus the plane-3 shadow in the menu). Every code from 33 to 148
+has an entry; in the previews, several entries are placeholder shapes (a
+"0"-like box) for characters the discs do not use, and the accented
+letters are present (e.g. a-umlaut, o-umlaut). I decoded them with a
+20-line script reading exactly the layout above (the same as
+<code>TextEngine.drawChar</code>); how the fonts were first found is in
+<code>docs/ANALYSIS.md</code> (header layout, 'G' of the big font at
+unpacked-file offset 0x66f8).</p>
+<p><img src="figures/font_small.png" alt="small font" /> <img
+src="figures/font_big.png" alt="big font" /></p>
+<p><em>Figures: all 116 entries of each font, 2x enlarged, white on
+black (<code>figures/font_small.png</code>,
+<code>figures/font_big.png</code>). <code>figures/palettes.png</code>:
+the 16 entries of the menu palette (top row) and playing-screen palette
+(bottom row).</em></p>
+<p><img src="figures/palettes.png" alt="palettes" /></p>
+<p>The module files (<code>*.S3M</code>, <code>MDP.MDI</code>) are the
+discs' music and text, not art; the discs ship no pictures.</p>
+</body>
+</html>
